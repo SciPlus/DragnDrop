@@ -3,16 +3,37 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Home</ion-title>
+    <ion-title>Game Page</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h3>Ionic Menu Starter</h3>
+  <div>
+    <h3>{{helperText}}</h3>
+    <h1>Current Materials</h1>
+  <ion-card style="width: 200px; height: 150px" id="currentMaterialsList3" *ngFor="let currentMaterial of currentMaterials">
+    <img *ngIf="currentMaterial.isFound" style="width: auto; height: 100px; padding: 10px; margin-left: auto; margin-right: auto"src="{{currentMaterial.png}}"/>
+    <ion-label style="text-align: center;" *ngIf="currentMaterial.isFound" (dblclick)="console()">{{currentMaterial.typeOfMaterial}}</ion-label>
+    <ion-label *ngIf="!currentMaterial.isFound" (dblclick)="console()">Material to Be Created,</ion-label>
+  </ion-card>
+  <h1 *ngIf="newComboCreated">Something was added to your Current Materials! Try combining more reactants from the list above.</h1>
+  <h1 *ngIf="!newComboCreated">Try combining different reactants below from the list above.</h1>
+  <div id="failureMessage">These elements do not combine : (</div>
+  <div id="successMessage">These elements combine : ) </div>
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
-
-  <button ion-button secondary menuToggle>Toggle Menu</button>
-</ion-content>
+  <ion-item>
+    <ion-label>Try Reactant 1</ion-label>
+    <ion-input type ="text"[(ngModel)]="reactant1"></ion-input>
+  </ion-item>
+  <h1 style="text-align: center">+</h1>
+  <ion-item>
+    <ion-label>Try Reactant 2</ion-label>
+    <ion-input id="inputBox1" type ="text"[(ngModel)]="reactant2"></ion-input>
+  </ion-item>
+  <button ion-button round style="margin: 20px auto; display: block;" (click)= "checkIfCanCombine();checkCombo()">COMBINE!</button>
+  <ion-item>
+      <ion-label>What is the Final Product of this Experiment?</ion-label>
+      <ion-input type ="text"[(ngModel)]="finalProduct"></ion-input>
+    </ion-item>
+    <button ion-button round style="margin: 20px auto; display: block;" (click)= "saveFinalProduct()">SUBMIT</button>
+  </div>
