@@ -1,0 +1,61 @@
+<ion-header>
+        <ion-navbar>
+            <button ion-button menuToggle>
+                <ion-icon name="menu"></ion-icon>
+            </button>
+            <ion-title>Talia Page</ion-title>
+        </ion-navbar>
+</ion-header>
+<ion-content>
+        <div class="row">
+
+                <div class="col-sm-3">
+                        <div class="panel panel-success">
+                            <div class="panel-heading">Available products</div>
+                            <div class="panel-body">
+                                <ion-card style="width: 100px; height: 100px; display: inline-block;" *ngFor="let product of availableProducts" class="panel panel-default"
+                                    dnd-draggable [dragEnabled]="product.quantity>0" [dragData]="product" [dropZones]="['demo1']">
+                                    <div class="panel-body">
+                                        <div style="text-align: center" >{{product.name}}</div>
+                                        <div *ngIf="product.coefficient === 1" style="text-align: center">{{product.coefficient}} mole</div>
+                                        <div *ngIf="product.coefficient > 1" style="text-align: center" >{{product.coefficient}} moles</div>
+                                        <img style="width: auto; height: 65px; padding: 10px; margin-left: auto; margin-right: auto" src={{product.img}}>
+                                    </div>
+                                </ion-card>
+                            </div>
+                        </div>
+                </div>
+        </div>
+        <div class="row2">
+                <div class="col-sm-6">
+                    <div dnd-droppable [allowDrop]="allowDropFunction()" (onDropSuccess)="addToBasket($event)" [dropZones]="['demo1']" class="panel panel-info">
+                        <div class="panel-heading">Reaction_Components1<br>(to pay: \{{totalCost()}}) moles</div>
+                        <div class="panel-body">
+                            <ion-card style="width: 100px; height: 100px; display: inline-block;" *ngFor="let product of Reaction_Components1" class="panel panel-default">
+                                <div style="text-align: center" class="panel-body">
+                                {{product.name}}<br>(ordered: {{product.quantity}} <br>cost: \{{product.coefficient * product.quantity}} moles )
+                                </div>
+                                <img style="width: auto; height: 50px; padding: 10px; margin-left: auto; margin-right: auto" src={{product.img}}>
+                            </ion-card>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <h1>To Do List</h1>
+        <h1>Add Item (task)</h1>
+        <ion-item>
+            <ion-input type ="any"[(ngModel)]="addedItem.task"></ion-input>
+        </ion-item>
+        <h1>Add Item Duration (minutes)</h1>
+        <ion-item>
+            <ion-input type="any"[(ngModel)]="addedItem.duration"></ion-input>
+        </ion-item>
+        <button (click)= "delete()" class="deleteButton">Delete Item from List</button>
+        <button (click)= "showInfo()" class="infoButton">Show Info</button>
+        <button (click) = "add()" class="funButton">Add Item to List</button>
+        <ion-list class="toDoList" *ngFor="let todo of toDos">
+            <ion-label>{{todo.task}} for {{todo.duration}} minutes</ion-label>
+        </ion-list>
+</ion-content>
+    
+    
