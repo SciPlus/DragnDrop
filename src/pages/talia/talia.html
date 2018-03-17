@@ -8,38 +8,52 @@
 </ion-header>
 <ion-content>
         <div class="row">
-
                 <div class="col-sm-3">
                         <div class="panel panel-success">
-                            <div class="panel-heading">Available products</div>
-                            <div class="panel-body">
-                                <ion-card style="width: 100px; height: 100px; display: inline-block;" *ngFor="let product of availableProducts" class="panel panel-default"
+                            <div style="text-align: center"class="panel-heading">Available products</div>
+                            <div style="vertical-align: center" class="panel-body">
+                                <ng-container *ngFor="let product of availableProducts">
+                                <ion-card *ngIf="product.isFound" style="width: 125px; height: 125px; display: inline-block;" class="panel panel-default"
                                     dnd-draggable [dragEnabled]="product.quantity>0" [dragData]="product" [dropZones]="['demo1']">
                                     <div class="panel-body">
                                         <div style="text-align: center" >{{product.name}}</div>
-                                        <div *ngIf="product.coefficient === 1" style="text-align: center">{{product.coefficient}} mole</div>
+                                        <div *ngIf="product.coefficient === 1" style=" text-align: center">{{product.coefficient}} mole</div>
                                         <div *ngIf="product.coefficient > 1" style="text-align: center" >{{product.coefficient}} moles</div>
-                                        <img style="width: auto; height: 65px; padding: 10px; margin-left: auto; margin-right: auto" src={{product.img}}>
+                                        <img style="padding: 5px; width: auto; height: 60px; padding: 10px; margin-left: auto; margin-right: auto" src={{product.img}}>
                                     </div>
                                 </ion-card>
+                                </ng-container>
                             </div>
                         </div>
                 </div>
         </div>
         <div class="row2">
                 <div class="col-sm-6">
-                    <div dnd-droppable [allowDrop]="allowDropFunction()" (onDropSuccess)="addToBasket($event)" [dropZones]="['demo1']" class="panel panel-info">
-                        <div class="panel-heading">Reaction_Components1<br>(to pay: \{{totalCost()}}) moles</div>
+                    <div dnd-droppable [allowDrop]="allowDropFunction()" (onDropSuccess)="addToReactionComponents1($event);" [dropZones]="['demo1']" class="panel panel-info">
+                        <div style="text-align: center" class="panel-heading">Reaction_Components1<br>(to pay: \{{totalCost()}}) moles</div>
                         <div class="panel-body">
-                            <ion-card style="width: 100px; height: 100px; display: inline-block;" *ngFor="let product of Reaction_Components1" class="panel panel-default">
+                            <ng-container style="vertical-align: center">
+                                <ion-card [hidden]="Reaction_Components1.length > 0" style="vertical-align: center; width: 125px; height: 125px; display: inline-block;background-color: rgb(197, 197, 197)">
+                                        <ion-label style="text-align: center;">Drag Here!</ion-label>
+                                </ion-card>
+                                <div style="width: 300px">
+                                    <ion-card [hidden]="Reaction_Components1.length > 1" style="width: 125px; height: 125px; display: inline-block;background-color: rgb(197, 197, 197)">
+                                        <ion-label style="text-align: center;">Drag Here!</ion-label>
+                                    </ion-card>
+                                </div>
+                             <ion-card style="width: 125px; height: 125px; display: inline-block;" *ngFor="let product of Reaction_Components1" class="panel panel-default">
                                 <div style="text-align: center" class="panel-body">
                                 {{product.name}}<br>(ordered: {{product.quantity}} <br>cost: \{{product.coefficient * product.quantity}} moles )
                                 </div>
                                 <img style="width: auto; height: 50px; padding: 10px; margin-left: auto; margin-right: auto" src={{product.img}}>
                             </ion-card>
+                            </ng-container>
                         </div>
                     </div>
                 </div>
+            <button (click)="checkCombo();" >Combine Reaction_Components1</button>
+            <button (click)="clearComponents()">Clear Reaction</button>
+            <div id="completionMessage">You have obtained the final product and completed the experiment!</div>
         </div>
         <h1>To Do List</h1>
         <h1>Add Item (task)</h1>
