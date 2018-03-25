@@ -35,3 +35,10 @@ export class ListPage {
     });
   }
 }
+
+// 
+// make "" not be able to be submitted to add to newCurrentMaterials
+// show goal material under current matierials
+// show product formed underneath reactants.
+// completion toast
+// failure toast

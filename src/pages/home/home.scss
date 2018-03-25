@@ -1,91 +1,33 @@
 page-home {
-
-
-#currentMaterialsList {
-
-    color: rgb(151, 60, 76)
-}
-#newCurrentMaterialsList {
-
-    color: rgb(60, 66, 151)
-}
-#successMessage {
-    visibility: hidden;
-    min-width: 250px;
-    margin-left: -125px;
-    background-color: rgb(38, 190, 58);
-    color: #fff;
+#heading {
     text-align: center;
-    border-radius: 2px;
-    padding: 16px;
-    position: fixed;
-    z-index: 1;
-    left: 50%;
-    bottom: 30px;
-    font-size: 17px;
+    margin: 20px;
 }
-#successMessage.display{
-    visibility: visible;
-    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-    animation: fadein 0.5s, fadeout 0.5s 2.5s;
-}
-#failureMessage {
-    visibility: hidden;
-    min-width: 250px;
-    margin-left: -125px;
-    background-color: rgb(190, 38, 38);
-    color: #fff;
+#heading2 {
     text-align: center;
-    border-radius: 2px;
-    padding: 16px;
-    position: fixed;
-    z-index: 1;
-    left: 50%;
-    bottom: 30px;
-    font-size: 17px;
+    color: color($colors, primary);
+    margin: 20px;
 }
-#failureMessage.show {
-    visibility: visible;
-    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+#signinButton {
+    vertical-align: center;
+    background-color: color($colors, danger);
+    margin: 20px 30px;
+    width: 50%;
+    border-radius: 12px;
+    color: white;
+    padding: 20px;
+    font-size: 16px;
+    cursor: pointer;
 }
-@-webkit-keyframes fadein {
-    from {bottom: 0; opacity: 0;} 
-    to {bottom: 30px; opacity: 1;}
-}
-
-@keyframes fadein {
-    from {bottom: 0; opacity: 0;}
-    to {bottom: 30px; opacity: 1;}
-}
-
-@-webkit-keyframes fadeout {
-    from {bottom: 30px; opacity: 1;} 
-    to {bottom: 0; opacity: 0;}
-}
-
-@keyframes fadeout {
-    from {bottom: 30px; opacity: 1;}
-    to {bottom: 0; opacity: 0;}
-}
-
-@-webkit-keyframes fadein {
-    from {bottom: 0; opacity: 0;} 
-    to {bottom: 30px; opacity: 1;}
-}
-
-@keyframes fadein {
-    from {bottom: 0; opacity: 0;}
-    to {bottom: 30px; opacity: 1;}
-}
-
-@-webkit-keyframes fadeout {
-    from {bottom: 30px; opacity: 1;} 
-    to {bottom: 0; opacity: 0;}
-}
-
-@keyframes fadeout {
-    from {bottom: 30px; opacity: 1;}
-    to {bottom: 0; opacity: 0;}
+#registerButton {
+    vertical-align: center;
+    width: 50%;
+    background-color: color($colors, secondary);
+    margin: 20px 30px;
+    border-radius: 12px;
+    color: white;
+    padding: 20px;
+    font-size: 16px;
+    cursor: pointer;
 }
 }

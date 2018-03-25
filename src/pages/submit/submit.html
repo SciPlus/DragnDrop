@@ -1,0 +1,28 @@
+<ion-header>
+        <ion-navbar>
+            <button ion-button menuToggle>
+                <ion-icon name="menu"></ion-icon>
+            </button>
+            <ion-title>Talia Page</ion-title>
+        </ion-navbar>
+</ion-header>
+<ion-content>
+        <h1 style="text-align: center">Thanks for Completing this lab!</h1>
+        <p style="text-align: center">Created by John Doe</p>
+        <button>Add Lab to Favorites</button>
+            <!-- create lab object and push lab.title to new list
+                1. People create sets, and to preview the lab, they click the item in the list that opens the "lab page"
+                2. people see list of their labs. then... people can go to options page
+                3. from options page, one can select "Edit buttton" (only visible if owner) "play button" (availble to all) and "goal product" and "description" and "title" shown.
+                4. home page is the list of one's labs, list of labs completed, list of labs assigned.
+                5. one can assign their lab to students once they create a class 
+                    5.1 class of students is filled with emails. 
+                    5.2 users registered with these emails receive notification that they are assigned this lab (w/ attatched due date).
+                    5.3 this notification will have a link to the lab that they are invited to participate in (will take them to lab's option page)
+                    5.4 teacher must have individual lab objects ( lab object associated w/ indiv_lab page) shows "lab.title and lab.combiantions and lab.elements"
+                        5.4.1 class of preview page should be play page. 
+                        5.4.2 or LabClass where it is imported on another page. 
+            -->
+            <h2 style="text-align: center">You're score is: {{score.grade}} % </h2>
+        <h2 style="text-align: center">{{score.remark}}!</h2>
+</ion-content>

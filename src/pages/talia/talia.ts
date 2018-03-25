@@ -1,11 +1,17 @@
+// for a future update, maybe consider adding different mole ratios of substances to produce other substances. 
+// for now, any number of the substances will combine.
+// request for lab. 
+// teacher 
+// teacher in class 103, 103 is over
+// institution makes 
+// password for each period. 
+// id/password --> access lab. Control for the teacher.
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Tab } from 'ionic-angular/components/tabs/tab';
 import {DndModule} from 'ng2-dnd';
-
-// Want to figure out on Tuesday from Help Lab: 
-// 1. How to input another item to add to list in object form.
-// 2. How to show to - do list items in list.
+import { HomePage } from '../home/home';
+import { SubmitPage } from '../submit/submit';
 
 @Component({
     selector: 'page-talia',
@@ -16,7 +22,6 @@ import {DndModule} from 'ng2-dnd';
     willAddToAvaProd: boolean = false;
     buttonClicked = false;
     ingred: Object;
-    canCombine: boolean = false; // elements in Reaction_Components_1 are elements in availableProducts
     countOfComboElements: number = 0;
     addedItem: object = {};
     helperText1: string = "";
@@ -110,6 +115,9 @@ import {DndModule} from 'ng2-dnd';
       result: this.availableProducts.filter(element => element.name === "caffeine residue!")[0],
   }]
     }
+    openSubmitPage() {
+      this.navCtrl.push(SubmitPage);
+    }
     findAvailableProduct(myResult: string) {
       this.availableProducts.forEach(element => {
         if (element.name === myResult) {
@@ -126,14 +134,11 @@ import {DndModule} from 'ng2-dnd';
         if (((this.Reaction_Components1[0].name === combo.ingredients[0].name) || (this.Reaction_Components1[0].name === combo.ingredients[1].name)) && ((this.Reaction_Components1[1].name === combo.ingredients[0].name) || (this.Reaction_Components1[1].name === combo.ingredients[1].name))) {
           this.findAvailableProduct(combo.result.name);
           console.log("findAvailableProduct has been called");
-        }
-        if (combo.result.isFinalProduct) {
-          this.completionMessage();
+          if (combo.result.isFinalProduct === true) {
+            this.completionMessage();
+          }
         }
       })
-    }
-    if (this.countOfComboElements >= 2) {
-      this.canCombine = true;
     }
   }
     checkIfAdding() {
