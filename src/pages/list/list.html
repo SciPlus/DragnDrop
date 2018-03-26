@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="secondary">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -8,16 +8,51 @@
 </ion-header>
 
 <ion-content>
+
+  <div class="input">
   <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
-      <ion-icon [name]="item.icon" item-start></ion-icon>
-      {{item.title}}
-      <div class="item-note" item-end>
-        {{item.note}}
-      </div>
-    </button>
+      <ion-item-divider color="primary">Starting Ingredients</ion-item-divider>
+      <ion-item>
+        <ion-label floating>Name of Material</ion-label>
+          <ion-input [(ngModel)]="name"type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Definition</ion-label>
+        <ion-input [(ngModel)]="definition" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Coefficient</ion-label>
+        <ion-input [(ngModel)]="coefficient" type="number"></ion-input>
+      </ion-item>
+      <ion-col style="text-align: center; width: 50px">
+        <button ion-button round outline id="addButton">Add Material</button>
+      </ion-col> 
+    <ion-item-divider color="primary">Found Ingredients</ion-item-divider>
+    <ion-item>
+      <ion-label floating>Name of Material</ion-label>
+        <ion-input [(ngModel)]="name"type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Definition</ion-label>
+      <ion-input [(ngModel)]="definition" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Coefficient</ion-label>
+      <ion-input [(ngModel)]="coefficient" type="number"></ion-input>
+    </ion-item>
+  <ion-item-divider color="primary">Found Ingredients</ion-item-divider>
   </ion-list>
-  <div *ngIf="selectedItem" padding>
-    You navigated here from <b>{{selectedItem.title}}</b>
-  </div>
+  <ion-item>
+    <ion-label floating>Name of Material</ion-label>
+      <ion-input [(ngModel)]="name"type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Definition</ion-label>
+    <ion-input [(ngModel)]="definition" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Coefficient</ion-label>
+    <ion-input [(ngModel)]="coefficient" type="number"></ion-input>
+  </ion-item>
+</div>
 </ion-content>

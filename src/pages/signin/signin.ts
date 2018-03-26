@@ -2,13 +2,14 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { TaliaPage } from '../talia/talia';
+import { RegisterPage } from '../register/register';
 
 @IonicPage()
 @Component({
-  selector: 'page-login',
-  templateUrl: 'login.html',
+  selector: 'page-signin',
+  templateUrl: 'signin.html',
 })
-export class LoginPage {
+export class SigninPage {
 
 	@ViewChild('username') user;
 	@ViewChild('password') password;
@@ -17,7 +18,7 @@ export class LoginPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
+    console.log('ionViewDidLoad Signin');
   }
 
   alert(message: string) {
@@ -42,5 +43,7 @@ export class LoginPage {
     })
   	console.log('Would sign in with ', this.user.value, this.password.value);
   }
-
+  goToRegister() {
+    this.navCtrl.push(RegisterPage);
+  }
 }

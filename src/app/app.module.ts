@@ -7,8 +7,10 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { TaliaPage} from '../pages/talia/talia';
 import { SubmitPage} from '../pages/submit/submit';
-import { LoginPage} from '../pages/login/login';
+import { SigninPage} from '../pages/signin/signin';
 import { RegisterPage} from '../pages/register/register';
+import { ProfilePage} from '../pages/profile/profile';
+
 
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -32,8 +34,9 @@ const firebaseAuth = {
     ListPage,
     TaliaPage,
     SubmitPage,
-    LoginPage,
-    RegisterPage
+    SigninPage,
+    RegisterPage,
+    ProfilePage
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,6 @@ const firebaseAuth = {
     DndModule.forRoot(),
     AngularFireModule.initializeApp(firebaseAuth),
     AngularFireAuthModule
-
     
   ],
   bootstrap: [IonicApp],
@@ -51,8 +53,9 @@ const firebaseAuth = {
     ListPage,
     TaliaPage,
     SubmitPage,
-    LoginPage,
-    RegisterPage
+    SigninPage,
+    RegisterPage,
+    ProfilePage
   ],
   providers: [
     StatusBar,

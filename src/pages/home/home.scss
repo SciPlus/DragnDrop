@@ -9,10 +9,11 @@ page-home {
     margin: 20px;
 }
 #signinButton {
-    vertical-align: center;
-    background-color: color($colors, danger);
-    margin: 20px 30px;
-    width: 50%;
+    display:block;
+    float:center;
+    background-color: color($colors, secondary);
+    margin: 20px auto;
+    width: 30%;
     border-radius: 12px;
     color: white;
     padding: 20px;
@@ -20,12 +21,13 @@ page-home {
     cursor: pointer;
 }
 #registerButton {
-    vertical-align: center;
-    width: 50%;
-    background-color: color($colors, secondary);
-    margin: 20px 30px;
+    display:block;
+    float:center;
+    width: 30%;
+    border-color: color($colors, secondary);
+    margin: 20px auto;
     border-radius: 12px;
-    color: white;
+    color: color($colors, secondary);
     padding: 20px;
     font-size: 16px;
     cursor: pointer;

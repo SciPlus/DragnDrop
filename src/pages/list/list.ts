@@ -42,3 +42,5 @@ export class ListPage {
 // show product formed underneath reactants.
 // completion toast
 // failure toast
+
+// on this page, lets use the databse to submit new items to available products.

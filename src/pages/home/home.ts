@@ -1,7 +1,7 @@
 import { Component , ViewChild} from '@angular/core';
 import { NavController, AlertController } from 'ionic-angular';
 import { DragulaModule } from '../../../node_modules/ng2-dragula/ng2-dragula';
-import { LoginPage } from '../login/login';
+import { SigninPage } from '../signin/signin';
 import { RegisterPage } from '../register/register';
 
 @Component({
@@ -15,7 +15,7 @@ export class HomePage {
   constructor(public navCtrl: NavController, public alertCtrl: AlertController) {
   };
   signIn() {
-  	this.navCtrl.push(LoginPage);
+  	this.navCtrl.push(SigninPage);
   }
 
   register() {

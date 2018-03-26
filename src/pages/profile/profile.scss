@@ -1,20 +1,23 @@
-page-register {
-    #registerButton {
+page-home {
+    #heading {
+        text-align: center;
+        margin: 20px;
+    }
+    #heading2 {
+        text-align: center;
+        color: color($colors, primary);
+        margin: 20px;
+    }
+    #createButton {
         display:block;
         float:center;
-        width:50%;
         background-color: color($colors, secondary);
         margin: 20px auto;
+        width: 30%;
         border-radius: 12px;
         color: white;
         padding: 20px;
         font-size: 16px;
-        cursor: pointer;  
-    }
-    #yesAccountButton {
-        text-align: center;
-        color: color($colors, primary);
-        font-size: 14px;
         cursor: pointer;
     }
-}
+    }

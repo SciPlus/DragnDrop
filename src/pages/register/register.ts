@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { SigninPage } from '../signin/signin';
 
 @IonicPage()
 @Component({
@@ -40,6 +41,9 @@ export class RegisterPage {
       this.alert(error.message);
     });
   	console.log('Would register user with ', this.user.value, this.password.value);
+  }
+  goToSignIn() {
+    this.navCtrl.push(SigninPage);
   }
 
 }

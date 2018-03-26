@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar color="secondary">
+    <ion-title>Profile Page</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <h1 id="heading" style="text-align: center">{{email}}</h1>
+  <h3 id="heading2" style="text-align: center">Below you can create new experiments for your class.</h3>
+    <ion-list>
+        <ion-item>
+            <ion-label (click)="goToLabPage">Name of Lab</ion-label>
+        </ion-item>
+    </ion-list>
+    <h2>Create New Lab</h2>
+    <ion-item>
+        <ion-label stacked>Add Title</ion-label>
+        <ion-input type="text" #Stoichiometry Lab></ion-input>
+    </ion-item>
+    <button ion-button round id="createButton" (click)="goToAddPage" >Create</button>
+</ion-content>

@@ -7,19 +7,20 @@
 // password for each period. 
 // id/password --> access lab. Control for the teacher.
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Tab } from 'ionic-angular/components/tabs/tab';
 import {DndModule} from 'ng2-dnd';
 import { HomePage } from '../home/home';
 import { SubmitPage } from '../submit/submit';
+import { AngularFireAuth } from 'angularfire2/auth';
 
+@IonicPage()
 @Component({
     selector: 'page-talia',
     templateUrl: 'talia.html',
   })
   export class TaliaPage {
-    avaProd: Product;
-    willAddToAvaProd: boolean = false;
+    email: string;
     buttonClicked = false;
     ingred: Object;
     countOfComboElements: number = 0;
@@ -50,7 +51,8 @@ import { SubmitPage } from '../submit/submit';
   
 // addToBasket --> addToReaction
     
-    constructor(public navCtrl: NavController, public navParams: NavParams) {
+    constructor(private fire: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
+      this.email = fire.auth.currentUser.email;
       this.showInfo(); // maybe I'll add "isNew property to products later, but not for right now. It would just seaprate the already given items from the wnewly added items."
       this.availableProducts.push(new Product(1, 2, true, false, 'heat', true, "applying heat", "assets/imgs/fire.jpg"));
       this.availableProducts.push(new Product(1, 3, true, false, 'coffee', true, "cold coffee", "assets/imgs/cold_coffee.png"));

@@ -1,5 +1,5 @@
-page-register {
-    #registerButton {
+page-signin {
+    #signinButton {
         display:block;
         float:center;
         width:50%;
@@ -11,7 +11,7 @@ page-register {
         font-size: 16px;
         cursor: pointer;  
     }
-    #yesAccountButton {
+    #noAccountButton {
         text-align: center;
         color: color($colors, primary);
         font-size: 14px;
