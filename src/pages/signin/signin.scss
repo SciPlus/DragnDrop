@@ -11,7 +11,7 @@ page-signin {
         font-size: 16px;
         cursor: pointer;  
     }
-    #noAccountButton {
+    #noAccountButton, #forgotPasswordButton {
         text-align: center;
         color: color($colors, primary);
         font-size: 14px;

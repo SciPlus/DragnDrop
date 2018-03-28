@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Tab } from 'ionic-angular/components/tabs/tab';
 import { TaliaPage } from '../talia/talia';
+import { HomePage } from '../home/home';
+import { AngularFireAuth } from 'angularfire2/auth';
+
 
 @Component({
   selector: 'page-submit',
@@ -14,7 +17,7 @@ export class SubmitPage {
     }
     elementsFound: number = 0;
     totalElements: number = 10;
-    constructor(public navCtrl: NavController) {
+    constructor(private fire: AngularFireAuth, public navCtrl: NavController) {
         this.determineScore();
         // how can I access elements form the Talia Page here, such that I can access the score or elementsfound.
     };
@@ -35,5 +38,10 @@ export class SubmitPage {
             this.score.grade = 0;
             this.score.remark = "incomplete";
         }
+    }
+    signOut() {
+        this.fire.auth.signOut();
+        console.log("signed out");
+        this.navCtrl.push(HomePage);
     }
 }

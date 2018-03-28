@@ -1,3 +1,14 @@
 page-submit {
-
+    #signOutButton {
+        display:block;
+        float:center;
+        width:50%;
+        background-color: color($colors, secondary);
+        margin: 20px auto;
+        border-radius: 12px;
+        color: white;
+        padding: 20px;
+        font-size: 16px;
+        cursor: pointer;  
+    }
 }

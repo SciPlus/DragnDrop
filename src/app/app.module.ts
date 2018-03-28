@@ -43,7 +43,7 @@ const firebaseAuth = {
     IonicModule.forRoot(MyApp),
     DndModule.forRoot(),
     AngularFireModule.initializeApp(firebaseAuth),
-    AngularFireAuthModule
+    AngularFireAuthModule,
     
   ],
   bootstrap: [IonicApp],

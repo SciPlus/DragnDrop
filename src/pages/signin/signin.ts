@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angu
 import { AngularFireAuth } from 'angularfire2/auth';
 import { TaliaPage } from '../talia/talia';
 import { RegisterPage } from '../register/register';
+import { ProfilePage } from '../profile/profile';
 
 @IonicPage()
 @Component({
@@ -23,7 +24,7 @@ export class SigninPage {
 
   alert(message: string) {
     this.alertCtrl.create({
-      title: 'Info!',
+      title: 'Hey User!',
       subTitle: message,
       buttons: ['OK']
     }).present();
@@ -33,8 +34,8 @@ export class SigninPage {
     this.fire.auth.signInWithEmailAndPassword(this.user.value, this.password.value)
     .then( data => {
       console.log('got data', this.fire.auth.currentUser);
-      this.alert('Alright! You are all logged in.');
-        this.navCtrl.setRoot( TaliaPage );
+      this.alert(`@${this.fire.auth.currentUser.email}, you are all logged in!`);
+        this.navCtrl.setRoot( ProfilePage );
       // user is logged in
     })
     .catch( error => {
@@ -45,5 +46,9 @@ export class SigninPage {
   }
   goToRegister() {
     this.navCtrl.push(RegisterPage);
+  }
+  resetPassword() {
+    console.log("to be figured out later");
+    alert("to be figured out later");
   }
 }
