@@ -10,6 +10,7 @@ import { SubmitPage} from '../pages/submit/submit';
 import { SigninPage} from '../pages/signin/signin';
 import { RegisterPage} from '../pages/register/register';
 import { ProfilePage} from '../pages/profile/profile';
+import { IndivLabPage } from '../pages/indivlab/indivlab';
 
 
 
@@ -36,7 +37,8 @@ const firebaseAuth = {
     SubmitPage,
     SigninPage,
     RegisterPage,
-    ProfilePage
+    ProfilePage,
+    IndivLabPage
   ],
   imports: [
     BrowserModule,
@@ -55,7 +57,8 @@ const firebaseAuth = {
     SubmitPage,
     SigninPage,
     RegisterPage,
-    ProfilePage
+    ProfilePage,
+    IndivLabPage
   ],
   providers: [
     StatusBar,

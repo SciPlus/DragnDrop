@@ -1,0 +1,30 @@
+page-indivlab {
+    #heading {
+        text-align: center;
+        margin: 20px;
+    }
+    #editButton {
+        display:block;
+        float:center;
+        background-color: color($colors, secondary);
+        margin: 20px auto;
+        width: 30%;
+        border-radius: 12px;
+        color: white;
+        padding: 20px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    #playButton {
+        display:block;
+        float:center;
+        width: 30%;
+        border-color: color($colors, secondary);
+        margin: 20px auto;
+        border-radius: 12px;
+        color: color($colors, secondary);
+        padding: 20px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+}

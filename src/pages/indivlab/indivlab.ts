@@ -1,19 +1,17 @@
 import { Component , ViewChild} from '@angular/core';
-import { NavController, AlertController, List } from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
 import { DragulaModule } from '../../../node_modules/ng2-dragula/ng2-dragula';
 import { SigninPage } from '../signin/signin';
 import { RegisterPage } from '../register/register';
 import { TaliaPage } from '../talia/talia';
 import { ListPage } from '../list/list';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { HomePage } from '../home/home';
-import { IndivLabPage } from '../indivlab/indivlab';
 
 @Component({
-  selector: 'page-profile',
-  templateUrl: 'profile.html'
+  selector: 'page-indivlab',
+  templateUrl: 'indivlab.html'
 })
-export class ProfilePage {
+export class IndivLabPage {
     email: string;
     labs: Array<string> = [];
     newLab: string = "";
@@ -22,10 +20,10 @@ export class ProfilePage {
     this.email = fire.auth.currentUser.email;
 
   };
-  goToAddPage() {
-    this.navCtrl.push(IndivLabPage);
+  edit() {
+    this.navCtrl.push(ListPage)
   }
-  add() {
-    this.labs.push(this.newLab);
+  play() {
+    this.navCtrl.push(TaliaPage);
   }
 }

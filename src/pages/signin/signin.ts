@@ -35,7 +35,7 @@ export class SigninPage {
     .then( data => {
       console.log('got data', this.fire.auth.currentUser);
       this.alert(`@${this.fire.auth.currentUser.email}, you are all logged in!`);
-        this.navCtrl.setRoot( ProfilePage );
+        this.navCtrl.push( ProfilePage );
       // user is logged in
     })
     .catch( error => {

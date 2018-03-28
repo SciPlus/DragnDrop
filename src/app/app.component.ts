@@ -10,6 +10,7 @@ import { SubmitPage } from '../pages/submit/submit';
 import { ProfilePage } from '../pages/profile/profile';
 import { SigninPage } from '../pages/signin/signin';
 import { RegisterPage } from '../pages/register/register';
+import { IndivLabPage } from '../pages/indivlab/indivlab';
 
 
 @Component({
@@ -31,7 +32,8 @@ export class MyApp {
       { title: 'List', component: ListPage },
       { title: 'Talia', component: TaliaPage},
       { title: 'Submit', component: SubmitPage },
-      { title: 'Profile', component: ProfilePage }
+      { title: 'Profile', component: ProfilePage },
+      { title: 'IndivLab', component: IndivLabPage }
     ];
 
   }

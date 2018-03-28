@@ -16,8 +16,8 @@
     </ion-item>
     <button ion-button round id="createButton"(click)="add();">Create</button>
     <ion-list>
-            <button ion-item *ngFor="let newLab of labs" (tap)="goToAddPage()">
+            <button ion-item *ngFor="let newLab of labs" (click)="goToAddPage()">
                 {{newLab}}
             </button>
-        </ion-list>
+    </ion-list>
 </ion-content>
