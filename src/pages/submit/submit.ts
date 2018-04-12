@@ -1,14 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Tab } from 'ionic-angular/components/tabs/tab';
 import { TaliaPage } from '../talia/talia';
 import { HomePage } from '../home/home';
 import { AngularFireAuth } from 'angularfire2/auth';
 
-
 @Component({
   selector: 'page-submit',
-  templateUrl: 'submit.html'
+  templateUrl: 'submit.html',
 })
 export class SubmitPage {
     score: any = {

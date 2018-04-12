@@ -2,6 +2,7 @@ page-indivlab {
     #heading {
         text-align: center;
         margin: 20px;
+        color: red;
     }
     #editButton {
         display:block;
@@ -26,5 +27,10 @@ page-indivlab {
         padding: 20px;
         font-size: 16px;
         cursor: pointer;
+    }
+    #labPicture {
+       display: block;
+       margin-left: auto;
+       margin-right: auto;
     }
 }

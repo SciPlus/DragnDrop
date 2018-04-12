@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { SigninPage } from '../signin/signin';
+import { ProfilePage } from '../profile/profile';
 
 @IonicPage()
 @Component({
@@ -35,6 +36,7 @@ export class RegisterPage {
     .then(data => {
       console.log('got the data ', data);
       this.alert('Registered!');
+      this.navCtrl.push(ProfilePage);
     })
     .catch(error => {
       console.log('got an error ', error);

@@ -48,12 +48,9 @@ import { AngularFireAuth } from 'angularfire2/auth';
     availableProducts: Array<Product> = [];
     Reaction_Components1: Array<Product> = [];    
     combinations: Array<any> = [];
-  
-// addToBasket --> addToReaction
-    
+      
     constructor(private fire: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
       this.email = fire.auth.currentUser.email;
-      this.showInfo(); // maybe I'll add "isNew property to products later, but not for right now. It would just seaprate the already given items from the wnewly added items."
       this.availableProducts.push(new Product(1, 2, true, false, 'heat', true, "applying heat", "assets/imgs/fire.jpg"));
       this.availableProducts.push(new Product(1, 3, true, false, 'coffee', true, "cold coffee", "assets/imgs/cold_coffee.png"));
       this.availableProducts.push(new Product(1, 4, true, false,  'hot coffee', false, "combination of heat and coffee", "assets/imgs/hot_coffee.png"));
@@ -69,8 +66,6 @@ import { AngularFireAuth } from 'angularfire2/auth';
       this.availableProducts.push(new Product(1, 2, false, true, 'caffeine residue!', false, "final product", "assets/imgs/caffeine.png"));
       this.checkIfAdding();
       this.getCombos();
-      console.log(this.availableProducts);
-      console.log(this.combinations);
     }
     getCombos() {
       this.combinations = [{

@@ -18,7 +18,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {DndModule} from 'ng2-dnd';
 import { AngularFireModule } from 'angularfire2';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { MaterialService } from '../services/material.service';
 
 const firebaseAuth = {
   apiKey: "AIzaSyDj470IyOp2EyQi0sg-uu5kgobt2u8_t00",
@@ -46,6 +48,7 @@ const firebaseAuth = {
     DndModule.forRoot(),
     AngularFireModule.initializeApp(firebaseAuth),
     AngularFireAuthModule,
+    AngularFirestoreModule
     
   ],
   bootstrap: [IonicApp],
@@ -63,7 +66,8 @@ const firebaseAuth = {
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    MaterialService
   ]
 })
 export class AppModule {}
