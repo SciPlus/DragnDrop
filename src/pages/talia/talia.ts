@@ -13,6 +13,8 @@ import {DndModule} from 'ng2-dnd';
 import { HomePage } from '../home/home';
 import { SubmitPage } from '../submit/submit';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { MaterialService } from '../../services/material.service';
+import { Material } from '../../app/models/Material'
 
 @IonicPage()
 @Component({
@@ -20,6 +22,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
     templateUrl: 'talia.html',
   })
   export class TaliaPage {
+    materials: Material[];
     email: string;
     buttonClicked = false;
     ingred: Object;
@@ -49,7 +52,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
     Reaction_Components1: Array<Product> = [];    
     combinations: Array<any> = [];
       
-    constructor(private fire: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
+    constructor(private materialService: MaterialService, private fire: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
       this.email = fire.auth.currentUser.email;
       this.availableProducts.push(new Product(1, 2, true, false, 'heat', true, "applying heat", "assets/imgs/fire.jpg"));
       this.availableProducts.push(new Product(1, 3, true, false, 'coffee', true, "cold coffee", "assets/imgs/cold_coffee.png"));
@@ -175,7 +178,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
               return;
           }
       }
-      this.Reaction_Components1.push(new Product(newMaterial.quantity, newMaterial.coefficient, newMaterial.isStartingProduct, newMaterial.isFinalProduct, newMaterial.name, newMaterial.isFound, newMaterial.definition, newMaterial.img));
+      this.Reaction_Components1.push(new Product(newMaterial.quantity, newMaterial.coefficient, newMaterial.isStartingMaterial, newMaterial.isFinalMaterial, newMaterial.name, newMaterial.isFound, newMaterial.definition, newMaterial.img));
       this.Reaction_Components1.sort((a: Product, b: Product) => {
           return a.name.localeCompare(b.name);
       });
@@ -200,9 +203,18 @@ import { AngularFireAuth } from 'angularfire2/auth';
     delete() {
       this.toDos.pop();
     }
+    ngOnInit() {
+      // getting materials from database (calling getMaterials function)
+      this.materialService.getMaterials().subscribe(materials =>{
+          console.log(materials);
+          this.materials = materials;
+          // setting our materials to the materials in the database
+          // I wonder if there is a way to sort these materials in starting materials and so on based on properties of theirs. Maybe, according to the 3rd video of firebase database, I'll watch it.
+      })
+    }
   }
   export class Product {
-    constructor(public quantity: number, public coefficient: number,public isStartingProduct: boolean, public isFinalProduct: boolean,  public name: string, public isFound: boolean, public definition: string, public img: string) {
+    constructor(public quantity: number, public coefficient: number,public isStartingMaterial: boolean, public isFinalMaterial: boolean,  public name: string, public isFound: boolean, public definition: string, public img: string) {
       this.name = name;
     }
   }

@@ -14,15 +14,13 @@
                             <div class="panel-heading">Available products</div>
                             <div class="panel-body">
                                 <ng-container *ngFor="let product of availableProducts">
-                                <ion-card *ngIf="product.isFound" style="width: 125px; height: 125px; display: inline-block;" class="panel panel-default"
-                                    dnd-draggable [dragEnabled]="product.quantity>0" [dragData]="product" [dropZones]="['demo1']">
-                                    <div class="panel-body">
-                                        <div style="text-align: center" >{{product.name}}</div>
-                                        <div *ngIf="product.coefficient === 1" style=" text-align: center">{{product.coefficient}} mole</div>
-                                        <div *ngIf="product.coefficient > 1" style="text-align: center" >{{product.coefficient}} moles</div>
-                                        <img style="padding: 5px; width: auto; height: 60px; padding: 10px; margin-left: auto; margin-right: auto" src={{product.img}}>
-                                    </div>
-                                </ion-card>
+                                    <ng-container *ngFor= "let material of materials">
+                                        <ion-card style="width: 170px; height: 170px; display: inline-block;" class="panel panel-default">
+                                          <ion-label style="text-align: center"><strong>{{material.name}}</strong></ion-label>
+                                          <ion-label style="text-align: center">{{material.definition}}</ion-label>
+                                          <img  style="padding: 5px; width: auto; height: 80px; padding: 10px; margin: auto" src = {{material.img}}>
+                                        </ion-card>
+                                      </ng-container>
                                 </ng-container>
                             </div>
                         </div>

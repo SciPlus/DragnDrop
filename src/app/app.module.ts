@@ -17,6 +17,7 @@ import { IndivLabPage } from '../pages/indivlab/indivlab';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {DndModule} from 'ng2-dnd';
+import { FormsModule } from '@angular/forms'
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
@@ -48,7 +49,8 @@ const firebaseAuth = {
     DndModule.forRoot(),
     AngularFireModule.initializeApp(firebaseAuth),
     AngularFireAuthModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    FormsModule
     
   ],
   bootstrap: [IonicApp],

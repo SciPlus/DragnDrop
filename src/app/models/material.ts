@@ -3,6 +3,7 @@ export interface Material {
     name?: string;
     definition?: string;
     img?: string;
-    isStartingProduct?: boolean;
-    isFinalProduct?: boolean;
+    isStartingMaterial?: boolean;
+    isFinalMaterial?: boolean;
 }
+// getting material class/interface to be imported to material.service.ts
