@@ -1,25 +1,25 @@
 <ion-header>
-    <ion-navbar color="secondary">
-      <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
-      <ion-title>Sign In</ion-title>
-    </ion-navbar>
-  </ion-header>
+  <ion-navbar color="secondary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Sign In</ion-title>
+  </ion-navbar>
+</ion-header>
 <ion-content padding>
   <ion-list>
-      <ion-item>
-          <ion-label stacked>Username (email)</ion-label>
-          <ion-input type="text" #username></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label stacked>Password</ion-label>
-          <ion-input type="password" #password></ion-input>
-        </ion-item>
+    <ion-item>
+      <ion-label stacked>Username (email)</ion-label>
+      <ion-input type="text" #username></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Password</ion-label>
+      <ion-input type="password" #password></ion-input>
+    </ion-item>
   </ion-list>
-<div padding>
-  <button block ion-button round (click)="signInUser()" id="signinButton">Sign In</button>
-</div>
-<h5 id="noAccountButton" (click)="goToRegister()">New to Sciplus? Register An Account Now</h5>
-<h5 id="forgotPasswordButton" (click)="resetPassword()">Forgot Password</h5>
+  <div padding>
+    <button block ion-button round (click)="signInUser()" id="signinButton">Sign In</button>
+  </div>
+  <h5 id="noAccountButton" (click)="goToRegister()">New to Sciplus? Register An Account Now</h5>
+  <h5 id="forgotPasswordButton" (click)="resetPassword()">Forgot Password</h5>
 </ion-content>

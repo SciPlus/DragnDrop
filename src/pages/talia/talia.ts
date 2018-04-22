@@ -6,7 +6,7 @@
 // institution makes 
 // password for each period. 
 // id/password --> access lab. Control for the teacher.
-import { Component } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Tab } from 'ionic-angular/components/tabs/tab';
 import {DndModule} from 'ng2-dnd';
@@ -22,6 +22,12 @@ import { Material } from '../../app/models/Material'
     templateUrl: 'talia.html',
   })
   export class TaliaPage {
+    material: Material = {
+    name: '',
+    definition: '', 
+    isStartingMaterial: false,
+    isFinalMaterial: false
+    }
     materials: Material[];
     email: string;
     buttonClicked = false;
@@ -54,20 +60,10 @@ import { Material } from '../../app/models/Material'
       
     constructor(private materialService: MaterialService, private fire: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
       this.email = fire.auth.currentUser.email;
-      this.availableProducts.push(new Product(1, 2, true, false, 'heat', true, "applying heat", "assets/imgs/fire.jpg"));
-      this.availableProducts.push(new Product(1, 3, true, false, 'coffee', true, "cold coffee", "assets/imgs/cold_coffee.png"));
-      this.availableProducts.push(new Product(1, 4, true, false,  'hot coffee', false, "combination of heat and coffee", "assets/imgs/hot_coffee.png"));
-      this.availableProducts.push(new Product(1, 1, true, false,  'magnesium sulfate', true, "drying agent", "assets/imgs/magnesium_sulfate.png"));
-      this.availableProducts.push(new Product(1, 4, true, false,  'dichloromethane', true, "hexane...", "assets/imgs/dichloromethane.png"));
-      this.availableProducts.push(new Product(1, 4, true, false, 'in separatory funnel', true, "stuff going inside of the separatory funnel", "assets/imgs/separatoryFunnel.png"));
-      this.availableProducts.push(new Product(1, 4,true, false, 'filter separatory funnel', true, "action of filtering", "assets/imgs/filter.jpeg"));
-      this.availableProducts.push(new Product(1, 4, false, false, 'hot coffee in separatory funnel', false, "coffee inside of the separatory", "assets/imgs/hot_coffee_in_funnel.jpeg"));
-      this.availableProducts.push(new Product(1, 2, false, false,'hot coffee and dichloromethane mixture', false, "coffee and dichloromethane in separatory funnel", "assets/imgs/mixture_in_funnel.jpeg"));
-      this.availableProducts.push(new Product(1, 2, false, false,'dichloromethane in separatory funnel', false, "dichloromethane alone in separatory funnel", "assets/imgs/dichloromethane_in_funnel.jpg"));
-      this.availableProducts.push(new Product(1, 2, false, false, 'filter out dichloromethane', false, "filtering only the dichloromethane out of the separatory funnel after adding coffee and dichloromethane", "assets/imgs/filter_out_dichloromethane.jpeg"));
-      this.availableProducts.push(new Product(1, 2, false, false,'dichloromethane and caffeine mixture', false, "mixture extracted from the separatory funnel", "assets/imgs/like_dissolves_like.jpg"));
-      this.availableProducts.push(new Product(1, 2, false, true, 'caffeine residue!', false, "final product", "assets/imgs/caffeine.png"));
       this.checkIfAdding();
+      this.materialService.getMaterials().subscribe(materials =>{
+        this.materials = materials; 
+      });
       this.getCombos();
     }
     getCombos() {
@@ -202,16 +198,15 @@ import { Material } from '../../app/models/Material'
     }
     delete() {
       this.toDos.pop();
-    }
+    } /*
     ngOnInit() {
       // getting materials from database (calling getMaterials function)
       this.materialService.getMaterials().subscribe(materials =>{
-          console.log(materials);
-          this.materials = materials;
+        this.materials = materials;
           // setting our materials to the materials in the database
           // I wonder if there is a way to sort these materials in starting materials and so on based on properties of theirs. Maybe, according to the 3rd video of firebase database, I'll watch it.
       })
-    }
+    } */
   }
   export class Product {
     constructor(public quantity: number, public coefficient: number,public isStartingMaterial: boolean, public isFinalMaterial: boolean,  public name: string, public isFound: boolean, public definition: string, public img: string) {

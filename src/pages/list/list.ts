@@ -14,9 +14,6 @@ export class ListPage implements OnInit{
   newProduct: Product;
   createdProducts: Array<Product>;
   materials: Material[];
-  startingMaterials: Material[];
-  intermediateMaterials: Material[];
-  finalMaterial: Material;
   material: Material = {
     name: '',
     definition: '',
@@ -41,14 +38,12 @@ export class ListPage implements OnInit{
     // getting materials from database (calling getMaterials function)
     this.materialService.getMaterials().subscribe(materials =>{
     this.materials = materials;
-
         // setting our materials to the materials in the database
         // I wonder if there is a way to sort these materials in starting materials and so on based on properties of theirs. Maybe, according to the 3rd video of firebase database, I'll watch it.
     })
   }
   onSubmit() {
     if(this.material.name != "" && this.material.definition != "" && this.material.img != "") {
-      console.log(this.material);
       this.materialService.addMaterial(this.material);
       this.material.name = "";
       this.material.definition = "";

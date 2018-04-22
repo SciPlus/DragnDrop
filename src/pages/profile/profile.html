@@ -1,22 +1,22 @@
 <ion-header>
-    <ion-navbar color="secondary">
-      <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
-      <ion-title>Profile Page</ion-title>
-    </ion-navbar>
-  </ion-header>
-  <ion-content id="addTitle">
+  <ion-navbar color="secondary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Profile Page</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content id="addTitle">
   <h1 id="heading" style="text-align: center"> Hello {{email}}</h1>
   <h3 id="heading2" style="text-align: center">Below you can create new experiments for your class.</h3>
-    <ion-item>
-        <ion-label stacked>Add Title</ion-label>
-        <ion-input type="text" #Stoichiometry Lab [(ngModel)]="newLab"></ion-input>
-    </ion-item>
-    <button ion-button round id="createButton"(click)="add();">Create</button>
-    <ion-list>
-            <button ion-item *ngFor="let newLab of labs" (click)="goToAddPage()">
-                {{newLab}}
-            </button>
-    </ion-list>
+  <ion-item>
+    <ion-label stacked>Add Title</ion-label>
+    <ion-input type="text" #Stoichiometry Lab [(ngModel)]="newLab"></ion-input>
+  </ion-item>
+  <button ion-button round id="createButton" (click)="add();">Create</button>
+  <ion-list>
+    <button ion-item *ngFor="let newLab of labs" (click)="goToAddPage()">
+      {{newLab}}
+    </button>
+  </ion-list>
 </ion-content>
