@@ -14,21 +14,16 @@ import { HomePage } from '../home/home';
 import { SubmitPage } from '../submit/submit';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { MaterialService } from '../../services/material.service';
-import { Material } from '../../app/models/Material'
+import { Material } from '../../app/models/Material';
+import { CombinationService } from '../../services/combination.service';
+import { Combo } from '../../app/models/combo';
 
 @IonicPage()
 @Component({
     selector: 'page-talia',
     templateUrl: 'talia.html',
   })
-  export class TaliaPage {
-    material: Material = {
-    name: '',
-    definition: '', 
-    isStartingMaterial: false,
-    isFinalMaterial: false
-    }
-    materials: Material[];
+  export class TaliaPage implements OnInit {
     email: string;
     buttonClicked = false;
     ingred: Object;
@@ -54,96 +49,79 @@ import { Material } from '../../app/models/Material'
 
     }];
     countOfFoundElements: number = 0;
-    availableProducts: Array<Product> = [];
-    Reaction_Components1: Array<Product> = [];    
-    combinations: Array<any> = [];
+    materialToDefine: Material;
+    defineState: boolean = false;
+    material: Material = {
+    name: '',
+    definition: '', 
+    isStartingMaterial: false,
+    isFinalMaterial: false,
+    img: "",
+    isFound: false
+    }
+    materials: Material[];
+    Reaction_Components1: Material[] = []; /// setting to a value;
+    combinations: Combo[];
       
-    constructor(private materialService: MaterialService, private fire: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
+    constructor(private combinationService: CombinationService, private materialService: MaterialService, private fire: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
       this.email = fire.auth.currentUser.email;
-      this.checkIfAdding();
-      this.materialService.getMaterials().subscribe(materials =>{
-        this.materials = materials; 
-      });
-      this.getCombos();
     }
-    getCombos() {
-      this.combinations = [{
-        ingredients: [
-            this.availableProducts.filter(element => element.name === "heat")[0],
-            this.availableProducts.filter(element => element.name === "coffee")[0],
-          ],
-        result: this.availableProducts.filter(element => element.name === "hot coffee")[0]
-      }, {
-        ingredients: [
-         this.availableProducts.filter(element => element.name === "hot coffee")[0],
-          this.availableProducts.filter(element => element.name === "in separatory funnel")[0],
-        ],
-        result: this.availableProducts.filter(element => element.name === "hot coffee in separatory funnel")[0],
-      }, {
-        ingredients: [
-            this.availableProducts.filter(element => element.name === "dichloromethane")[0],
-            this.availableProducts.filter(element => element.name === "in separatory funnel")[0],
-        ],
-        result: this.availableProducts.filter(element => element.name === "dichloromethane in separatory funnel")[0],
-      },{
-        ingredients: [
-            this.availableProducts.filter(element => element.name === "hot coffee in separatory funnel")[0],
-            this.availableProducts.filter(element => element.name === "dichloromethane in separatory funnel")[0],
-        ],
-        result: this.availableProducts.filter(element => element.name === "hot coffee and dichloromethane mixture")[0],
-      }, {
-          ingredients: [
-              this.availableProducts.filter(element => element.name === "hot coffee and dichloromethane mixture")[0],
-              this.availableProducts.filter(element => element.name === "filter out dichloromethane")[0],
-          ],
-          result: this.availableProducts.filter(element => element.name === "dichloromethane and caffeine mixture")[0],
-      }, {
-        ingredients: [
-            this.availableProducts.filter(element => element.name === "filter separatory funnel")[0],
-            this.availableProducts.filter(element => element.name === "dichloromethane")[0],
-        ],
-        result: this.availableProducts.filter(element => element.name === "filter out dichloromethane")[0],
-    }, {
-      ingredients: [
-          this.availableProducts.filter(element => element.name === "dichloromethane and caffeine mixture")[0],
-          this.availableProducts.filter(element => element.name === "magnesium sulfate")[0],
-      ],
-      result: this.availableProducts.filter(element => element.name === "caffeine residue!")[0],
-  }]
+  ngOnInit() {
+    // getting materials from database (calling getMaterials function)
+    console.log('hi')
+    this.materialService.getMaterials().subscribe(materials => {
+      this.materials = materials;
+      console.log(this.materials);
+      this.combinationService.getCombos().subscribe(combos => {
+        this.combinations = combos;
+        console.log(this.combinations);
+        this.combinations = this.combinations.map(combination => {
+          let newCombination = combination;
+          newCombination.result = materials.find(material => material.id == combination.result)
+          newCombination.ingredients = combination.ingredients.map(materialId => materials.find(m => m.id === materialId))
+
+          return newCombination;
+        })
+
+      })
+          // setting our materials to the materials in the database
+          // I wonder if there is a way to sort these materials in starting materials and so on based on properties of theirs. Maybe, according to the 3rd video of firebase database, I'll watch it.
+      })
     }
+    defineMaterial(event, material: Material) {
+      this.defineState = true;
+      this.materialToDefine = material;
+    }
+    clearState() {
+      this.defineState = false;
+      this.materialToDefine = null;
+    }   
     openSubmitPage() {
       this.navCtrl.push(SubmitPage);
     }
-    findAvailableProduct(myResult: string) {
-      this.availableProducts.forEach(element => {
+    findMaterial(myResult: string) {
+      this.materials.forEach(element => {
         if (element.name === myResult) {
           element.isFound = true;
+          console.log("and it has worked");
         }
       });
     }
-
     checkCombo() { // checks if elements form combo
-      var avagred: Product;
 
       if(this.Reaction_Components1.length >= 2) {
       this.combinations.forEach(combo => {
+        console.log(combo.ingredients[0].name);
         if (((this.Reaction_Components1[0].name === combo.ingredients[0].name) || (this.Reaction_Components1[0].name === combo.ingredients[1].name)) && ((this.Reaction_Components1[1].name === combo.ingredients[0].name) || (this.Reaction_Components1[1].name === combo.ingredients[1].name))) {
-          this.findAvailableProduct(combo.result.name);
-          console.log("findAvailableProduct has been called");
-          if (combo.result.isFinalProduct === true) {
+          this.findMaterial(combo.result.name);
+          console.log("findMaterial has been called");
+          if (combo.result.isFinalMaterial === true) {
             this.completionMessage();
           }
         }
       })
     }
   }
-    checkIfAdding() {
-      this.availableProducts.forEach(availableProduct => {
-        if (availableProduct.isFound === true) {
-          console.log(availableProduct.name);
-        }
-      });
-    }
     clearComponents() {
       this.Reaction_Components1 = [];
     }
@@ -166,27 +144,24 @@ import { Material } from '../../app/models/Material'
       return (dragData: any) => this.Reaction_Components1.length <= 1;
   }
     addToReactionComponents1($event: any) {
-      let newMaterial: Product = $event.dragData;
-      for (let indx in this.Reaction_Components1) {
-          let product: Product = this.Reaction_Components1[indx];
-          if (product.name === newMaterial.name) {
-              product.quantity++;
-              return;
+      let newMaterial: Material = $event.dragData;
+        for (let indx in this.Reaction_Components1) {
+            let myMaterial: Material = this.Reaction_Components1[indx];
+            if (myMaterial.name === newMaterial.name) {
+                return;
+            }
           }
-      }
-      this.Reaction_Components1.push(new Product(newMaterial.quantity, newMaterial.coefficient, newMaterial.isStartingMaterial, newMaterial.isFinalMaterial, newMaterial.name, newMaterial.isFound, newMaterial.definition, newMaterial.img));
-      this.Reaction_Components1.sort((a: Product, b: Product) => {
+        
+      this.Reaction_Components1.push( {
+        name: newMaterial.name,
+        definition: newMaterial.definition,
+        isStartingMaterial: newMaterial.isStartingMaterial,
+        isFinalMaterial: newMaterial.isFinalMaterial,
+        img: newMaterial.img,   
+      })
+          this.Reaction_Components1.sort((a: Material, b: Material) => {
           return a.name.localeCompare(b.name);
       });
-    }
-
-    totalCost(): number {
-      let cost: number = 0;
-      for (let indx in this.Reaction_Components1) {
-          let product: Product = this.Reaction_Components1[indx];
-          cost += (product.coefficient * product.quantity);
-      }
-      return cost;
     }
     showInfo() {
       this.toDos.forEach(toDo => {
@@ -198,18 +173,5 @@ import { Material } from '../../app/models/Material'
     }
     delete() {
       this.toDos.pop();
-    } /*
-    ngOnInit() {
-      // getting materials from database (calling getMaterials function)
-      this.materialService.getMaterials().subscribe(materials =>{
-        this.materials = materials;
-          // setting our materials to the materials in the database
-          // I wonder if there is a way to sort these materials in starting materials and so on based on properties of theirs. Maybe, according to the 3rd video of firebase database, I'll watch it.
-      })
-    } */
-  }
-  export class Product {
-    constructor(public quantity: number, public coefficient: number,public isStartingMaterial: boolean, public isFinalMaterial: boolean,  public name: string, public isFound: boolean, public definition: string, public img: string) {
-      this.name = name;
-    }
+    } //
   }

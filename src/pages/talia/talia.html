@@ -8,20 +8,30 @@
 </ion-header>
 <ion-content>
     <h1>Hello {{email}}</h1>
+    <div *ngFor="let combination of combinations">
+        <h5>{{combination.result}}</h5>
+    <!-- if ifFound isn't renewing, create function for this. -->
+    </div>
     <div class="row">
         <div class="col-sm-3">
-            <div class="panel panel-success">
+            <div dnd-droppable (onDropSuccess)="addToReactionComponents1($event);" class="panel panel-success">
                 <div class="panel-heading">Available products</div>
                 <div class="panel-body">
-                    <ng-container *ngFor="let material of materials">
-                            <ion-card *ngIf="material.isStartingMaterial" style="width: 170px; height: 170px; display: inline-block;" class="panel panel-default">
-                                <ion-label style="text-align: center">
-                                    <strong>{{material.name}}</strong>
-                                </ion-label>
-                                <ion-label style="text-align: center">{{material.definition}}</ion-label>
-                                <img style="padding: 5px; width: auto; height: 80px; padding: 10px; margin: auto" src= {{material.img}}>
-                            </ion-card>
-                    </ng-container>
+                    <div *ngFor="let material of materials" class="panel panel-default" dnd-draggable  [dragData]="material" [dropZones]="['demo1']">
+                        <ion-card *ngIf="material.isStartingMaterial || material.isFound === true" style="width: 170px; height: 170px; display: inline-block;" class="panel panel-default">
+                            <ion-label style="text-align: center">
+                                <strong>{{material.name}}</strong>
+                            </ion-label>
+                            <img style="padding: 5px; width: auto; height: 80px; padding: 10px; margin: auto" src= {{material.img}}>
+                            <a style="float: center" href="#" class="secondary-content">
+                                <ion-icon (click)="defineMaterial($event, material)" name="ios-information-circle-outline"></ion-icon>
+                            </a>
+                            <a href="#" class="secondary-content">
+                                <ion-icon *ngIf="defineState && materialToDefine.id == material.id" (click)="clearState()" name="md-contract"></ion-icon>
+                            </a>
+                            <p *ngIf="defineState && materialToDefine.id == material.id">{{material.definition}}</p>
+                        </ion-card>
+                    </div>
                 </div>
             </div>
         </div>
@@ -30,8 +40,7 @@
         <div class="col-sm-6">
             <div dnd-droppable [allowDrop]="allowDropFunction()" (onDropSuccess)="addToReactionComponents1($event);" [dropZones]="['demo1']"
                 class="panel panel-info">
-                <div class="panel-heading">Reaction_Components1
-                    <br>(to pay: \{{totalCost()}}) moles</div>
+                <div class="panel-heading">Reaction_Components1</div>
                 <div class="reacComp1">
                     <ion-card [hidden]="Reaction_Components1.length > 0" style="vertical-align: center; width: 125px; height: 125px; display: inline-block;background-color: rgb(197, 197, 197)">
                         <ion-label style="text-align: center;">Drag Here!</ion-label>
@@ -42,8 +51,6 @@
                     <ion-card style="width: 125px; height: 125px; display: inline-block;" *ngFor="let product of Reaction_Components1" class="panel panel-default">
                         <div style="text-align: center" class="panel-body">
                             {{product.name}}
-                            <br>(ordered: {{product.quantity}}
-                            <br>cost: \{{product.coefficient * product.quantity}} moles )
                         </div>
                         <img style="width: auto; height: 50px; padding: 10px; margin-left: auto; margin-right: auto" src={{product.img}}>
                     </ion-card>

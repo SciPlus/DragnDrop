@@ -17,11 +17,11 @@ import { IndivLabPage } from '../pages/indivlab/indivlab';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {DndModule} from 'ng2-dnd';
-import { FormsModule } from '@angular/forms'
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { MaterialService } from '../services/material.service';
+import { CombinationService} from '../services/combination.service'
 
 const firebaseAuth = {
   apiKey: "AIzaSyDj470IyOp2EyQi0sg-uu5kgobt2u8_t00",
@@ -50,7 +50,6 @@ const firebaseAuth = {
     AngularFireModule.initializeApp(firebaseAuth),
     AngularFireAuthModule,
     AngularFirestoreModule,
-    FormsModule
     
   ],
   bootstrap: [IonicApp],
@@ -69,7 +68,8 @@ const firebaseAuth = {
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    MaterialService
+    MaterialService,
+    CombinationService
   ]
 })
 export class AppModule {}

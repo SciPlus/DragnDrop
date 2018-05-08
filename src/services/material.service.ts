@@ -23,7 +23,7 @@ export class MaterialService {
         return this.materials;
     }
     addMaterial(material: Material) {
-        this.materialsCollection.add(material);
+        return this.materialsCollection.add(material);
     }
     deleteMaterial(material: Material) {
         this.materialDoc = this.afs.doc(`materials/${material.id}`);
