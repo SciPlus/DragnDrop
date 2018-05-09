@@ -12,7 +12,6 @@ import { Combo } from '../../app/models/combo';
 })
 export class ListPage implements OnInit{
   selectedItem: any;
-  newMaterial: Material;
   createdProducts: Array<Material>;
   materials: Material[];
   material: Material = {
@@ -30,23 +29,15 @@ export class ListPage implements OnInit{
   constructor(private comboService: CombinationService, private materialService: MaterialService, public navCtrl: NavController, public navParams: NavParams) {
     // If we navigated to this page, we will have an item available as a nav param
     this.selectedItem = navParams.get('item');
-  }
+    }
     // Let's populate this page with some filler content for funzies
-
-  addToProducts() {
-    this.createdProducts.push( {
-      name: this.newMaterial.name,
-      definition: this.newMaterial.definition, 
-      isStartingMaterial:  this.newMaterial.isFinalMaterial,
-      isFinalMaterial: this.newMaterial.isFinalMaterial,
-      img: this.newMaterial.img,
-      isFound: this.newMaterial.isFound
-    })
-  }
   ngOnInit() {
     // getting materials from database (calling getMaterials function)
+    console.log(this.materials);
     this.materialService.getMaterials().subscribe(materials =>{
     this.materials = materials;
+    console.log(this.materials);
+
     this.comboService.getCombos().subscribe(combos => {
       this.combinations = combos;
     })
@@ -56,6 +47,7 @@ export class ListPage implements OnInit{
   }
   onSubmit() {
     if(!(this.material.isStartingMaterial && this.material.isFinalMaterial) && this.material.name != "" && this.material.definition != "" && this.material.img != "") {
+      console.log(this.material.isStartingMaterial);
       this.materialService.addMaterial(this.material);
       this.material.name = "";
       this.material.definition = "";

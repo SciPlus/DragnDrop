@@ -72,6 +72,7 @@
         </div>
       </div>
     </ng-container>
+  <!--
     <ion-item-divider color="primary">Other Materials</ion-item-divider>
     <ng-container *ngFor="let material of materials">
       <ion-card *ngIf="!material.isStartingMaterial && !material.isFinalMaterial" style="width: 170px; height: 170px; display: inline-block;"
@@ -96,7 +97,6 @@
           <ion-item>
             <ion-input type="text" [(ngModel)]="material.definition"></ion-input>
           </ion-item>
-          <!-- center these buttons later-->
           <button ion-button round outline (click)="deleteMaterial($event, material)" style="border-color: white; color: white;background-color: rgb(128, 0, 0)">Delete Item</button>
           <button ion-button round outline (click)="updateMaterial(material)" type="submit" style="border-color: white; color: white; background-color: #0c265e">Update Item</button>
         </div>
@@ -130,5 +130,6 @@
         </div>
       </div>
     </ng-container>
+    -->
   </ion-list>
 </ion-content>

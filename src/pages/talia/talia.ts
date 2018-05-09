@@ -103,7 +103,6 @@ import { Combo } from '../../app/models/combo';
       this.materials.forEach(element => {
         if (element.name === myResult) {
           element.isFound = true;
-          console.log("and it has worked");
         }
       });
     }
@@ -111,10 +110,8 @@ import { Combo } from '../../app/models/combo';
 
       if(this.Reaction_Components1.length >= 2) {
       this.combinations.forEach(combo => {
-        console.log(combo.ingredients[0].name);
         if (((this.Reaction_Components1[0].name === combo.ingredients[0].name) || (this.Reaction_Components1[0].name === combo.ingredients[1].name)) && ((this.Reaction_Components1[1].name === combo.ingredients[0].name) || (this.Reaction_Components1[1].name === combo.ingredients[1].name))) {
           this.findMaterial(combo.result.name);
-          console.log("findMaterial has been called");
           if (combo.result.isFinalMaterial === true) {
             this.completionMessage();
           }
