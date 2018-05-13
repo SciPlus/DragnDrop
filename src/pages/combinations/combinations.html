@@ -3,25 +3,33 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>Determine Combinations</ion-title>
+        <ion-title>2/2</ion-title>
     </ion-navbar>
 </ion-header>
 <ion-content>
-    <h1 style="text-align: center">Step 2: Create Combinations</h1>
     <ion-grid>
         <ion-row>
+            <ion-col col-auto style="width: 80%">
+                <h1 style="text-align: center">Step 2: Create Combinations</h1>
+            </ion-col>
+            <ion-col col-auto style="width: 20%">
+                <button style="width: 50%" id="nextButton" (click)="goToCombinationsPage()">Next</button>
+            </ion-col>
+        </ion-row>
+        <ion-row>
             <ion-col col-auto>
-                <div style="width: 90%">
-                    <p style="margin: 20px auto;">
+                <div style="width: 80%">
+                    <p style="font-size: 14px; margin: 20px auto;">
                         <strong>First: </strong>
                         <i> Search and Drag Materials from the List Below to the combination equation as either a reactant or
-                            product</i>
+                            product
+                        </i>
                     </p>
-                    <p style="margin: 20px auto;">
+                    <p style="font-size: 14px; margin: 20px auto;">
                         <strong>Then: </strong>
                         <i> Click "Create Combination" to add the combination to the lab</i>
                     </p>
-                    <p style="margin: 20px auto;">
+                    <p style="font-size: 14px; margin: 20px auto;">
                         <strong>Now: </strong>
                         <i> Click "Refresh" and create subsequent combinations until you are satisfied</i>
                     </p>
@@ -70,13 +78,13 @@
                         <div style="text-align: center" class="panel-body">
                             {{postComponent.name}}
                         </div>
-                        <img id="materialImg" src={ {postComponent.img}}>
+                        <img id="materialImg" src= {{postComponent.img}}>
                     </ion-card>
                 </div>
             </ion-col>
             <ion-col col-auto style="width: 50%">
-                <button style="margin: 20px auto; vertical-align: center" id="combineButton" (click)="createCombination(preComponents, postComponents)">Create Combination</button>
-                <button style="margin: 20px auto;" id="refreshButton" (click)="refresh()">Refresh</button>
+                <button style="margin: 20px auto; width: 80%; vertical-align: center; margin-left: 10%; margin-right: 10;" id="combineButton" (click)="createCombination(preComponents, postComponents)">Create Combination</button>
+                <button style="margin: 20px auto; width: 80%; vertical-align: center; margin-left: 10%; margin-right: 10;" id="refreshButton" (click)="refresh()">Refresh</button>
             </ion-col>
         </ion-row>
         <ion-row>
@@ -86,31 +94,35 @@
         </ion-row>
         <ion-row>
             <ion-col style="width: 50%">
-                    <h4 style="text-align: center"><u>Starting Materials</u></h4>
+                <h4 style="text-align: center">
+                    <u>Starting Materials</u>
+                </h4>
 
                 <ion-list>
-                    <ng-container *ngFor="let material of materials" >
-                    <ion-item class="listMaterials" dnd-draggable *ngIf="material.isStartingMaterial" [dragData]="material" [dropZones]="['preComps', 'postComps']">
-                        <ion-label style="font-size: 10px;">{{material.name}}</ion-label>
-                        <ion-label>
-                            <img style="float: right; width: auto; height: 30px;" src= {{material.img}}>
-                        </ion-label>
-                    </ion-item>
+                    <ng-container *ngFor="let material of materials">
+                        <ion-item class="listMaterials" dnd-draggable *ngIf="material.isStartingMaterial" [dragData]="material" [dropZones]="['preComps', 'postComps']">
+                            <ion-label style="font-size: 10px;">{{material.name}}</ion-label>
+                            <ion-label>
+                                <img style="float: right; width: auto; height: 30px;" src= {{material.img}}>
+                            </ion-label>
+                        </ion-item>
                     </ng-container>
                 </ion-list>
             </ion-col>
             <ion-col style="width: 50%">
-                    <h4 style="text-align: center"><u>Intermediate and Final Materials</u></h4>
-                    <ion-list>
-                            <ng-container *ngFor="let material of materials" >
-                            <ion-item class="listMaterials" dnd-draggable *ngIf="!material.isStartingMaterial" [dragData]="material" [dropZones]="['preComps', 'postComps']">
-                                <ion-label style="font-size: 10px;">{{material.name}}</ion-label>
-                                <ion-label>
-                                    <img style="float: right; width: auto; height: 30px;" src= {{material.img}}>
-                                </ion-label>
-                            </ion-item>
-                            </ng-container>
-                    </ion-list>
+                <h4 style="text-align: center">
+                    <u>Intermediate and Final Materials</u>
+                </h4>
+                <ion-list>
+                    <ng-container *ngFor="let material of materials">
+                        <ion-item class="listMaterials" dnd-draggable *ngIf="!material.isStartingMaterial" [dragData]="material" [dropZones]="['preComps', 'postComps']">
+                            <ion-label style="font-size: 10px;">{{material.name}}</ion-label>
+                            <ion-label>
+                                <img style="float: right; width: auto; height: 30px;" src = {{material.img}}>
+                            </ion-label>
+                        </ion-item>
+                    </ng-container>
+                </ion-list>
             </ion-col>
         </ion-row>
     </ion-grid>

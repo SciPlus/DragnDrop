@@ -3,17 +3,38 @@ page-list {
     display:block;
     float:center;
     width:50%;
-    border-color: color($colors, danger);
+    border: solid 2px;
+    background: white;;
+    border-color: #ff5c11;
+    color: #ff5c11;
     margin: 20px auto;
     border-radius: 12px;
-    color: color($colors, secondary);
-    padding: 20px;
+    padding: 10px;
     font-size: 16px;
     cursor: pointer;
     }
+    #deleteButton {
+        background: white;
+    }
     #input-field {
         margin: 5px;
-        border: solid 2px;
-        border-color: color($colors, primary);
+        background-color: #fc6d2c;
+        border: solid 2px;    
+    }
+    #secondaryItem {
+        background: color($colors, danger);
+        color: white;
+    }
+    #materialCard {
+        width: 115px; 
+        height: 115px;
+        display: inline-block;
+    }
+    #img {
+        width: auto; 
+        height: 80px; 
+        padding: 10px; 
+        margin-left: auto; 
+        margin-right: auto;
     }
 }

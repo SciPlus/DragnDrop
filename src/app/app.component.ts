@@ -21,7 +21,7 @@ export class MyApp {
   
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = CombinationsPage;
+  rootPage: any = HomePage;
 
   pages: Array<{title: string, component: any}>;
 

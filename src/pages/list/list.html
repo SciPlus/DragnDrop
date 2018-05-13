@@ -3,133 +3,103 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>List</ion-title>
+    <ion-title>1/2</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content>
-  <h1>Step 1: Create Materials</h1>
-  <ion-card>
-    <h2 style="text-align: center; margin: 15px">Add Material</h2>
-    <div class="row">
-      <ion-item>
-        <ion-label>Add Name</ion-label>
-        <ion-input id="input-field" type="text" [(ngModel)]="material.name"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Definition</ion-label>
-        <ion-input id="input-field" type="text" [(ngModel)]="material.definition"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Add Img</ion-label>
-        <ion-input id="input-field" type="text" [(ngModel)]="material.img"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Is it a starting material</ion-label>
-        <ion-select id="input-field" [(ngModel)]="material.isStartingMaterial">
-          <ion-option value="true">Yes</ion-option>
-          <ion-option value="false">No</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label>Is it a final material</ion-label>
-        <ion-select id="input-field" [(ngModel)]="material.isFinalMaterial">
-          <ion-option value="true">Yes</ion-option>
-          <ion-option value="false">No</ion-option>
-        </ion-select>
-      </ion-item>
-    </div>
-    <button ion-button round outline (click)="onSubmit()" id="addButton">Submit</button>
-  </ion-card>
-  <ng-template #noItems>
-    <hr>
-    <h5>There are no materials</h5>
-  </ng-template>
-  <ion-list>
-    <ion-item-divider color="primary">Starting Materials</ion-item-divider>
-    <ng-container *ngFor="let material of materials">
-      <ion-card *ngIf="material.isStartingMaterial" style="width: 170px; height: 170px; display: inline-block;" class="panel panel-default">
-        <ion-label style="text-align: center">
-          <strong>{{material.id}}</strong>
-        </ion-label>
-        <ion-label style="text-align: center">{{material.definition}}</ion-label>
-        <img style="padding: 5px; width: auto; height: 80px; padding: 10px; margin: auto" src= {{material.img}}>
-        <a href="#" class="secondary-content">
-          <ion-icon (click)="editMaterial($event, material)" name="md-create"></ion-icon>
-        </a>
-        <a href="#" class="secondary-content">
-          <ion-icon *ngIf="editState && materialToEdit.id == material.id" (click)="clearState()" name="md-contract"></ion-icon>
-        </a>
-        </ion-card>
-      <div *ngIf="editState && materialToEdit.id == material.id && material.isStartingMaterial">
-        <div class="row">
-          <ion-item>
-            <ion-input type="text" [(ngModel)]="material.name"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-input type="text" [(ngModel)]="material.definition"></ion-input>
-          </ion-item>
-          <button ion-button round outline (click)="deleteMaterial($event, material)" style="border-color: white; color: white;background-color: rgb(128, 0, 0)">Delete Item</button>
-          <button ion-button round outline (click)="updateMaterial(material)" type="submit" style="border-color: white; color: white; background-color: orange">Update Item</button>
-        </div>
-      </div>
-    </ng-container>
-        <ion-item-divider color="primary">Other Materials</ion-item-divider>
-    <ng-container *ngFor="let material of materials">
-      <ion-card *ngIf="!material.isStartingMaterial && !material.isFinalMaterial" style="width: 170px; height: 170px; display: inline-block;"
-        class="panel panel-default">
-        <ion-label style="text-align: center">
-          <strong>{{material.id}}</strong>
-        </ion-label>
-        <ion-label style="text-align: center">{{material.definition}}</ion-label>
-        <img style="padding: 5px; width: auto; height: 80px; padding: 10px; margin: auto" src= {{material.img}}>
-        <a href="#" class="secondary-content">
-          <ion-icon (click)="editMaterial($event, material)" name="md-create"></ion-icon>
-        </a>
-        <a href="#" class="secondary-content">
-          <ion-icon *ngIf="editState && materialToEdit.id == material.id" (click)="clearState()" name="md-contract"></ion-icon>
-        </a>
-      </ion-card>
-      <div *ngIf="editState && materialToEdit.id == material.id && !(material.isStartingMaterial && material.isFinalMaterial)">
-        <div class="row">
-          <ion-item>
-            <ion-input type="text" [(ngModel)]="material.name"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-input type="text" [(ngModel)]="material.definition"></ion-input>
-          </ion-item>
-          <button ion-button round outline (click)="deleteMaterial($event, material)" style="border-color: white; color: white;background-color: rgb(128, 0, 0)">Delete Item</button>
-          <button ion-button round outline (click)="updateMaterial(material)" type="submit" style="border-color: white; color: white; background-color: #0c265e">Update Item</button>
-        </div>
-      </div>
-    </ng-container>
-    <ion-item-divider color="primary">Other Materials</ion-item-divider>
-    <ng-container *ngFor="let material of materials">
-      <ion-card *ngIf="material.isFinalMaterial" style="width: 170px; height: 170px; display: inline-block;" class="panel panel-default">
-        <ion-label style="text-align: center">
-          <strong>{{material.id}}</strong>
-        </ion-label>
-        <ion-label style="text-align: center">{{material.definition}}</ion-label>
-        <img style="padding: 5px; width: auto; height: 80px; padding: 10px; margin: auto" src= {{material.img}}>
-        <a href="#" class="secondary-content">
-          <ion-icon (click)="editMaterial($event, material)" name="md-create"></ion-icon>
-        </a>
-        <a href="#" class="secondary-content">
-          <ion-icon *ngIf="editState && materialToEdit.id == material.id" (click)="clearState()" name="md-contract"></ion-icon>
-        </a>
-      </ion-card>
-      <div *ngIf="editState && materialToEdit.id == material.id && material.isFinalMaterial">
-        <div class="row">
-          <ion-item>
-            <ion-input type="text" [(ngModel)]="material.name"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-input type="text" [(ngModel)]="material.definition"></ion-input>
-          </ion-item>
-          <button ion-button round outline (click)="deleteMaterial($event, material)" style="border-color: white; color: white;background-color: rgb(128, 0, 0)">Delete Item</button>
-          <button ion-button round outline (click)="updateMaterial(material)" type="submit" style="border-color: white; color: white; background-color: orange">Update Item</button>
-        </div>
-      </div>
-    </ng-container>
-  </ion-list>
-  <button id="combinationsButton" (click)="goToCombinationsPage()">I'm Done: Build Combinations</button>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-auto style="width: 80%">
+          <h1>Step 1: Create Materials</h1>
+      </ion-col>
+      <ion-col col-auto style="width: 20%">
+          <button id="combinationsButton" (click)="goToCombinationsPage()">Next</button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <!-- ask Kmo how to aline text box -->
+      <ion-col col-auto style="width: 70%">
+          <ion-card id="secondaryItem">
+              <h2 style="text-align: center; margin: 15px; color:white">Add Material</h2>
+                <ion-item id="secondaryItem">
+                  <ion-label style="color: white">Add Name</ion-label>
+                  <ion-input id="input-field" type="text" [(ngModel)]="material.name"></ion-input>
+                </ion-item>
+                <ion-item id="secondaryItem">
+                  <ion-label style="color: white">Definition</ion-label>
+                  <ion-input id="input-field" type="text" [(ngModel)]="material.definition"></ion-input>
+                </ion-item>
+                <ion-item id="secondaryItem">
+                  <ion-label style="color: white">Add Image</ion-label>
+                  <ion-input id="input-field" type="text" [(ngModel)]="material.img"></ion-input>
+                </ion-item>
+                <ion-row>
+                    <ion-item style="width: 50%"id="secondaryItem">
+                        <ion-label style="color: white">Starting Material:</ion-label>
+                        <ion-toggle [(ngModel)]="material.isStartingMaterial"></ion-toggle>
+                  </ion-item>
+                  <ion-item style="width: 50%"id="secondaryItem">
+                      <ion-label style="color: white">Final Material:</ion-label>
+                      <ion-toggle [(ngModel)]="material.isFinalMaterial"></ion-toggle>
+                    </ion-item>
+                </ion-row>
+              <button ion-button round outline (click)="onSubmit()" id="addButton">Submit</button>
+            </ion-card>
+      </ion-col>
+      <ion-col col-auto style="width: 30%">
+          <div style="width: 90%">
+              <p style="margin: 30px auto; font-size: 18px;">
+                  <strong>To-Do: </strong>
+                  <i> Complete the Add Material form to create all the materials for your lab.</i>
+              </p>
+              <p style="margin: 30px auto; font-size: 18px;">
+                  <strong>Distinction: </strong>
+                  <i>"Starting Materials" indicates the group of materials from which all other materials can be obtained through combination.</i>
+              </p>
+              <p style="margin: 30px auto; font-size: 18px;">
+                  <strong>Distinction: </strong>
+                  <i>The "Final Material" does not combine to form any new material. The goal of the lab is to obtain the <strong>final material.</strong></i>
+              </p>
+          </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+          <ion-item-divider color="primary">Starting Materials</ion-item-divider>
+          <ng-container *ngFor="let material of materials">
+              <ion-card *ngIf="material.isStartingMaterial"id="materialCard" style="margin: 20px auto" class="panel panel-default">
+                  <div style="text-align: center" class="panel-body">
+                      {{material.name}}
+                  </div>
+                  <img id="img" src= {{material.img}}>
+                  <button id="deleteButton" (click)="preDeleteMaterial($event, material)"><ion-icon name="ios-trash"></ion-icon></button>
+              </ion-card>
+          </ng-container>
+      </ion-col>
+      <ion-col>
+          <ion-item-divider color="primary">Intermediate Materials</ion-item-divider>
+          <ng-container *ngFor="let material of materials">
+              <ion-card *ngIf="!material.isStartingMaterial && !material.isFinalMaterial" id="materialCard" style="margin: 20px auto" class="panel panel-default">
+                  <div style="text-align: center" class="panel-body">
+                      {{material.name}}
+                  </div>
+                  <img id="img" src= {{material.img}}>
+                  <button id="deleteButton" (click)="preDeleteMaterial($event, material)"><ion-icon name="ios-trash"></ion-icon></button>
+              </ion-card>
+          </ng-container>
+      </ion-col>
+      <ion-col>
+          <ion-item-divider color="primary">Final Materials</ion-item-divider>
+          <ng-container *ngFor="let material of materials">
+              <ion-card *ngIf="material.isFinalMaterial" id="materialCard" style="margin: 20px auto" class="panel panel-default">
+                  <div style="text-align: center" class="panel-body">
+                      {{material.name}}
+                  </div>
+                  <img id="img" src= {{material.img}}>
+                  <button id="deleteButton" (click)="preDeleteMaterial($event, material)"><ion-icon name="ios-trash"></ion-icon></button>
+              </ion-card>
+          </ng-container>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

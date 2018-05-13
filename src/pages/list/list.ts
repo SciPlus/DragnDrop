@@ -6,6 +6,7 @@ import { Material } from '../../app/models/material';
 import { CombinationService } from '../../services/combination.service';
 import { Combo } from '../../app/models/combo';
 import { CombinationsPage } from '../combinations/combinations';
+import { ActionSheetController } from 'ionic-angular'
 
 @Component({
   selector: 'page-list',
@@ -34,7 +35,7 @@ export class ListPage implements OnInit{
   combinations: Combo[];
 
 
-  constructor(private comboService: CombinationService, private materialService: MaterialService, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public actionSheetCtrl: ActionSheetController, private comboService: CombinationService, private materialService: MaterialService, public navCtrl: NavController, public navParams: NavParams) {
     // If we navigated to this page, we will have an item available as a nav param
     }
     // Let's populate this page with some filler content for funzies
@@ -68,6 +69,30 @@ export class ListPage implements OnInit{
       this.material.img = "";
       this.material.isFinalMaterial = false;
       this.material.isStartingMaterial = false;
+    }
+  }
+  preDeleteMaterial($event, material) { {
+      let actionSheet = this.actionSheetCtrl.create({
+        title: 'Modify your material',
+        buttons: [
+          {
+            text: 'Delete',
+            role: 'destructive',
+            handler: () => {
+              this.deleteMaterial($event, material);
+            }
+          },
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+              console.log('Cancel clicked');
+            }
+          }
+        ]
+      });
+   
+      actionSheet.present();
     }
   }
   deleteMaterial(event, material: Material) {
