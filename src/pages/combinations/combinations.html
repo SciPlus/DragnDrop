@@ -3,19 +3,16 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>2/2</ion-title>
+        <ion-grid>
+            <ion-row>
+                <ion-title>Step 2: Create Materials</ion-title>
+                <button style="width: 15%; margin: auto auto;" id="nextButton" (click)="goToIndivLabPage()">Next</button>
+            </ion-row>
+        </ion-grid>
     </ion-navbar>
 </ion-header>
 <ion-content>
     <ion-grid>
-        <ion-row>
-            <ion-col col-auto style="width: 80%">
-                <h1 style="text-align: center">Step 2: Create Combinations</h1>
-            </ion-col>
-            <ion-col col-auto style="width: 20%">
-                <button style="width: 50%" id="nextButton" (click)="goToCombinationsPage()">Next</button>
-            </ion-col>
-        </ion-row>
         <ion-row>
             <ion-col col-auto>
                 <div style="width: 80%">
@@ -36,18 +33,7 @@
                 </div>
             </ion-col>
             <ion-col col-auto>
-                <p style="margin-top: 20px">
-                    <strong> 1: </strong>blash blashkdf aipej aposjd;fkja;woi epfiaojsd</p>
-                <p style="margin: 20px auto;">
-                    <strong> 2: </strong>blash blashkdf aipej aposjd;fkja;woi epfiaojsd</p>
-                <p style="margin: 20px auto;">
-                    <strong> 3: </strong>blash blashkdf aipej aposjd;fkja;woi epfiaojsd</p>
-                <p style="margin: 20px auto;">
-                    <strong> 4: </strong>blash blashkdf aipej aposjd;fkja;woi epfiaojsd</p>
-                <p style="margin: 20px auto;">
-                    <strong> 5: </strong>blash blashkdf aipej aposjd;fkja;woi epfiaojsd</p>
-                <!-- <p *ngFor="let combination of combinations"><strong> {{combinations.indexOf(combination)}}:</strong>
-                        {{combination.ingredients[0]}} + {{combination.ingredients[1]}} = {{combination.results[0]}}</p> -->
+                <p *ngFor="let combination of combinations">{{combination.ingredients[0].name}} + {{combination.ingredients[1].name}} =  {{combination.result.name}}</p>
             </ion-col>
         </ion-row>
         <ion-row>

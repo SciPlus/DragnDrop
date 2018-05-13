@@ -3,19 +3,16 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>1/2</ion-title>
+    <ion-grid>
+        <ion-row>
+            <ion-title>Step 1: Create Materials</ion-title>
+            <button style="width: 15%; margin: auto auto;" id="nextButton" (click)="goToCombinationsPage()">Next</button>
+        </ion-row>
+    </ion-grid>
   </ion-navbar>
 </ion-header>
 <ion-content>
   <ion-grid>
-    <ion-row>
-      <ion-col col-auto style="width: 80%">
-          <h1>Step 1: Create Materials</h1>
-      </ion-col>
-      <ion-col col-auto style="width: 20%">
-          <button id="combinationsButton" (click)="goToCombinationsPage()">Next</button>
-      </ion-col>
-    </ion-row>
     <ion-row>
       <!-- ask Kmo how to aline text box -->
       <ion-col col-auto style="width: 70%">
@@ -43,7 +40,7 @@
                       <ion-toggle [(ngModel)]="material.isFinalMaterial"></ion-toggle>
                     </ion-item>
                 </ion-row>
-              <button ion-button round outline (click)="onSubmit()" id="addButton">Submit</button>
+              <button ion-button round outline (click)="onSubmit()" id="submitButton">Submit</button>
             </ion-card>
       </ion-col>
       <ion-col col-auto style="width: 30%">

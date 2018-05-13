@@ -9,6 +9,7 @@ import { CombinationService } from '../../services/combination.service';
 import { Combo } from '../../app/models/combo';
 import { Subject } from 'rxjs/Subject'
 import { CompileTemplateMetadata } from '@angular/compiler';
+import { IndivLabPage } from '../indivlab/indivlab';
 
 @Component({
   selector: 'page-combinations',
@@ -55,12 +56,21 @@ export class CombinationsPage implements OnInit{
   // then start saving labs, sharing labs, and creating a search page
   // then work on the sign out page/grading system.
   createCombination(preComponents, postComponents) {
-    this.newCombo.ingredients = [preComponents[0].id, preComponents[1].id]
-    this.newCombo.result = postComponents[0].id;
+    this.newCombo.ingredients = [{
+      id: preComponents[0].id,
+      name: preComponents[0].name
+    }, {
+      id: preComponents[1].id,
+      name: preComponents[1].name
+    }]
+    this.newCombo.result = {
+      id: postComponents[0].id,
+      name: postComponents[0].name
+    };
     this.comboService.addCombo(this.newCombo);
     console.log(this.combinations);
     this.newCombo = {};
-    // add new combinaiton to combos w/ ingredietns - precomp and result: post-comp ... push to databse.
+    // add new combination to combos w/ ingredietns - precomp and result: post-comp ... push to databse.
   }
   refresh() {
     this.preComponents = [];
@@ -112,6 +122,9 @@ export class CombinationsPage implements OnInit{
   updateCombinations(combo: Combo) {
     this.materialService.updateMaterial(combo);
     this.clearState();
+  }
+  goToIndivLabPage() {
+    this.navCtrl.push(IndivLabPage);
   }
 }
 
