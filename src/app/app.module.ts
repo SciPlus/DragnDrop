@@ -11,7 +11,7 @@ import { SigninPage} from '../pages/signin/signin';
 import { RegisterPage} from '../pages/register/register';
 import { ProfilePage} from '../pages/profile/profile';
 import { IndivLabPage } from '../pages/indivlab/indivlab';
-
+import { CombinationsPage} from '../pages/combinations/combinations';
 
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -21,7 +21,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { MaterialService } from '../services/material.service';
-import { CombinationService} from '../services/combination.service'
+import { CombinationService} from '../services/combination.service';
 
 const firebaseAuth = {
   apiKey: "AIzaSyDj470IyOp2EyQi0sg-uu5kgobt2u8_t00",
@@ -41,7 +41,8 @@ const firebaseAuth = {
     SigninPage,
     RegisterPage,
     ProfilePage,
-    IndivLabPage
+    IndivLabPage,
+    CombinationsPage
   ],
   imports: [
     BrowserModule,
@@ -62,7 +63,8 @@ const firebaseAuth = {
     SigninPage,
     RegisterPage,
     ProfilePage,
-    IndivLabPage
+    IndivLabPage,
+    CombinationsPage
   ],
   providers: [
     StatusBar,

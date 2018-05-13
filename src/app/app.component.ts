@@ -6,6 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { TaliaPage } from '../pages/talia/talia';
+import { CombinationsPage } from '../pages/combinations/combinations';
 import { SubmitPage } from '../pages/submit/submit';
 import { ProfilePage } from '../pages/profile/profile';
 import { SigninPage } from '../pages/signin/signin';
@@ -20,7 +21,7 @@ export class MyApp {
   
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = HomePage;
+  rootPage: any = CombinationsPage;
 
   pages: Array<{title: string, component: any}>;
 
@@ -33,7 +34,8 @@ export class MyApp {
       { title: 'Talia', component: TaliaPage},
       { title: 'Submit', component: SubmitPage },
       { title: 'Profile', component: ProfilePage },
-      { title: 'IndivLab', component: IndivLabPage }
+      { title: 'IndivLab', component: IndivLabPage },
+      { title: 'Combinations', component: CombinationsPage }
     ];
 
   }

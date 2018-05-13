@@ -8,6 +8,7 @@ import { ListPage } from '../list/list';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { HomePage } from '../home/home';
 import { IndivLabPage } from '../indivlab/indivlab';
+import { CombinationsPage} from '../combinations/combinations'
 
 @Component({
   selector: 'page-profile',

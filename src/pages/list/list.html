@@ -7,6 +7,7 @@
   </ion-navbar>
 </ion-header>
 <ion-content>
+  <h1>Step 1: Create Materials</h1>
   <ion-card>
     <h2 style="text-align: center; margin: 15px">Add Material</h2>
     <div class="row">
@@ -37,7 +38,7 @@
         </ion-select>
       </ion-item>
     </div>
-    <button ion-button round outline (click)="onSubmit()" type="submit">Submit</button>
+    <button ion-button round outline (click)="onSubmit()" id="addButton">Submit</button>
   </ion-card>
   <ng-template #noItems>
     <hr>
@@ -51,14 +52,14 @@
           <strong>{{material.id}}</strong>
         </ion-label>
         <ion-label style="text-align: center">{{material.definition}}</ion-label>
-        <img style="padding: 5px; width: auto; height: 80px; padding: 10px; margin: auto" src={ {material.img}}>
+        <img style="padding: 5px; width: auto; height: 80px; padding: 10px; margin: auto" src= {{material.img}}>
         <a href="#" class="secondary-content">
           <ion-icon (click)="editMaterial($event, material)" name="md-create"></ion-icon>
         </a>
         <a href="#" class="secondary-content">
           <ion-icon *ngIf="editState && materialToEdit.id == material.id" (click)="clearState()" name="md-contract"></ion-icon>
         </a>
-      </ion-card>
+        </ion-card>
       <div *ngIf="editState && materialToEdit.id == material.id && material.isStartingMaterial">
         <div class="row">
           <ion-item>
@@ -72,8 +73,7 @@
         </div>
       </div>
     </ng-container>
-  <!--
-    <ion-item-divider color="primary">Other Materials</ion-item-divider>
+        <ion-item-divider color="primary">Other Materials</ion-item-divider>
     <ng-container *ngFor="let material of materials">
       <ion-card *ngIf="!material.isStartingMaterial && !material.isFinalMaterial" style="width: 170px; height: 170px; display: inline-block;"
         class="panel panel-default">
@@ -81,7 +81,7 @@
           <strong>{{material.id}}</strong>
         </ion-label>
         <ion-label style="text-align: center">{{material.definition}}</ion-label>
-        <img style="padding: 5px; width: auto; height: 80px; padding: 10px; margin: auto" src={ {material.img}}>
+        <img style="padding: 5px; width: auto; height: 80px; padding: 10px; margin: auto" src= {{material.img}}>
         <a href="#" class="secondary-content">
           <ion-icon (click)="editMaterial($event, material)" name="md-create"></ion-icon>
         </a>
@@ -109,7 +109,7 @@
           <strong>{{material.id}}</strong>
         </ion-label>
         <ion-label style="text-align: center">{{material.definition}}</ion-label>
-        <img style="padding: 5px; width: auto; height: 80px; padding: 10px; margin: auto" src={ {material.img}}>
+        <img style="padding: 5px; width: auto; height: 80px; padding: 10px; margin: auto" src= {{material.img}}>
         <a href="#" class="secondary-content">
           <ion-icon (click)="editMaterial($event, material)" name="md-create"></ion-icon>
         </a>
@@ -130,6 +130,6 @@
         </div>
       </div>
     </ng-container>
-    -->
   </ion-list>
+  <button id="combinationsButton" (click)="goToCombinationsPage()">I'm Done: Build Combinations</button>
 </ion-content>

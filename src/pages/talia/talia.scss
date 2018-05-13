@@ -69,8 +69,11 @@ page-talia {
     font-size: 16px;
     cursor: pointer;
 }
-.reacComp1 {
-    display: block;
+.reacComp1, .avaComp {
+    display: inline-block;
+    &:hover {
+         background-color:color($colors, secondary)
+    }
 }
 .submitButton {
     background-color: rgba(252, 97, 7, 0.984);

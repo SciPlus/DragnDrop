@@ -5,12 +5,13 @@ import { Observable } from 'rxjs/Observable'
 @Injectable()
 export class CombinationService {
     combosCollection: AngularFirestoreCollection<Combo>
-    combos: Observable<Combo[]>;
     comboDoc: AngularFirestoreDocument<Combo>;
+    existingCombinations: Combo[] = [];
     constructor(public afs: AngularFirestore) {
+        let combinations: Observable<Combo[]>;
         this.combosCollection = this.afs.collection('combinations', ref => ref.orderBy('result', 'asc'));
         // this.materials = this.afs.collection('materials').valueChanges();
-        this.combos = this.combosCollection.snapshotChanges().map(changes => {
+        combinations = this.combosCollection.snapshotChanges().map(changes => {
             // in addition the other properties of the materials, I am getting their auto-ids.
             return changes.map(action => {
                 const data = action.payload.doc.data() as Combo;
@@ -18,9 +19,13 @@ export class CombinationService {
                 return data;
             })
         });
+        combinations.subscribe(combos => {
+            this.existingCombinations = combos;
+            console.log(this.existingCombinations);
+        })
     }
     getCombos() {
-        return this.combos;
+        return this.existingCombinations;
     }
     addCombo(combo: Combo) {
         return this.combosCollection.add(combo);

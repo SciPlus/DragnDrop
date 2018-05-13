@@ -1,0 +1,42 @@
+page-combinations {
+    #combineButton, #refreshButton {
+        width: 80%;
+        display:block;
+        float:center;
+        margin-left: 10%;
+        margin-right: 10%;
+        border: solid 1px;
+        border-radius: 12px;
+        border-color: color($colors, secondary);
+        color: color($colors, secondary);
+        padding: 10px;
+        font-size: 12px;
+        cursor: pointer;
+    }
+    .draggableFields {
+        vertical-align: center; 
+        width: 115px; 
+        height: 115px; 
+        display: inline-block;
+        color: white;
+        background-color: color($colors, secondary);
+    }
+    #materialImg {
+        width: auto; 
+        height: 80px; 
+        padding: 10px; 
+        margin-left: auto; 
+        margin-right: auto;
+    }
+    #materialCard {
+        width: 115px; 
+        height: 115px;
+        display: inline-block;
+    }
+    .listMaterials {
+        background: rgba(73, 168, 231, 0.415);
+        border: solid 1px; 
+        border-color: color($colors, primary);
+        margin: 10px;
+    }
+}

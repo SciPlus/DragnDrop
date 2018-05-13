@@ -5,45 +5,49 @@ import { MaterialService } from '../../services/material.service';
 import { Material } from '../../app/models/material';
 import { CombinationService } from '../../services/combination.service';
 import { Combo } from '../../app/models/combo';
+import { CombinationsPage } from '../combinations/combinations';
 
 @Component({
   selector: 'page-list',
   templateUrl: 'list.html'
 })
 export class ListPage implements OnInit{
-  selectedItem: any;
   createdProducts: Array<Material>;
   materials: Material[];
   material: Material = {
     name: '',
     definition: '',
     isStartingMaterial: false,
-    isFinalMaterial: false
+    isFinalMaterial: false,
+    img: ''
 
   }
   editState: boolean = false;
-  materialToEdit: Material;
+  materialToEdit:Material = {
+    name: '',
+    definition: '',
+    isStartingMaterial: false,
+    isFinalMaterial: false,
+    img: ''
+
+  }
   combinations: Combo[];
 
 
   constructor(private comboService: CombinationService, private materialService: MaterialService, public navCtrl: NavController, public navParams: NavParams) {
     // If we navigated to this page, we will have an item available as a nav param
-    this.selectedItem = navParams.get('item');
     }
     // Let's populate this page with some filler content for funzies
+
   ngOnInit() {
     // getting materials from database (calling getMaterials function)
-    console.log(this.materials);
-    this.materialService.getMaterials().subscribe(materials =>{
-    this.materials = materials;
-    console.log(this.materials);
-
-    this.comboService.getCombos().subscribe(combos => {
-      this.combinations = combos;
-    })
+    this.materials = this.materialService.getMaterials();
+    this.combinations = this.comboService.getCombos();
         // setting our materials to the materials in the database
         // I wonder if there is a way to sort these materials in starting materials and so on based on properties of theirs. Maybe, according to the 3rd video of firebase database, I'll watch it.
-    });
+  }
+  goToCombinationsPage() {
+    this.navCtrl.push(CombinationsPage);
   }
   onSubmit() {
     if(!(this.material.isStartingMaterial && this.material.isFinalMaterial) && this.material.name != "" && this.material.definition != "" && this.material.img != "") {
@@ -55,8 +59,9 @@ export class ListPage implements OnInit{
       this.material.isFinalMaterial = false;
       this.material.isStartingMaterial = false;
       this.material.isFound = null;
-    } 
+    }
     else {
+      // ~~ERROR~~ need to change if statement, doesn't work if the firnla one is put in before the first one. As they type into fields, the fields should be updating. (two way data binding)
       alert('Field input is incorrect. Remember: a material cannot be both a final and starting material');
       this.material.name = "";
       this.material.definition = "";

@@ -4,13 +4,14 @@ import { Material } from '../app/models/material';
 import { Observable } from 'rxjs/Observable'
 @Injectable()
 export class MaterialService {
-    materialsCollection: AngularFirestoreCollection<Material>
-    materials: Observable<Material[]>;
+    materialsCollection: AngularFirestoreCollection<Material>    
     materialDoc: AngularFirestoreDocument<Material>;
+    existingMaterials: Material[] = [];
     constructor(public afs: AngularFirestore) {
+        let materials: Observable<Material[]>;
         this.materialsCollection = this.afs.collection('materials', ref => ref.orderBy('name', 'asc'));
         // this.materials = this.afs.collection('materials').valueChanges();
-        this.materials = this.materialsCollection.snapshotChanges().map(changes => {
+        materials = this.materialsCollection.snapshotChanges().map(changes => {
             // in addition the other properties of the materials, I am getting their auto-ids.
             return changes.map(action => {
                 const data = action.payload.doc.data() as Material;
@@ -18,9 +19,13 @@ export class MaterialService {
                 return data;
             })
         });
+        materials.subscribe(materials => {
+            this.existingMaterials = materials;
+            console.log(this.existingMaterials);
+        })
     }
     getMaterials() {
-        return this.materials;
+        return this.existingMaterials;
     }
     addMaterial(material: Material) {
         return this.materialsCollection.add(material);
