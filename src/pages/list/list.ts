@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { TaliaPage } from '../../pages/talia/talia';
 import { MaterialService } from '../../services/material.service';
@@ -12,9 +12,8 @@ import { ActionSheetController } from 'ionic-angular'
   selector: 'page-list',
   templateUrl: 'list.html'
 })
-export class ListPage implements OnInit{
+export class ListPage{
   createdProducts: Array<Material>;
-  materials: Material[];
   material: Material = {
     name: '',
     definition: '',
@@ -32,21 +31,12 @@ export class ListPage implements OnInit{
     img: ''
 
   }
-  combinations: Combo[];
 
 
   constructor(public actionSheetCtrl: ActionSheetController, private comboService: CombinationService, private materialService: MaterialService, public navCtrl: NavController, public navParams: NavParams) {
     // If we navigated to this page, we will have an item available as a nav param
     }
     // Let's populate this page with some filler content for funzies
-
-  ngOnInit() {
-    // getting materials from database (calling getMaterials function)
-    this.materials = this.materialService.getMaterials();
-    this.combinations = this.comboService.getCombos();
-        // setting our materials to the materials in the database
-        // I wonder if there is a way to sort these materials in starting materials and so on based on properties of theirs. Maybe, according to the 3rd video of firebase database, I'll watch it.
-  }
   goToCombinationsPage() {
     this.navCtrl.push(CombinationsPage);
   }

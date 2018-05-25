@@ -14,26 +14,27 @@
 <ion-content>
     <ion-grid>
         <ion-row>
-            <ion-col col-auto>
-                <div style="width: 80%">
-                    <p style="font-size: 14px; margin: 20px auto;">
+            <ion-col col-7>
+                <ion-card class="directions" style="width: 90%">
+                    <p style="font-size: 15px; margin: 20px 20px; text-align: center;">
                         <strong>First: </strong>
                         <i> Search and Drag Materials from the List Below to the combination equation as either a reactant or
                             product
                         </i>
                     </p>
-                    <p style="font-size: 14px; margin: 20px auto;">
+                    <p style="font-size: 15px; margin: 20px 20px; text-align: center;">
                         <strong>Then: </strong>
                         <i> Click "Create Combination" to add the combination to the lab</i>
                     </p>
-                    <p style="font-size: 14px; margin: 20px auto;">
+                    <p style="font-size: 15px; margin: 20px 20px; text-align: center;">
                         <strong>Now: </strong>
                         <i> Click "Refresh" and create subsequent combinations until you are satisfied</i>
                     </p>
-                </div>
+            </ion-card>
             </ion-col>
-            <ion-col col-auto>
-                <p *ngFor="let combination of combinations">{{combination.ingredients[0].name}} + {{combination.ingredients[1].name}} =  {{combination.result.name}}</p>
+            <ion-col col-5>
+                <!-- Theoretically this would work if there weren't already ingredients in the database-->
+                <p class="comboList"style="font-size: 12px;" *ngFor="let combination of this.comboService.getCombos();let i=index">{{i + 1}}. {{combination.ingredients[0].name}} + {{combination.ingredients[1].name}}  =  {{combination.result.name}}</p>
             </ion-col>
         </ion-row>
         <ion-row>
@@ -85,7 +86,7 @@
                 </h4>
 
                 <ion-list>
-                    <ng-container *ngFor="let material of materials">
+                    <ng-container *ngFor="let material of this.materialService.getMaterials()">
                         <ion-item class="listMaterials" dnd-draggable *ngIf="material.isStartingMaterial" [dragData]="material" [dropZones]="['preComps', 'postComps']">
                             <ion-label style="font-size: 10px;">{{material.name}}</ion-label>
                             <ion-label>
@@ -100,7 +101,7 @@
                     <u>Intermediate and Final Materials</u>
                 </h4>
                 <ion-list>
-                    <ng-container *ngFor="let material of materials">
+                    <ng-container *ngFor="let material of this.materialService.getMaterials();">
                         <ion-item class="listMaterials" dnd-draggable *ngIf="!material.isStartingMaterial" [dragData]="material" [dropZones]="['preComps', 'postComps']">
                             <ion-label style="font-size: 10px;">{{material.name}}</ion-label>
                             <ion-label>

@@ -21,7 +21,9 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { MaterialService } from '../services/material.service';
+import { IsFoundService } from '../services/isFound.service';
 import { CombinationService} from '../services/combination.service';
+import { LabService } from '../services/lab.service';
 
 const firebaseAuth = {
   apiKey: "AIzaSyDj470IyOp2EyQi0sg-uu5kgobt2u8_t00",
@@ -71,7 +73,9 @@ const firebaseAuth = {
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     MaterialService,
-    CombinationService
+    CombinationService,
+    IsFoundService,
+    LabService
   ]
 })
 export class AppModule {}

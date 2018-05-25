@@ -11,12 +11,12 @@
   <h3 id="heading2" style="text-align: center">Below you can create new experiments for your class.</h3>
   <ion-item>
     <ion-label stacked>Add Title</ion-label>
-    <ion-input type="text" #Stoichiometry Lab [(ngModel)]="newLab"></ion-input>
+    <ion-input type="text" #Stoichiometry Lab [(ngModel)]="newLab.name"></ion-input>
   </ion-item>
-  <button ion-button round id="createButton" (click)="add();">Create</button>
+  <button ion-button round id="createButton" (click)="onSubmit();">Create</button>
   <ion-list>
-    <button ion-item *ngFor="let newLab of labs" (click)="goToAddPage()">
-      {{newLab}}
+    <button (dblclick)="deleteLab(lab)" ion-item *ngFor="let lab of labService.getLabs()">
+      {{lab.name}}
     </button>
   </ion-list>
 </ion-content>

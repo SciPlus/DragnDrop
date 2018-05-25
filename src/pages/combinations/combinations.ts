@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, NavParams, DisplayWhen } from 'ionic-angular';
 import { TaliaPage } from '../../pages/talia/talia';
 import { ListPage } from '../../pages/list/list';
@@ -15,7 +15,7 @@ import { IndivLabPage } from '../indivlab/indivlab';
   selector: 'page-combinations',
   templateUrl: 'combinations.html'
 })
-export class CombinationsPage implements OnInit{
+export class CombinationsPage{
   materials: Material[];
   startAt = new Subject();
   endAt = new Subject();
@@ -45,13 +45,6 @@ export class CombinationsPage implements OnInit{
     // If we navigated to this page, we will have an item available as a nav param
     }
     // Let's populate this page with some filler content for funzies
-  ngOnInit() {
-    // do I need this if I am already getting them from the welcome page? What if they are edited, I'll get them...
-    this.materials = this.materialService.getMaterials();
-    this.combinations = this.comboService.getCombos();
-        // setting our materials to the materials in the database
-        // I wonder if there is a way to sort these materials in starting materials and so on based on properties of theirs. Maybe, according to the 3rd video of firebase database, I'll watch it.
-  }
   // test this tomorrow --> then move on to play page organization (w/ grid)
   // then start saving labs, sharing labs, and creating a search page
   // then work on the sign out page/grading system.
@@ -68,7 +61,6 @@ export class CombinationsPage implements OnInit{
       name: postComponents[0].name
     };
     this.comboService.addCombo(this.newCombo);
-    console.log(this.combinations);
     this.newCombo = {};
     // add new combination to combos w/ ingredietns - precomp and result: post-comp ... push to databse.
   }
@@ -84,7 +76,7 @@ export class CombinationsPage implements OnInit{
       }
     )};
     if (queryText === "") {
-      this.ngOnInit();
+      this.materialService.getMaterials();
     }
   }
   addToPreComponents($event: any) {

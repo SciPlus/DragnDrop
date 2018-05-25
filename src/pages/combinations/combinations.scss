@@ -39,4 +39,11 @@ page-combinations {
         border-color: color($colors, primary);
         margin: 10px;
     }
+    .directions {
+        background: color($colors, update);
+        color: white;
+    }
+    .comboList {
+        color: color($colors, update);
+    }
 }

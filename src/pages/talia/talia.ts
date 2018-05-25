@@ -17,6 +17,7 @@ import { MaterialService } from '../../services/material.service';
 import { Material } from '../../app/models/Material';
 import { CombinationService } from '../../services/combination.service';
 import { Combo } from '../../app/models/combo';
+import { IsFoundService } from '../../services/isFound.service';
 
 @IonicPage()
 @Component({
@@ -48,6 +49,7 @@ export class TaliaPage implements OnInit {
     definition: "other other thing that exists"
 
   }];
+  numberOfFoundIngredients: number = 0;
   countOfFoundElements: number = 0;
   materialToDefine: Material;
   defineState: boolean = false;
@@ -61,24 +63,19 @@ export class TaliaPage implements OnInit {
   }
   materials: Material[];
   Reaction_Components1: Material[] = []; /// setting to a value;
-  combinations: Combo[];
+  rawCombinations: Combo[];
 
-  constructor(private combinationService: CombinationService, private materialService: MaterialService, private fire: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private isFoundService: IsFoundService, private combinationService: CombinationService, private materialService: MaterialService, private fire: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
     this.email = fire.auth.currentUser.email;
   }
   ngOnInit() {
+    console.log('talia page is running');
+    // get all the materials that have ids of array. 
+    // for each id in array, get the material that has that id.
     // getting materials from database (calling getMaterials function)
     this.materials = this.materialService.getMaterials();
-    let rawCombinations = this.combinationService.getCombos();
-
-    this.combinations = rawCombinations.map(rawCombination => {
-      let newCombination = rawCombination;
-      newCombination.result = this.materials.find(material => material.id == rawCombination.result)
-      newCombination.ingredients = rawCombination.ingredients.map(materialId => this.materials.find(m => m.id === materialId))
-
-      return newCombination;
-    })
-  }
+    this.rawCombinations = this.combinationService.getCombos();
+  };
   defineMaterial(event, material: Material) {
     this.defineState = true;
     this.materialToDefine = material;
@@ -90,26 +87,40 @@ export class TaliaPage implements OnInit {
   openSubmitPage() {
     this.navCtrl.push(SubmitPage);
   }
-  findMaterial(myResult: string) {
-    this.materials.forEach(element => {
-      if (element.name === myResult) {
-        element.isFound = true;
+  checkCombo() {
+    this.rawCombinations.forEach(combo => {
+      if ((combo.ingredients[0].id === this.Reaction_Components1[0].id) && (combo.ingredients[1].id === this.Reaction_Components1[1].id) || 
+      (combo.ingredients[0].id === this.Reaction_Components1[1].id) && (combo.ingredients[1].id === this.Reaction_Components1[0].id)) {
+        this.isFoundService.addFoundMaterial(combo.result);
       }
     });
   }
-  checkCombo() { // checks if elements form combo
-
+    
+    
+    // checks if elements form combo
+       /*
     if (this.Reaction_Components1.length >= 2) {
-      this.combinations.forEach(combo => {
-        if (((this.Reaction_Components1[0].name === combo.ingredients[0].name) || (this.Reaction_Components1[0].name === combo.ingredients[1].name)) && ((this.Reaction_Components1[1].name === combo.ingredients[0].name) || (this.Reaction_Components1[1].name === combo.ingredients[1].name))) {
-          this.findMaterial(combo.result.name);
-          if (combo.result.isFinalMaterial === true) {
+      this.rawCombinations.forEach(combo => {
+        if ((combo.ingredients[0] === this.Reaction_Components1[0].id) || combo.ingredients[1] === this.Reaction_Components1[1].id) {
+          console.log("Hello");
+        }
+        let combinationIngredientIds = this.materials.filter((newMaterial) => {
+          return (newMaterial)
+        })
+        if (this.numberOfFoundIngredients === 2) {
+          // getting specific combo result as material
+          let myResult = this.materials.find((newMaterial) => {
+            return (newMaterial.id === combo.result.id);
+          });
+          console.log(myResult);
+          this.isFoundService.addFoundMaterial(myResult);
+          if (myResult.isFinalMaterial === true) {
             this.completionMessage();
           }
         }
-      })
+      });
     }
-  }
+      */
   clearComponents() {
     this.Reaction_Components1 = [];
   }
@@ -146,6 +157,7 @@ export class TaliaPage implements OnInit {
       isStartingMaterial: newMaterial.isStartingMaterial,
       isFinalMaterial: newMaterial.isFinalMaterial,
       img: newMaterial.img,
+      id: newMaterial.id
     })
     this.Reaction_Components1.sort((a: Material, b: Material) => {
       return a.name.localeCompare(b.name);
