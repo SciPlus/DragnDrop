@@ -34,7 +34,7 @@
             </ion-col>
             <ion-col col-5>
                 <!-- Theoretically this would work if there weren't already ingredients in the database-->
-                <p class="comboList"style="font-size: 12px;" *ngFor="let combination of this.comboService.getCombos();let i=index">{{i + 1}}. {{combination.ingredients[0].name}} + {{combination.ingredients[1].name}}  =  {{combination.result.name}}</p>
+                <p (dblclick)="preDeleteCombo(combination)" class="comboList"style="font-size: 12px;" *ngFor="let combination of this.comboService.getCombos();let i=index">{{i + 1}}. {{combination.ingredients[0].name}} + {{combination.ingredients[1].name}}  =  {{combination.result.name}}</p>
             </ion-col>
         </ion-row>
         <ion-row>

@@ -1,4 +1,18 @@
 page-talia {
+    .availableMaterial {
+        opacity: 1;
+        display: block;
+        transition: .5s ease;
+        backface-visibility: hidden;
+        width: 90px; 
+        height: 90px; 
+        display: inline-block;
+        position: relative;
+        top: 50%;
+        &:hover{
+            opacity: 0.3;
+       }
+    }
 .dnd-drag-start {
     -moz-transform:scale(0.8);
     -webkit-transform:scale(0.8);

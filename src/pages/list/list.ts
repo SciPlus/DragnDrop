@@ -1,69 +1,67 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { TaliaPage } from '../../pages/talia/talia';
 import { MaterialService } from '../../services/material.service';
 import { Material } from '../../app/models/material';
 import { CombinationService } from '../../services/combination.service';
-import { Combo } from '../../app/models/combo';
 import { CombinationsPage } from '../combinations/combinations';
 import { ActionSheetController } from 'ionic-angular'
+import { LabService } from '../../services/lab.service'
+import { Lab } from '../../app/models/lab';
 
 @Component({
   selector: 'page-list',
   templateUrl: 'list.html'
 })
 export class ListPage{
-  createdProducts: Array<Material>;
-  material: Material = {
-    name: '',
-    definition: '',
-    isStartingMaterial: false,
+  newMaterial: Material = {
+    name: "",
     isFinalMaterial: false,
-    img: ''
-
-  }
-  editState: boolean = false;
-  materialToEdit:Material = {
-    name: '',
-    definition: '',
     isStartingMaterial: false,
-    isFinalMaterial: false,
-    img: ''
-
+    definition: "",
+    img: "",
   }
-
-
-  constructor(public actionSheetCtrl: ActionSheetController, private comboService: CombinationService, private materialService: MaterialService, public navCtrl: NavController, public navParams: NavParams) {
-    // If we navigated to this page, we will have an item available as a nav param
-    }
-    // Let's populate this page with some filler content for funzies
+  myLabId: String;
+  myLab: Lab;
+  constructor(private labService: LabService, public actionSheetCtrl: ActionSheetController, private comboService: CombinationService, private materialService: MaterialService, public navCtrl: NavController, public navParams: NavParams) {
+    this.myLabId = this.navParams.data.id;
+    this.myLab = this.labService.getLabs().find((newLab) => {
+      return (newLab.id === this.myLabId);
+    });
+    this.myLab.materialsIDs = [];
+  }
+  
   goToCombinationsPage() {
-    this.navCtrl.push(CombinationsPage);
+    console.log(this.myLab);
+    this.navCtrl.push(CombinationsPage, this.myLab);
   }
+  
   onSubmit() {
-    if(!(this.material.isStartingMaterial && this.material.isFinalMaterial) && this.material.name != "" && this.material.definition != "" && this.material.img != "") {
-      console.log(this.material.isStartingMaterial);
-      this.materialService.addMaterial(this.material);
-      this.material.name = "";
-      this.material.definition = "";
-      this.material.img = "";
-      this.material.isFinalMaterial = false;
-      this.material.isStartingMaterial = false;
-      this.material.isFound = null;
+    if(!(this.newMaterial.isStartingMaterial && this.newMaterial.isFinalMaterial) && this.newMaterial.name != "" && this.newMaterial.definition != "" && this.newMaterial.img != "") {
+      let ref = this.materialService.addMaterial(this.newMaterial);
+      ref.then(c => { this.myLab.materialsIDs.push(c.id)
+        this.updateLab(this.myLab);
+        console.log(this.myLab.materialsIDs);
+      });
+      
     }
     else {
-      // ~~ERROR~~ need to change if statement, doesn't work if the firnla one is put in before the first one. As they type into fields, the fields should be updating. (two way data binding)
+      // ~~ERROR~~ need to change if statement, doesn't work if the firnla -- me editing later: (summer 2018) mby its final???? --  one is put in before the first one. As they type into fields, the fields should be updating. (two way data binding)
       alert('Field input is incorrect. Remember: a material cannot be both a final and starting material');
-      this.material.name = "";
-      this.material.definition = "";
-      this.material.img = "";
-      this.material.isFinalMaterial = false;
-      this.material.isStartingMaterial = false;
     }
+    this.clearState();
   }
-  preDeleteMaterial($event, material) { {
+  
+  clearState() {
+    this.newMaterial.name = "";
+    this.newMaterial.definition = "";
+    this.newMaterial.img = "";
+    this.newMaterial.isFinalMaterial = false;
+    this.newMaterial.isStartingMaterial = false;
+  }
+  
+  preDeleteMaterial($event, material: Material) { {
       let actionSheet = this.actionSheetCtrl.create({
-        title: 'Modify your material',
+        title: `Modify ${material.name}`,
         buttons: [
           {
             text: 'Delete',
@@ -86,28 +84,16 @@ export class ListPage{
     }
   }
   deleteMaterial(event, material: Material) {
-    this.clearState();
     this.materialService.deleteMaterial(material);
+    let materialIndex =  this.myLab.materialsIDs.indexOf(material.id);
+    this.myLab.materialsIDs.splice(materialIndex, 1);
+    this.updateLab(this.myLab);
+    console.log(this.myLab.materialsIDs);
   }
-  editMaterial(event, material: Material) {
-    this.editState = true;
-    this.materialToEdit = material;
-  }
-  clearState() {
-    this.editState = false;
-    this.materialToEdit = null;
+  updateLab(lab: Lab) {
+    this.labService.updateLab(lab);
   }
   updateMaterial(material: Material) {
     this.materialService.updateMaterial(material);
-    this.clearState();
   }
 }
-
-// 
-// make "" not be able to be submitted to add to newCurrentMaterials
-// show goal material under current matierials
-// show product formed underneath reactants.
-// completion toast
-// failure toast
-
-// on this page, lets use the databse to submit new items to available products.

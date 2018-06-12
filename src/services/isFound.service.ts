@@ -10,6 +10,7 @@ export class IsFoundService{
     isFoundIds: String[] = [];
     existingIsFoundMaterials: Material[] = [];
     i: number = 0;
+    
     constructor(private materialService: MaterialService, public afs: AngularFirestore) {
         this.materials = this.materialService.getMaterials();
         this.materials.forEach(material => {
@@ -21,15 +22,14 @@ export class IsFoundService{
             this.materials.forEach(material => {
                 if (material.id === this.isFoundIds[this.i])
                     this.existingIsFoundMaterials.push(material);
-            });
+            })
         }
         this.i = 0;
     };
     addFoundMaterial(material: Material) {
         if (this.isFoundIds.indexOf(material.id) === -1) {
             this.isFoundIds.push(material.id);
-            console.log(material.id);
-            console.log(this.isFoundIds);
+            this.existingIsFoundMaterials.push(material);
         }
     }
     deleteFoundMaterial(material: Material) {

@@ -3,7 +3,6 @@ export interface Material {
     name?: string;
     definition?: string;
     img?: string;
-    isFound?: boolean;
     isStartingMaterial?: boolean;
     isFinalMaterial?: boolean;
 }

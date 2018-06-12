@@ -1,22 +1,22 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, DisplayWhen } from 'ionic-angular';
-import { TaliaPage } from '../../pages/talia/talia';
-import { ListPage } from '../../pages/list/list';
+import { NavController, NavParams } from 'ionic-angular';
 import { MaterialService } from '../../services/material.service';
-import { DndModule } from 'ng2-dnd';
 import { Material } from '../../app/models/material';
 import { CombinationService } from '../../services/combination.service';
 import { Combo } from '../../app/models/combo';
 import { Subject } from 'rxjs/Subject'
-import { CompileTemplateMetadata } from '@angular/compiler';
 import { IndivLabPage } from '../indivlab/indivlab';
+import { Lab } from '../../app/models/lab';
+import { LabService } from '../../services/lab.service';
+import { ActionSheetController } from 'ionic-angular';
+
 
 @Component({
   selector: 'page-combinations',
   templateUrl: 'combinations.html'
 })
 export class CombinationsPage{
-  materials: Material[];
+  materials: Material[] = [];
   startAt = new Subject();
   endAt = new Subject();
   material: Material = {
@@ -40,9 +40,13 @@ export class CombinationsPage{
   query: string = "";
   tempMaterials: Material[] = [];
   newCombo: Combo = {};
+  myLabId: String;
+  myLab: Lab;
 
-  constructor(private comboService: CombinationService, private materialService: MaterialService, public navCtrl: NavController, public navParams: NavParams) {
-    // If we navigated to this page, we will have an item available as a nav param
+  constructor(public actionSheetCtrl: ActionSheetController, private labService: LabService, private comboService: CombinationService, private materialService: MaterialService, public navCtrl: NavController, public navParams: NavParams) {
+    this.myLab = this.navParams.data;
+    console.log(this.myLab);
+    this.myLab.combinationsIDs = [];
     }
     // Let's populate this page with some filler content for funzies
   // test this tomorrow --> then move on to play page organization (w/ grid)
@@ -60,7 +64,11 @@ export class CombinationsPage{
       id: postComponents[0].id,
       name: postComponents[0].name
     };
-    this.comboService.addCombo(this.newCombo);
+    let ref = this.comboService.addCombo(this.newCombo);
+      ref.then(c => { this.myLab.combinationsIDs.push(c.id);
+        this.labService.updateLab(this.myLab);
+        console.log(this.myLab.combinationsIDs);
+      });
     this.newCombo = {};
     // add new combination to combos w/ ingredietns - precomp and result: post-comp ... push to databse.
   }
@@ -69,6 +77,7 @@ export class CombinationsPage{
     this.postComponents = [];
   }
   inputSearch(query) {
+    this.materials = this.materialService.getMaterials();
     let queryText = query.target.value;
     if (queryText && queryText.trim() != ' ')  {
       this.materials = this.materials.filter((newMaterial) => {
@@ -99,32 +108,37 @@ export class CombinationsPage{
   allowDropFunction2(): any {
     return (dragData: any) => this.postComponents.length <= 1;
   }
-  deleteCombination(event, combo: Combo) {
-    this.clearState();
+  deleteCombination(combo: Combo) {
     this.comboService.deleteCombo(combo);
-  }
-  editCombinations(event, combo: Combo) {
-    this.editState = true;
-    this.combinationToEdit = combo;
-  }
-  clearState() {
-    this.editState = false;
-    this.combinationToEdit = null;
-  }
-  updateCombinations(combo: Combo) {
-    this.materialService.updateMaterial(combo);
-    this.clearState();
+    let comboIndex =  this.myLab.combinationsIDs.indexOf(combo.id);
+    this.myLab.combinationsIDs.splice(comboIndex, 1);
+    this.labService.updateLab(this.myLab);
+    console.log(this.myLab.combinationsIDs);
   }
   goToIndivLabPage() {
-    this.navCtrl.push(IndivLabPage);
+    this.navCtrl.push(IndivLabPage, this.myLab); // may conflict with other this.myLab being pushed
+  }
+  preDeleteCombo(combo: Combo) { {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: `Modify: ${combo.ingredients[0].name} + ${combo.ingredients[1].name} = ${combo.result.name}`,
+      buttons: [
+        {
+          text: `Delete combination`,
+          role: 'destructive',
+          handler: () => {
+            this.deleteCombination(combo);
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
   }
 }
-
-// 
-// make "" not be able to be submitted to add to newCurrentMaterials
-// show goal material under current matierials
-// show product formed underneath reactants.
-// completion toast
-// failure toast
-
-// on this page, lets use the databse to submit new items to available products.
+}

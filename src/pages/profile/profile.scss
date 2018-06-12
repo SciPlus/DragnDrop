@@ -1,4 +1,4 @@
-page-home {
+page-profile {
     #heading {
         text-align: center;
         margin: 20px;
@@ -20,7 +20,12 @@ page-home {
         font-size: 16px;
         cursor: pointer;
     }
-    #addTitle {
-        background-color: rgb(44, 130, 133);
+    .lab {
+        border: solid 1px; 
+        background: rgb(55, 85, 148); 
+        border-color: color($colors, secondary);
+        margin: 10px;
+        color: white; 
+        padding: 1em;
     }
     }

@@ -54,12 +54,12 @@ export class TaliaPage implements OnInit {
   materialToDefine: Material;
   defineState: boolean = false;
   material: Material = {
-    name: '',
-    definition: '',
+    name: "",
+    definition: "",
     isStartingMaterial: false,
     isFinalMaterial: false,
     img: "",
-    isFound: false
+    id: "",
   }
   materials: Material[];
   Reaction_Components1: Material[] = []; /// setting to a value;
@@ -67,6 +67,7 @@ export class TaliaPage implements OnInit {
 
   constructor(private isFoundService: IsFoundService, private combinationService: CombinationService, private materialService: MaterialService, private fire: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
     this.email = fire.auth.currentUser.email;
+
   }
   ngOnInit() {
     console.log('talia page is running');
@@ -91,7 +92,10 @@ export class TaliaPage implements OnInit {
     this.rawCombinations.forEach(combo => {
       if ((combo.ingredients[0].id === this.Reaction_Components1[0].id) && (combo.ingredients[1].id === this.Reaction_Components1[1].id) || 
       (combo.ingredients[0].id === this.Reaction_Components1[1].id) && (combo.ingredients[1].id === this.Reaction_Components1[0].id)) {
-        this.isFoundService.addFoundMaterial(combo.result);
+        let myResult = this.materials.find((newMaterial) => {
+          return (newMaterial.id === combo.result.id);
+        });
+        this.isFoundService.addFoundMaterial(myResult);
       }
     });
   }

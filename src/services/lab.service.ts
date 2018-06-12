@@ -9,7 +9,6 @@ export class LabService {
     existingLabs: Lab[] = [];
     labsCollection: AngularFirestoreCollection<Lab>    
     labDoc: AngularFirestoreDocument<Lab>;
-    i: number = 0;
     constructor(public afs: AngularFirestore) {
         let labs: Observable<Lab[]>;
         this.labsCollection = this.afs.collection('labs', ref => ref.orderBy('name', 'asc'));
@@ -24,7 +23,6 @@ export class LabService {
         });
         labs.subscribe(labs => {
             this.existingLabs = labs;
-            console.log(this.existingLabs);
         })
     };
     getLabs() {
@@ -32,10 +30,13 @@ export class LabService {
     }
     addLab(lab: Lab) {
         return this.labsCollection.add(lab);
-
     }
     deleteLab(lab: Lab) {
         this.labDoc = this.afs.doc(`labs/${lab.id}`);
         this.labDoc.delete();
+    }
+    updateLab(lab: Lab) {
+        this.labDoc = this.afs.doc(`labs/${lab.id}`);
+        this.labDoc.update(lab);
     }
 };

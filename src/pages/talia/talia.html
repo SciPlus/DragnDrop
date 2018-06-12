@@ -8,56 +8,46 @@
 </ion-header>
 <ion-content>
     <div class="row">
-                <div class="col-sm-6">
-                    <div dnd-droppable [allowDrop]="allowDropFunction()" (onDropSuccess)="addToReactionComponents1($event);" [dropZones]="['demo1']"
-                        class="panel panel-info">
-                        <div class="panel-heading">Reaction_Components1</div>
-                        <div id="reacComp1">
-                            <ion-card [hidden]="Reaction_Components1.length > 0" style="vertical-align: center; width: 125px; height: 125px; display: inline-block;background-color: rgb(197, 197, 197)">
-                                <ion-label style="text-align: center;">Drag Here!</ion-label>
-                            </ion-card>
-                            <ion-card [hidden]="Reaction_Components1.length > 1" style="width: 125px; height: 125px; display: inline-block;background-color: rgb(197, 197, 197)">
-                                <ion-label style="text-align: center;">Drag Here!</ion-label>
-                            </ion-card>
-                            <ion-card style="width: 125px; height: 125px; display: inline-block;" *ngFor="let product of Reaction_Components1" class="panel panel-default">
-                                <div style="text-align: center" class="panel-body">
-                                    {{product.name}}
-                                </div>
-                                <img style="width: auto; height: 80px; padding: 10px; margin-left: auto; margin-right: auto" src={{product.img}}>
-                            </ion-card>
+        <div class="col-sm-6">
+            <div dnd-droppable [allowDrop]="allowDropFunction()" (onDropSuccess)="addToReactionComponents1($event);" [dropZones]="['demo1']"
+                class="panel panel-info">
+                <div class="panel-heading">Reaction_Components1</div>
+                <div id="reacComp1">
+                    <ion-card [hidden]="Reaction_Components1.length > 0" style="vertical-align: center; width: 125px; height: 125px; display: inline-block;background-color: rgb(197, 197, 197)">
+                        <ion-label style="text-align: center;">Drag Here!</ion-label>
+                    </ion-card>
+                    <ion-card [hidden]="Reaction_Components1.length > 1" style="width: 125px; height: 125px; display: inline-block;background-color: rgb(197, 197, 197)">
+                        <ion-label style="text-align: center;">Drag Here!</ion-label>
+                    </ion-card>
+                    <ion-card style="width: 125px; height: 125px; display: inline-block;" *ngFor="let product of Reaction_Components1" class="panel panel-default">
+                        <div style="text-align: center" class="panel-body">
+                            {{product.name}}
                         </div>
-                    </div>
+                        <img style="width: auto; height: 80px; padding: 10px; margin-left: auto; margin-right: auto" src={{product.img}}>
+                    </ion-card>
                 </div>
             </div>
-            
-    <div class="row2">
-        <div class="col-sm-3">
-                <div class="panel-heading">Available products</div>
-                <div class="panel-body">
-                    <div *ngFor="let isFoundMaterial of isFoundService.getIsFoundMaterials()" dnd-draggable  [dragData]="isFoundMaterial" [dropZones]="['demo1']">
-                        <ion-card id="avaComp" style="width: 170px; height: 170px; display: inline-block;">
-                            <ion-label style="text-align: center">
-                                <strong>{{isFoundMaterial.name}}</strong>
-                            </ion-label>
-                            <img style="padding: 5px; width: auto; height: 80px; padding: 10px; margin: auto" src= {{isFoundMaterial.img}}>
-                            <a style="float: center" href="#" class="secondary-content">
-                                <ion-icon (click)="defineMaterial($event, isFoundMaterial)" name="ios-information-circle-outline"></ion-icon>
-                            </a>
-                            <a href="#" class="secondary-content">
-                                <ion-icon *ngIf="defineState && materialToDefine.id == isFoundMaterial.id" (click)="clearState()" name="md-contract"></ion-icon>
-                            </a>
-                            <p *ngIf="defineState && materialToDefine.id == isFoundMaterial.id">{{isFoundMaterial.definition}}</p>
-                        </ion-card>
-                    </div>
-                </div>
         </div>
     </div>
-        <button ion-button round outline (click)="checkCombo();" class="combineButton">Combine Reaction_Components1</button>
-        <button ion-button round outline (click)="clearComponents()" class="clearButton">Clear Reaction</button>
-        <div id="failureMessage">These elements do not combine : (</div>
-        <div id="successMessage">These elements combine : ) </div>
-        <div id="completionMessage">You have obtained the final product and completed the experiment!</div>
-        <button ion-button round outline class="submitButton" (click)="openSubmitPage()">Submit Experiment</button>
+    <div class="row2">
+        <div class="col-sm-3">
+            <div class="panel-heading">Available products</div>
+            <div class="panel-body">
+                <ion-card *ngFor="let isFoundMaterial of isFoundService.getIsFoundMaterials()"class="availableMaterial" dnd-draggable [dragData]="isFoundMaterial" [dropZones]="['demo1']" id="avaComp">
+                    <ion-label style="font-size: 10px;padding: 0%; text-align: center">
+                        <strong>{{isFoundMaterial.name}}</strong>
+                    </ion-label>
+                    <img style=" width: auto; height: 30px; margin: auto" src= {{isFoundMaterial.img}}>
+                </ion-card>
+            </div>
+        </div>
+    </div>
+    <button ion-button round outline (click)="checkCombo();" class="combineButton">Combine Reaction_Components1</button>
+    <button ion-button round outline (click)="clearComponents()" class="clearButton">Clear Reaction</button>
+    <div id="failureMessage">These elements do not combine : (</div>
+    <div id="successMessage">These elements combine : ) </div>
+    <div id="completionMessage">You have obtained the final product and completed the experiment!</div>
+    <button ion-button round outline class="submitButton" (click)="openSubmitPage()">Submit Experiment</button>
     <h1>To Do List</h1>
     <h1>Add Item (task)</h1>
     <ion-item>

@@ -4,9 +4,12 @@ import { Material } from '../app/models/material';
 import { Observable } from 'rxjs/Observable'
 @Injectable()
 export class MaterialService {
+    materials: Material[] = [];
     materialsCollection: AngularFirestoreCollection<Material>    
     materialDoc: AngularFirestoreDocument<Material>;
     existingMaterials: Material[] = [];
+    existingMaterialId: string;
+    
     constructor(public afs: AngularFirestore) {
         let materials: Observable<Material[]>;
         this.materialsCollection = this.afs.collection('materials', ref => ref.orderBy('name', 'asc'));
@@ -38,4 +41,5 @@ export class MaterialService {
         this.materialDoc = this.afs.doc(`materials/${material.id}`);
         this.materialDoc.update(material);
     }
+
 }

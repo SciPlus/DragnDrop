@@ -20,25 +20,25 @@
               <h2 style="text-align: center; margin: 15px; color:white">Add Material</h2>
                 <ion-item id="secondaryItem">
                   <ion-label style="color: white">Add Name</ion-label>
-                  <ion-input id="input-field" type="text" [(ngModel)]="material.name"></ion-input>
+                  <ion-input id="input-field" type="text" [(ngModel)]="newMaterial.name"></ion-input>
                 </ion-item>
                 <ion-item id="secondaryItem">
                   <ion-label style="color: white">Definition</ion-label>
-                  <ion-input id="input-field" type="text" [(ngModel)]="material.definition"></ion-input>
+                  <ion-input id="input-field" type="text" [(ngModel)]="newMaterial.definition"></ion-input>
                 </ion-item>
                 <ion-item id="secondaryItem">
                   <ion-label style="color: white">Add Image</ion-label>
-                  <ion-input id="input-field" type="text" [(ngModel)]="material.img"></ion-input>
+                  <ion-input id="input-field" type="text" [(ngModel)]="newMaterial.img"></ion-input>
                 </ion-item>
                 <ion-row>
                     <ion-item style="width: 50%"id="secondaryItem">
                         <ion-label style="color: white">Starting Material:</ion-label>
-                        <ion-toggle [(ngModel)]="material.isStartingMaterial"></ion-toggle>
+                        <ion-toggle [(ngModel)]="newMaterial.isStartingMaterial"></ion-toggle>
                   </ion-item>
                   <ion-item style="width: 50%"id="secondaryItem">
                       <ion-label style="color: white">Final Material:</ion-label>
-                      <ion-toggle [(ngModel)]="material.isFinalMaterial"></ion-toggle>
-                    </ion-item>
+                      <ion-toggle [(ngModel)]="newMaterial.isFinalMaterial"></ion-toggle>
+                </ion-item>
                 </ion-row>
               <button ion-button round outline (click)="onSubmit()" id="submitButton">Submit</button>
             </ion-card>
