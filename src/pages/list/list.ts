@@ -22,14 +22,20 @@ export class ListPage{
   }
   myLabId: String;
   myLab: Lab;
+  myLabMaterials: Material[];
   constructor(private labService: LabService, public actionSheetCtrl: ActionSheetController, private comboService: CombinationService, private materialService: MaterialService, public navCtrl: NavController, public navParams: NavParams) {
     this.myLabId = this.navParams.data.id;
     this.myLab = this.labService.getLabs().find((newLab) => {
       return (newLab.id === this.myLabId);
     });
-    this.myLab.materialsIDs = [];
+    this.myLab.materialsIDs = []; // change later
+    if (this.myLab.materialsIDs != []) {
+      this.myLabMaterials = this.getMyMaterials();
+    }
   }
-  
+  getMyMaterials() {
+    return this.materialService.getMaterials(this.myLab.materialsIDs);
+  }
   goToCombinationsPage() {
     console.log(this.myLab);
     this.navCtrl.push(CombinationsPage, this.myLab);
@@ -38,9 +44,10 @@ export class ListPage{
   onSubmit() {
     if(!(this.newMaterial.isStartingMaterial && this.newMaterial.isFinalMaterial) && this.newMaterial.name != "" && this.newMaterial.definition != "" && this.newMaterial.img != "") {
       let ref = this.materialService.addMaterial(this.newMaterial);
-      ref.then(c => { this.myLab.materialsIDs.push(c.id)
+      ref.then(c => { 
+        this.myLab.materialsIDs.push(c.id);
         this.updateLab(this.myLab);
-        console.log(this.myLab.materialsIDs);
+        this.getMyMaterials();
       });
       
     }
@@ -59,7 +66,7 @@ export class ListPage{
     this.newMaterial.isStartingMaterial = false;
   }
   
-  preDeleteMaterial($event, material: Material) { {
+  preDeleteMaterial( material: Material) { {
       let actionSheet = this.actionSheetCtrl.create({
         title: `Modify ${material.name}`,
         buttons: [
@@ -67,7 +74,7 @@ export class ListPage{
             text: 'Delete',
             role: 'destructive',
             handler: () => {
-              this.deleteMaterial($event, material);
+              this.deleteMaterial( material);
             }
           },
           {
@@ -83,7 +90,7 @@ export class ListPage{
       actionSheet.present();
     }
   }
-  deleteMaterial(event, material: Material) {
+  deleteMaterial(material: Material) {
     this.materialService.deleteMaterial(material);
     let materialIndex =  this.myLab.materialsIDs.indexOf(material.id);
     this.myLab.materialsIDs.splice(materialIndex, 1);

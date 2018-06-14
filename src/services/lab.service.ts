@@ -9,6 +9,7 @@ export class LabService {
     existingLabs: Lab[] = [];
     labsCollection: AngularFirestoreCollection<Lab>    
     labDoc: AngularFirestoreDocument<Lab>;
+    myLabIds: String[];
     constructor(public afs: AngularFirestore) {
         let labs: Observable<Lab[]>;
         this.labsCollection = this.afs.collection('labs', ref => ref.orderBy('name', 'asc'));

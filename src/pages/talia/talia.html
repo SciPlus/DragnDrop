@@ -33,11 +33,11 @@
         <div class="col-sm-3">
             <div class="panel-heading">Available products</div>
             <div class="panel-body">
-                <ion-card *ngFor="let isFoundMaterial of isFoundService.getIsFoundMaterials()"class="availableMaterial" dnd-draggable [dragData]="isFoundMaterial" [dropZones]="['demo1']" id="avaComp">
+                <ion-card *ngFor="let material of getMaterials()" class="availableMaterial" dnd-draggable [dragData]="material" [dropZones]="['demo1']" id="avaComp">
                     <ion-label style="font-size: 10px;padding: 0%; text-align: center">
-                        <strong>{{isFoundMaterial.name}}</strong>
+                        <strong>{{material.name}}</strong>
                     </ion-label>
-                    <img style=" width: auto; height: 30px; margin: auto" src= {{isFoundMaterial.img}}>
+                    <img style=" width: auto; height: 30px; margin: auto" src= {{material.img}}>
                 </ion-card>
             </div>
         </div>

@@ -34,7 +34,7 @@
             </ion-col>
             <ion-col col-5>
                 <!-- Theoretically this would work if there weren't already ingredients in the database-->
-                <p (dblclick)="preDeleteCombo(combination)" class="comboList"style="font-size: 12px;" *ngFor="let combination of this.comboService.getCombos();let i=index">{{i + 1}}. {{combination.ingredients[0].name}} + {{combination.ingredients[1].name}}  =  {{combination.result.name}}</p>
+                <p (dblclick)="preDeleteCombo(combination)" class="comboList"style="font-size: 12px;" *ngFor="let combination of getMyCombos();let i=index">{{i + 1}}. {{combination.ingredients[0].name}} + {{combination.ingredients[1].name}}  =  {{combination.result.name}}</p>
             </ion-col>
         </ion-row>
         <ion-row>
@@ -86,7 +86,7 @@
                 </h4>
 
                 <ion-list>
-                    <ng-container *ngFor="let material of this.materialService.getMaterials()">
+                    <ng-container *ngFor="let material of this.getMyMaterials()"> <!-- how do I reference my Lab in the html -->
                         <ion-item class="listMaterials" dnd-draggable *ngIf="material.isStartingMaterial" [dragData]="material" [dropZones]="['preComps', 'postComps']">
                             <ion-label style="font-size: 10px;">{{material.name}}</ion-label>
                             <ion-label>
@@ -101,7 +101,7 @@
                     <u>Intermediate and Final Materials</u>
                 </h4>
                 <ion-list>
-                    <ng-container *ngFor="let material of this.materialService.getMaterials();">
+                    <ng-container *ngFor="let material of this.getMyMaterials()"> <!-- how do I reference my Lab in the html -->
                         <ion-item class="listMaterials" dnd-draggable *ngIf="!material.isStartingMaterial" [dragData]="material" [dropZones]="['preComps', 'postComps']">
                             <ion-label style="font-size: 10px;">{{material.name}}</ion-label>
                             <ion-label>

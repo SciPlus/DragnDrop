@@ -24,8 +24,13 @@ export class CombinationService {
             console.log(this.existingCombinations);
         })
     }
-    getCombos() {
-        return this.existingCombinations;
+    getCombos(combinationIds: String[]) {
+        let myExistingCombinations = this.existingCombinations.filter((newCombo) => {
+            for (let index = 1; index <= combinationIds.length; index++) {
+                return (newCombo.id === combinationIds[index]);
+            }
+        })
+        return myExistingCombinations;
     }
     addCombo(combo: Combo) {
         return this.combosCollection.add(combo);

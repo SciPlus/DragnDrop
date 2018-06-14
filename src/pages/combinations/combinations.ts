@@ -45,13 +45,18 @@ export class CombinationsPage{
 
   constructor(public actionSheetCtrl: ActionSheetController, private labService: LabService, private comboService: CombinationService, private materialService: MaterialService, public navCtrl: NavController, public navParams: NavParams) {
     this.myLab = this.navParams.data;
-    console.log(this.myLab);
     this.myLab.combinationsIDs = [];
     }
     // Let's populate this page with some filler content for funzies
   // test this tomorrow --> then move on to play page organization (w/ grid)
   // then start saving labs, sharing labs, and creating a search page
   // then work on the sign out page/grading system.
+  getMyMaterials() {
+    return this.materialService.getMaterials(this.myLab.materialsIDs);
+  }
+  getMyCombos() {
+    return this.comboService.getCombos(this.myLab.combinationsIDs);
+  }
   createCombination(preComponents, postComponents) {
     this.newCombo.ingredients = [{
       id: preComponents[0].id,
@@ -77,7 +82,7 @@ export class CombinationsPage{
     this.postComponents = [];
   }
   inputSearch(query) {
-    this.materials = this.materialService.getMaterials();
+    this.materials = this.materialService.getMaterials(this.myLab.materialsIDs);
     let queryText = query.target.value;
     if (queryText && queryText.trim() != ' ')  {
       this.materials = this.materials.filter((newMaterial) => {
@@ -85,7 +90,7 @@ export class CombinationsPage{
       }
     )};
     if (queryText === "") {
-      this.materialService.getMaterials();
+      this.materialService.getMaterials(this.myLab.materialsIDs);
     }
   }
   addToPreComponents($event: any) {

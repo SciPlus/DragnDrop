@@ -24,11 +24,21 @@ export class MaterialService {
         });
         materials.subscribe(materials => {
             this.existingMaterials = materials;
-            console.log(this.existingMaterials);
         })
     }
-    getMaterials() {
-        return this.existingMaterials;
+    getMaterials(materialsIDs: String[]) {
+        
+        /* let myExistingMaterials = this.existingMaterials.filter((newMaterial) => {
+            for (let index = 0; index < materialsIDs.length; index++) {
+                if (newMaterial.id === materialsIDs[index]) return true;
+            }
+            return false;
+        }) */
+
+        let myExistingMaterials = materialsIDs.map((id) => {
+            return this.existingMaterials.find(material => material.id === id);
+        })
+        return myExistingMaterials;
     }
     addMaterial(material: Material) {
         return this.materialsCollection.add(material);

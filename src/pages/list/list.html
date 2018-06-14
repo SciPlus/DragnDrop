@@ -63,37 +63,37 @@
     <ion-row>
       <ion-col>
           <ion-item-divider color="primary">Starting Materials</ion-item-divider>
-          <ng-container *ngFor="let material of materialService.getMaterials()">
+          <ng-container *ngFor="let material of myLabMaterials">
               <ion-card *ngIf="material.isStartingMaterial"id="materialCard" style="margin: 20px auto" class="panel panel-default">
                   <div style="text-align: center" class="panel-body">
                       {{material.name}}
                   </div>
                   <img id="img" src= {{material.img}}>
-                  <button id="deleteButton" (click)="preDeleteMaterial($event, material)"><ion-icon name="ios-trash"></ion-icon></button>
+                  <button id="deleteButton" (click)="preDeleteMaterial(material)"><ion-icon name="ios-trash"></ion-icon></button>
               </ion-card>
           </ng-container>
       </ion-col>
       <ion-col>
           <ion-item-divider color="primary">Intermediate Materials</ion-item-divider>
-          <ng-container *ngFor="let material of materialService.getMaterials()">
+          <ng-container *ngFor="let material of myLabMaterials">
               <ion-card *ngIf="!material.isStartingMaterial && !material.isFinalMaterial" id="materialCard" style="margin: 20px auto" class="panel panel-default">
                   <div style="text-align: center" class="panel-body">
                       {{material.name}}
                   </div>
                   <img id="img" src= {{material.img}}>
-                  <button id="deleteButton" (click)="preDeleteMaterial($event, material)"><ion-icon name="ios-trash"></ion-icon></button>
+                  <button id="deleteButton" (click)="preDeleteMaterial(material)"><ion-icon name="ios-trash"></ion-icon></button>
               </ion-card>
           </ng-container>
       </ion-col>
       <ion-col>
           <ion-item-divider color="primary">Final Materials</ion-item-divider>
-          <ng-container *ngFor="let material of materialService.getMaterials()">
+          <ng-container *ngFor="let material of myLabMaterials">
               <ion-card *ngIf="material.isFinalMaterial" id="materialCard" style="margin: 20px auto" class="panel panel-default">
                   <div style="text-align: center" class="panel-body">
                       {{material.name}}
                   </div>
                   <img id="img" src= {{material.img}}>
-                  <button id="deleteButton" (click)="preDeleteMaterial($event, material)"><ion-icon name="ios-trash"></ion-icon></button>
+                  <button id="deleteButton" (click)="preDeleteMaterial(material)"><ion-icon name="ios-trash"></ion-icon></button>
               </ion-card>
           </ng-container>
       </ion-col>

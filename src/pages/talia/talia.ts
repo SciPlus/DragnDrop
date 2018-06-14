@@ -8,16 +8,13 @@
 // id/password --> access lab. Control for the teacher.
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Tab } from 'ionic-angular/components/tabs/tab';
-import { DndModule } from 'ng2-dnd';
-import { HomePage } from '../home/home';
 import { SubmitPage } from '../submit/submit';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { MaterialService } from '../../services/material.service';
 import { Material } from '../../app/models/Material';
 import { CombinationService } from '../../services/combination.service';
 import { Combo } from '../../app/models/combo';
-import { IsFoundService } from '../../services/isFound.service';
+import { Lab } from '../../app/models/lab';
 
 @IonicPage()
 @Component({
@@ -25,6 +22,8 @@ import { IsFoundService } from '../../services/isFound.service';
   templateUrl: 'talia.html',
 })
 export class TaliaPage implements OnInit {
+  isFoundIds: String[] = [];
+  existingIsFoundMaterials: Material[] = [];
   email: string;
   buttonClicked = false;
   ingred: Object;
@@ -64,19 +63,47 @@ export class TaliaPage implements OnInit {
   materials: Material[];
   Reaction_Components1: Material[] = []; /// setting to a value;
   rawCombinations: Combo[];
+  myLab: Lab;
 
-  constructor(private isFoundService: IsFoundService, private combinationService: CombinationService, private materialService: MaterialService, private fire: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private combinationService: CombinationService, private materialService: MaterialService, private fire: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
     this.email = fire.auth.currentUser.email;
-
+    this.myLab = this.navParams.data;
+    this.materials = this.getMaterials();
+    this.rawCombinations = this.combinationService.getCombos(this.myLab.combinationsIDs);
+    this.materials.forEach(material => {
+      if (material.isStartingMaterial) {
+      this.isFoundIds.push(material.id);
+      }
+      });
+      for (let i = 0; i <= this.isFoundIds.length; i++) {
+        this.materials.forEach(material => {
+          if (material.id === this.isFoundIds[i])
+            this.existingIsFoundMaterials.push(material);
+        })
+      }  
+  }
+  getMaterials() {
+    return this.materialService.getMaterials(this.myLab.materialsIDs);
   }
   ngOnInit() {
     console.log('talia page is running');
     // get all the materials that have ids of array. 
     // for each id in array, get the material that has that id.
     // getting materials from database (calling getMaterials function)
-    this.materials = this.materialService.getMaterials();
-    this.rawCombinations = this.combinationService.getCombos();
   };
+  // Is Found Service Functions Transferred to TaliaPage
+  addFoundMaterial(material: Material) {
+    if (this.isFoundIds.indexOf(material.id) === -1) {
+        this.isFoundIds.push(material.id);
+        this.existingIsFoundMaterials.push(material);
+    }
+  }
+  deleteFoundMaterial(material: Material) {
+      var index = this.isFoundIds.indexOf(material.id);
+      if (index != -1) {
+          this.isFoundIds.splice(index, 1);
+        }
+  }
   defineMaterial(event, material: Material) {
     this.defineState = true;
     this.materialToDefine = material;
@@ -95,36 +122,10 @@ export class TaliaPage implements OnInit {
         let myResult = this.materials.find((newMaterial) => {
           return (newMaterial.id === combo.result.id);
         });
-        this.isFoundService.addFoundMaterial(myResult);
+        this.addFoundMaterial(myResult);
       }
     });
   }
-    
-    
-    // checks if elements form combo
-       /*
-    if (this.Reaction_Components1.length >= 2) {
-      this.rawCombinations.forEach(combo => {
-        if ((combo.ingredients[0] === this.Reaction_Components1[0].id) || combo.ingredients[1] === this.Reaction_Components1[1].id) {
-          console.log("Hello");
-        }
-        let combinationIngredientIds = this.materials.filter((newMaterial) => {
-          return (newMaterial)
-        })
-        if (this.numberOfFoundIngredients === 2) {
-          // getting specific combo result as material
-          let myResult = this.materials.find((newMaterial) => {
-            return (newMaterial.id === combo.result.id);
-          });
-          console.log(myResult);
-          this.isFoundService.addFoundMaterial(myResult);
-          if (myResult.isFinalMaterial === true) {
-            this.completionMessage();
-          }
-        }
-      });
-    }
-      */
   clearComponents() {
     this.Reaction_Components1 = [];
   }
