@@ -15,27 +15,27 @@
     <ion-grid>
         <ion-row>
             <ion-col col-7>
-                <ion-card class="directions" style="width: 90%">
-                    <p style="font-size: 15px; margin: 20px 20px; text-align: center;">
-                        <strong>First: </strong>
-                        <i> Search and Drag Materials from the List Below to the combination equation as either a reactant or
-                            product
-                        </i>
-                    </p>
-                    <p style="font-size: 15px; margin: 20px 20px; text-align: center;">
-                        <strong>Then: </strong>
-                        <i> Click "Create Combination" to add the combination to the lab</i>
-                    </p>
-                    <p style="font-size: 15px; margin: 20px 20px; text-align: center;">
-                        <strong>Now: </strong>
-                        <i> Click "Refresh" and create subsequent combinations until you are satisfied</i>
-                    </p>
-            </ion-card>
+                    <ion-card class="directions" style="width: 90%">
+                        <p style="font-size: 15px; margin: 20px 20px; text-align: center;">
+                            <strong>First: </strong>
+                            <i> Search and Drag Materials from the List Below to the combination equation as either a reactant or
+                                product
+                            </i>
+                        </p>
+                        <p style="font-size: 15px; margin: 20px 20px; text-align: center;">
+                            <strong>Then: </strong>=
+                            <i> Click "Create Combination" to add the combination to the lab</i>
+                        </p>
+                        <p style="font-size: 15px; margin: 20px 20px; text-align: center;">
+                            <strong>Now: </strong>
+                            <i> Click "Refresh" and create subsequent combinations until you are satisfied</i>
+                        </p>
+                </ion-card>
             </ion-col>
+                            <!-- Theoretically this would work if there weren't already ingredients in the database -->
             <ion-col col-5>
-                <!-- Theoretically this would work if there weren't already ingredients in the database-->
-                <p (dblclick)="preDeleteCombo(combination)" class="comboList"style="font-size: 12px;" *ngFor="let combination of getMyCombos();let i=index">{{i + 1}}. {{combination.ingredients[0].name}} + {{combination.ingredients[1].name}}  =  {{combination.result.name}}</p>
-            </ion-col>
+                <p (dblclick)="preDeleteCombo(combination)" class="comboList"style="font-size: 12px;" *ngFor="let combination of myLabCombos;let i=index">{{i + 1}}. {{combination.ingredients[0].name}} + {{combination.ingredients[1].name}}  =  {{combination.result.name}}</p>
+            </ion-col> 
         </ion-row>
         <ion-row>
             <ion-col col-auto style="width: 30%">

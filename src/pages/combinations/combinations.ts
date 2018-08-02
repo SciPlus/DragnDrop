@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { MaterialService } from '../../services/material.service';
 import { Material } from '../../app/models/material';
 import { CombinationService } from '../../services/combination.service';
@@ -9,6 +9,7 @@ import { IndivLabPage } from '../indivlab/indivlab';
 import { Lab } from '../../app/models/lab';
 import { LabService } from '../../services/lab.service';
 import { ActionSheetController } from 'ionic-angular';
+import 'rxjs/add/operator/toPromise';
 
 
 @Component({
@@ -42,15 +43,42 @@ export class CombinationsPage{
   newCombo: Combo = {};
   myLabId: String;
   myLab: Lab;
-
-  constructor(public actionSheetCtrl: ActionSheetController, private labService: LabService, private comboService: CombinationService, private materialService: MaterialService, public navCtrl: NavController, public navParams: NavParams) {
+  myLabCombos: Material[];
+  constructor(public alertCtrl: AlertController, public actionSheetCtrl: ActionSheetController, private labService: LabService, private comboService: CombinationService, private materialService: MaterialService, public navCtrl: NavController, public navParams: NavParams) {
     this.myLab = this.navParams.data;
-    this.myLab.combinationsIDs = [];
-    }
+    this.myLab.combinationsIDs = this.navParams.data.combinationsIDs;
+    this.myLabCombos = this.comboService.getCombos(this.navParams.data.combinationsIDs);
+    console.log(` constructor(): ${this.myLabCombos}`);
+  }
     // Let's populate this page with some filler content for funzies
   // test this tomorrow --> then move on to play page organization (w/ grid)
   // then start saving labs, sharing labs, and creating a search page
   // then work on the sign out page/grading system.
+  presentConfirm(combo: Combo) {
+    let alert = this.alertCtrl.create({
+      title: 'Confirm deletion',
+      message: 'Are you sure you want to delete this combination?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            this.deleteCombination(combo);
+            let delIndex = this.myLab.combinationsIDs.indexOf(combo.id);
+            this.myLab.combinationsIDs.slice(delIndex, delIndex+1);
+
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
   getMyMaterials() {
     return this.materialService.getMaterials(this.myLab.materialsIDs);
   }
@@ -72,7 +100,6 @@ export class CombinationsPage{
     let ref = this.comboService.addCombo(this.newCombo);
       ref.then(c => { this.myLab.combinationsIDs.push(c.id);
         this.labService.updateLab(this.myLab);
-        console.log(this.myLab.combinationsIDs);
       });
     this.newCombo = {};
     // add new combination to combos w/ ingredietns - precomp and result: post-comp ... push to databse.
@@ -116,12 +143,11 @@ export class CombinationsPage{
   deleteCombination(combo: Combo) {
     this.comboService.deleteCombo(combo);
     let comboIndex =  this.myLab.combinationsIDs.indexOf(combo.id);
-    this.myLab.combinationsIDs.splice(comboIndex, 1);
+    this.myLab.combinationsIDs.splice(comboIndex, comboIndex+1);
     this.labService.updateLab(this.myLab);
-    console.log(this.myLab.combinationsIDs);
   }
   goToIndivLabPage() {
-    this.navCtrl.push(IndivLabPage, this.myLab); // may conflict with other this.myLab being pushed
+    this.navCtrl.push(IndivLabPage, this.myLab);
   }
   preDeleteCombo(combo: Combo) { {
     let actionSheet = this.actionSheetCtrl.create({
@@ -131,7 +157,7 @@ export class CombinationsPage{
           text: `Delete combination`,
           role: 'destructive',
           handler: () => {
-            this.deleteCombination(combo);
+            this.presentConfirm(combo);
           }
         },
         {

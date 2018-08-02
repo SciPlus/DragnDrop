@@ -1,14 +1,9 @@
-import { Component , ViewChild} from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, NavParams, AlertController } from 'ionic-angular';
-import { DragulaModule } from '../../../node_modules/ng2-dragula/ng2-dragula';
-import { SigninPage } from '../signin/signin';
-import { RegisterPage } from '../register/register';
 import { TaliaPage } from '../talia/talia';
 import { ListPage } from '../list/list';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Lab } from '../../app/models/lab';
-import { LabService } from '../../services/lab.service';
-import { ProfilePage } from '../profile/profile';
 
 
 
@@ -19,21 +14,11 @@ import { ProfilePage } from '../profile/profile';
 export class IndivLabPage {
     email: string;
     myLabId: String;
-    myLab: Lab = {
-      name: "",
-      originalCreator: "",
-      combinationsIDs: [],
-      materialsIDs: [],
-    }
+    myLab: Lab;
 
-  constructor(private labService: LabService, private fire: AngularFireAuth, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private fire: AngularFireAuth, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
     this.email = fire.auth.currentUser.email;
-
-    this.myLabId = this.navParams.data.id;
-    this.myLab = this.labService.getLabs().find((newLab) => {
-      return (newLab.id === this.myLabId);
-    })
-    // will integrate this as a part of Ionic Navigator to make sure lab id is passed through ionic navCtrl correctly.
+    this.myLab = this.navParams.data;
   };
 
   edit(lab) {

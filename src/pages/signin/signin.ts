@@ -4,6 +4,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { TaliaPage } from '../talia/talia';
 import { RegisterPage } from '../register/register';
 import { ProfilePage } from '../profile/profile';
+import { listenToElementOutputs } from '@angular/core/src/view/element';
 
 @IonicPage()
 @Component({
@@ -13,7 +14,9 @@ import { ProfilePage } from '../profile/profile';
 export class SigninPage {
 
 	@ViewChild('username') user;
-	@ViewChild('password') password;
+  @ViewChild('password') password;
+  ListOfWords: String = "";
+  text: any;
 
   constructor(private alertCtrl: AlertController, private fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
   }
@@ -46,6 +49,13 @@ export class SigninPage {
   }
   goToRegister() {
     this.navCtrl.push(RegisterPage);
+  }
+  enterList() {
+    let NewListOfWords = this.ListOfWords.split(" ");
+    console.log(NewListOfWords);
+  }
+  clear() {
+    this.ListOfWords= "";
   }
   resetPassword() {
     console.log("to be figured out later");

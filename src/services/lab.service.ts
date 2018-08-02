@@ -9,7 +9,6 @@ export class LabService {
     existingLabs: Lab[] = [];
     labsCollection: AngularFirestoreCollection<Lab>    
     labDoc: AngularFirestoreDocument<Lab>;
-    myLabIds: String[];
     constructor(public afs: AngularFirestore) {
         let labs: Observable<Lab[]>;
         this.labsCollection = this.afs.collection('labs', ref => ref.orderBy('name', 'asc'));
@@ -24,10 +23,17 @@ export class LabService {
         });
         labs.subscribe(labs => {
             this.existingLabs = labs;
-        })
+        });
     };
     getLabs() {
         return this.existingLabs;
+    }
+    // change these two functions later today because they do not actually fetch anything from the database.
+    getComboIds(lab: Lab) {
+        return lab.combinationsIDs;
+    }
+    getMaterialIds(lab: Lab) {
+        return lab.materialsIDs;
     }
     addLab(lab: Lab) {
         return this.labsCollection.add(lab);

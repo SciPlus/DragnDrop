@@ -8,7 +8,6 @@ export class MaterialService {
     materialsCollection: AngularFirestoreCollection<Material>    
     materialDoc: AngularFirestoreDocument<Material>;
     existingMaterials: Material[] = [];
-    existingMaterialId: string;
     
     constructor(public afs: AngularFirestore) {
         let materials: Observable<Material[]>;
@@ -27,14 +26,6 @@ export class MaterialService {
         })
     }
     getMaterials(materialsIDs: String[]) {
-        
-        /* let myExistingMaterials = this.existingMaterials.filter((newMaterial) => {
-            for (let index = 0; index < materialsIDs.length; index++) {
-                if (newMaterial.id === materialsIDs[index]) return true;
-            }
-            return false;
-        }) */
-
         let myExistingMaterials = materialsIDs.map((id) => {
             return this.existingMaterials.find(material => material.id === id);
         })

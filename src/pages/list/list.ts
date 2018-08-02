@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { MaterialService } from '../../services/material.service';
 import { Material } from '../../app/models/material';
 import { CombinationService } from '../../services/combination.service';
@@ -22,16 +22,10 @@ export class ListPage{
   }
   myLabId: String;
   myLab: Lab;
-  myLabMaterials: Material[];
-  constructor(private labService: LabService, public actionSheetCtrl: ActionSheetController, private comboService: CombinationService, private materialService: MaterialService, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public alertCtrl: AlertController, private labService: LabService, public actionSheetCtrl: ActionSheetController, private comboService: CombinationService, private materialService: MaterialService, public navCtrl: NavController, public navParams: NavParams) {
     this.myLabId = this.navParams.data.id;
-    this.myLab = this.labService.getLabs().find((newLab) => {
-      return (newLab.id === this.myLabId);
-    });
-    this.myLab.materialsIDs = []; // change later
-    if (this.myLab.materialsIDs != []) {
-      this.myLabMaterials = this.getMyMaterials();
-    }
+    this.myLab = this.navParams.data;
+    this.myLab.materialsIDs = this.labService.getMaterialIds(this.myLab);
   }
   getMyMaterials() {
     return this.materialService.getMaterials(this.myLab.materialsIDs);
@@ -65,7 +59,28 @@ export class ListPage{
     this.newMaterial.isFinalMaterial = false;
     this.newMaterial.isStartingMaterial = false;
   }
-  
+  presentConfirm(material: Material) {
+    let alert = this.alertCtrl.create({
+      title: 'Confirm deletion',
+      message: 'Are you sure you want to delete this material?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            this.deleteMaterial(material);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
   preDeleteMaterial( material: Material) { {
       let actionSheet = this.actionSheetCtrl.create({
         title: `Modify ${material.name}`,
@@ -74,7 +89,7 @@ export class ListPage{
             text: 'Delete',
             role: 'destructive',
             handler: () => {
-              this.deleteMaterial( material);
+              this.presentConfirm(material);
             }
           },
           {
@@ -93,7 +108,7 @@ export class ListPage{
   deleteMaterial(material: Material) {
     this.materialService.deleteMaterial(material);
     let materialIndex =  this.myLab.materialsIDs.indexOf(material.id);
-    this.myLab.materialsIDs.splice(materialIndex, 1);
+    this.myLab.materialsIDs.splice(materialIndex, materialIndex+1);
     this.updateLab(this.myLab);
     console.log(this.myLab.materialsIDs);
   }

@@ -1,7 +1,6 @@
-import { Component , ViewChild} from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { TaliaPage } from '../talia/talia';
 import { IndivLabPage } from '../indivlab/indivlab';
 import { Lab } from '../../app/models/lab';
 import { LabService } from '../../services/lab.service';
@@ -52,9 +51,31 @@ export class ProfilePage {
       this.newLab.materialsIDs = [];
     }
   }
+  presentConfirm(lab) {
+    let alert = this.alertCtrl.create({
+      title: 'Confirm deletion',
+      message: 'Are you sure you want to delete this lab?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            this.deleteLab(lab);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
   labSettings(lab) {
     let actionSheet = this.actionSheetCtrl.create({
-      title: 'Modify your material',
+      title: 'Modify your lab',
       buttons: [
         {
           text: 'Details',
@@ -67,7 +88,7 @@ export class ProfilePage {
           text: 'Delete',
           role: 'destructive',
           handler: () => {
-            this.deleteLab(lab);
+            this.presentConfirm(lab);
           }
         },
         {

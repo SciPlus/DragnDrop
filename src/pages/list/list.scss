@@ -15,6 +15,12 @@ page-list {
     }
     #deleteButton {
         background: white;
+        top: 0px;
+        right: 0px;
+        position: absolute;
+        &:hover {
+            background-color:color($colors, primary)
+        }
     }
     #input-field {
         margin: 5px;
@@ -25,16 +31,36 @@ page-list {
         background: color($colors, danger);
         color: white;
     }
-    #materialCard {
+    .materialCard {
+        opacity: 1;
+        display: block;
+        transition: .5s ease;
+        backface-visibility: hidden;
+        display: inline-block;
+        position: relative;
         width: 115px; 
         height: 115px;
-        display: inline-block;
+        left: 30px;
+        right: 30px;
+        margin-left: 40px;
+        margin-right: 40px;
+        &:hover{
+            opacity: 0.3;
+       }
     }
     #img {
+        height: 45px; 
         width: auto; 
-        height: 80px; 
-        padding: 10px; 
-        margin-left: auto; 
-        margin-right: auto;
+        vertical-align: center;
+        top: 60px;
+        margin-right: 35px;
+        margin-left: 35px;
+        position: absolute;
+
+    }
+    #cardText {
+        margin-top: 12px;
+        margin-right: 5px;
+        margin-left: 5px;
     }
 }

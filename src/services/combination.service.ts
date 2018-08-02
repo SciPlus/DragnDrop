@@ -7,6 +7,7 @@ export class CombinationService {
     combosCollection: AngularFirestoreCollection<Combo>
     comboDoc: AngularFirestoreDocument<Combo>;
     existingCombinations: Combo[] = [];
+
     constructor(public afs: AngularFirestore) {
         let combinations: Observable<Combo[]>;
         this.combosCollection = this.afs.collection('combinations', ref => ref.orderBy('result', 'asc'));
@@ -21,16 +22,15 @@ export class CombinationService {
         });
         combinations.subscribe(combos => {
             this.existingCombinations = combos;
-            console.log(this.existingCombinations);
-        })
+        });
     }
     getCombos(combinationIds: String[]) {
-        let myExistingCombinations = this.existingCombinations.filter((newCombo) => {
-            for (let index = 1; index <= combinationIds.length; index++) {
-                return (newCombo.id === combinationIds[index]);
-            }
+        let myExistingCombos = combinationIds.map((id) => {
+            console.log(` getCombos1(): ${id}`);
+            return this.existingCombinations.find(combo => combo.id === id);
         })
-        return myExistingCombinations;
+        console.log(` getCombos(): ${myExistingCombos}`);
+        return myExistingCombos;
     }
     addCombo(combo: Combo) {
         return this.combosCollection.add(combo);
