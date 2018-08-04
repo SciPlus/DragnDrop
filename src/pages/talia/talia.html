@@ -33,12 +33,14 @@
         <div class="col-sm-3">
             <div class="panel-heading">Available products</div>
             <div class="panel-body">
-                <ion-card *ngFor="let material of getMaterials()" class="availableMaterial" dnd-draggable [dragData]="material" [dropZones]="['demo1']">
-                    <ion-label style="font-size: 10px;padding: 0%; text-align: center">
-                        <strong>{{material.name}}</strong>
-                    </ion-label>
-                    <img style=" width: auto; height: 30px; margin: auto" src= {{material.img}}>
-                </ion-card>
+                <ng-container *ngFor="let material of existingIsFoundMaterials" class="availableMaterial" >
+                        <ion-card class="availableMaterial" dnd-draggable [dragData]="material" [dropZones]="['demo1']">
+                                <ion-label style="font-size: 10px;padding: 0%; text-align: center">
+                                    <strong>{{material.name}}</strong>
+                                </ion-label>
+                                <img style=" width: auto; height: 30px; margin: auto" src= {{material.img}}>
+                            </ion-card>
+                </ng-container>
             </div>
         </div>
     </div>
@@ -48,19 +50,4 @@
     <div id="successMessage">These elements combine : ) </div>
     <div id="completionMessage">You have obtained the final product and completed the experiment!</div>
     <button ion-button round outline class="submitButton" (click)="openSubmitPage()">Submit Experiment</button>
-    <h1>To Do List</h1>
-    <h1>Add Item (task)</h1>
-    <ion-item>
-        <ion-input type="any" [(ngModel)]="addedItem.task"></ion-input>
-    </ion-item>
-    <h1>Add Item Duration (minutes)</h1>
-    <ion-item>
-        <ion-input type="any" [(ngModel)]="addedItem.duration"></ion-input>
-    </ion-item>
-    <button (click)="delete()" class="deleteButton">Delete Item from List</button>
-    <button (click)="showInfo()" class="infoButton">Show Info</button>
-    <button (click)="add()" class="funButton">Add Item to List</button>
-    <ion-list class="toDoList" *ngFor="let todo of toDos">
-        <ion-label>{{todo.task}} for {{todo.duration}} minutes</ion-label>
-    </ion-list>
 </ion-content>

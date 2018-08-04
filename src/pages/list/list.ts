@@ -75,6 +75,7 @@ export class ListPage{
           text: 'Delete',
           handler: () => {
             this.deleteMaterial(material);
+
           }
         }
       ]
@@ -105,11 +106,21 @@ export class ListPage{
       actionSheet.present();
     }
   }
-  deleteMaterial(material: Material) {
-    this.materialService.deleteMaterial(material);
+  deleteMaterial(material: Material) {  
+    /*
+    // deleting combos with the material as a reactant or product
+    let currentCombos = this.comboService.getCombos(this.myLab.combinationsIDs);
+    currentCombos.forEach(combo => {
+      if ((combo.result.id === material.id) || ((combo.ingredients[0].id === material.id) || (combo.ingredients[1].id === material.id))) {
+        this.comboService.deleteCombo(combo);
+      }
+    });
+    */
+    // deleting material ID from lab
     let materialIndex =  this.myLab.materialsIDs.indexOf(material.id);
     this.myLab.materialsIDs.splice(materialIndex, materialIndex+1);
     this.updateLab(this.myLab);
+    this.materialService.deleteMaterial(material);
     console.log(this.myLab.materialsIDs);
   }
   updateLab(lab: Lab) {

@@ -4,6 +4,9 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { IndivLabPage } from '../indivlab/indivlab';
 import { Lab } from '../../app/models/lab';
 import { LabService } from '../../services/lab.service';
+
+import { CombinationService } from '../../services/combination.service';
+import { MaterialService } from '../../services/material.service';
 import { ActionSheetController } from 'ionic-angular';
 
 @Component({
@@ -21,12 +24,35 @@ export class ProfilePage {
     userId: any;
     labUser: string = "";
   
-  constructor(public navParams: NavParams, private labService: LabService, public actionSheetCtrl: ActionSheetController, private fire: AngularFireAuth, public navCtrl: NavController, public alertCtrl: AlertController) {
+  constructor(public navParams: NavParams, private comboService: CombinationService, private materialService: MaterialService, private labService: LabService, public actionSheetCtrl: ActionSheetController, private fire: AngularFireAuth, public navCtrl: NavController, public alertCtrl: AlertController) {
     this.email = this.fire.auth.currentUser.email;
     this.userId = this.fire.auth.currentUser.uid;
   };
   deleteLab(lab: Lab) {
+    let currentCombos = this.comboService.getCombos(lab.combinationsIDs);
+    console.log(`Current combos: ${currentCombos}`);
+
+    currentCombos.forEach(combo => {
+      console.log(`Current combo: ${combo}`);
+      this.comboService.deleteCombo(combo);
+    });
+    let currentMaterials = this.materialService.getMaterials(lab.materialsIDs);
+    console.log(`Current materials: ${currentMaterials}`);
+
+    currentMaterials.forEach(material => {
+      console.log(`Current material: ${material}`);
+      this.materialService.deleteMaterial(material);
+    })
     this.labService.deleteLab(lab);
+
+    /* 
+    let myExistingCombos = combinationIds.map((id) => {
+            console.log(` getCombos1(): ${id}`);
+            return this.existingCombinations.find(combo => combo.id === id);
+        })
+        console.log(` getCombos(): ${myExistingCombos}`);
+        return myExistingCombos;
+    */
   }
   goToIndivLabPage(lab: Lab) {
     this.navCtrl.push(IndivLabPage, lab);

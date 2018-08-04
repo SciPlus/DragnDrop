@@ -75,12 +75,12 @@ export class TaliaPage implements OnInit {
       this.isFoundIds.push(material.id);
       }
       });
-      for (let i = 0; i <= this.isFoundIds.length; i++) {
-        this.materials.forEach(material => {
-          if (material.id === this.isFoundIds[i])
-            this.existingIsFoundMaterials.push(material);
-        })
-      }  
+      this.materials.forEach(material => {
+        if (this.isFoundIds.indexOf(material.id) !== -1) {
+          this.existingIsFoundMaterials.push(material);
+          console.log(` Existing: ${this.existingIsFoundMaterials}`);
+        }
+      });
   }
   getMaterials() {
     return this.materialService.getMaterials(this.myLab.materialsIDs);
@@ -96,6 +96,7 @@ export class TaliaPage implements OnInit {
     if (this.isFoundIds.indexOf(material.id) === -1) {
         this.isFoundIds.push(material.id);
         this.existingIsFoundMaterials.push(material);
+        console.log(` Added To Existing: ${this.existingIsFoundMaterials}`);
     }
   }
   deleteFoundMaterial(material: Material) {
