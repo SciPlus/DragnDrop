@@ -26,10 +26,8 @@ export class CombinationService {
     }
     getCombos(combinationIds: String[]) {
         let myExistingCombos = combinationIds.map((id) => {
-            console.log(` getCombos1(): ${id}`);
             return this.existingCombinations.find(combo => combo.id === id);
         })
-        console.log(` getCombos(): ${myExistingCombos}`);
         return myExistingCombos;
     }
     addCombo(combo: Combo) {

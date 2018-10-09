@@ -17,6 +17,7 @@ import 'rxjs/add/operator/toPromise';
   templateUrl: 'combinations.html'
 })
 export class CombinationsPage{
+  materialShow: String = "";
   materials: Material[] = [];
   startAt = new Subject();
   endAt = new Subject();
@@ -43,17 +44,18 @@ export class CombinationsPage{
   newCombo: Combo = {};
   myLabId: String;
   myLab: Lab;
-  myLabCombos: Material[];
   constructor(public alertCtrl: AlertController, public actionSheetCtrl: ActionSheetController, private labService: LabService, private comboService: CombinationService, private materialService: MaterialService, public navCtrl: NavController, public navParams: NavParams) {
     this.myLab = this.navParams.data;
     this.myLab.combinationsIDs = this.navParams.data.combinationsIDs;
-    this.myLabCombos = this.comboService.getCombos(this.navParams.data.combinationsIDs);
-    console.log(` constructor(): ${this.myLabCombos}`);
+    this.materialShow = "Starting Material"
   }
     // Let's populate this page with some filler content for funzies
   // test this tomorrow --> then move on to play page organization (w/ grid)
   // then start saving labs, sharing labs, and creating a search page
   // then work on the sign out page/grading system.
+  getCombos() {
+    return this.comboService.getCombos(this.navParams.data.combinationsIDs);
+  }
   presentConfirm(combo: Combo) {
     let alert = this.alertCtrl.create({
       title: 'Confirm deletion',
@@ -141,7 +143,6 @@ export class CombinationsPage{
     return (dragData: any) => this.postComponents.length <= 1;
   }
   deleteCombination(combo: Combo) {
-    this.comboService.deleteCombo(combo);
     let comboIndex =  this.myLab.combinationsIDs.indexOf(combo.id);
     this.myLab.combinationsIDs.splice(comboIndex, comboIndex+1);
     this.labService.updateLab(this.myLab);

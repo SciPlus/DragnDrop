@@ -3,12 +3,11 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Individual Lab Page</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content>
   <h3 id="heading1">{{myLab.name}}</h3>
-  <img id="labPicture" src="../../assets/imgs/lab.png" height="150" width="220"/>
-  <button ion-button round id="editButton" (click)="edit(myLab);">Edit</button>
-  <button ion-button round outline id="playButton" (click)="play(myLab);">Play</button>
+  <img id="labPicture" src="../../assets/imgs/labExpt.png"/>
+  <button ion-button round id="editButton" (click)="edit(myLab);">Edit Experiment</button>
+  <button ion-button round outline id="playButton" (click)="play(myLab);">Perform Experiment</button>
 </ion-content>

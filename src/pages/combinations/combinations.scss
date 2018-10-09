@@ -9,30 +9,38 @@ page-combinations {
         color: color($colors, update);
         margin: 20px auto;
         border-radius: 12px;
+        box-shadow: 0px 5px #a69cd6;
         padding: 10px;
         font-size: 16px;
         cursor: pointer;
+        &:hover{
+            opacity: 0.3;
         }
+        &:active{
+            opacity: 0.3;
+            transform: translateY(4px);
+        }
+    }
+        
+        
+    #combosLongList {
+        margin: 5% auto;
+    } 
+
+    #cardText {
+        margin-top: 12px;
+        margin-right: 5px;
+        margin-left: 5px;
+    }
     .draggableFields {
         vertical-align: center; 
         width: 115px; 
         height: 115px; 
         display: inline-block;
         color: white;
-        background-color: color($colors, update);
+        background-color: #a69cd6;
     }
-    #materialImg {
-        width: auto; 
-        height: 80px; 
-        padding: 10px; 
-        margin-left: auto; 
-        margin-right: auto;
-    }
-    #materialCard {
-        width: 115px; 
-        height: 115px;
-        display: inline-block;
-    }
+    
     .listMaterials {
         border: solid 1px; 
         background: rgba(73, 168, 231, 0.661);
@@ -48,5 +56,34 @@ page-combinations {
         &:hover{
             opacity: 0.3;
        }
+    }
+
+    #logoPic {
+        display: block;
+        margin: auto 10px;
+        height: 30px;
+    }
+    .materialCard {
+        opacity: 1;
+        display: block;
+        transition: .5s ease;
+        backface-visibility: hidden;
+        display: inline-block;
+        position: relative;
+        width: 95px; 
+        height: 95px;
+        &:hover{
+            opacity: 0.3;
+       }
+    }
+    #img {
+        height: 25px; 
+        width: auto; 
+        vertical-align: center;
+        top: 40px;
+        margin-right: 37.5px;
+        margin-left: 37.5px;
+        position: absolute;
+
     }
 }

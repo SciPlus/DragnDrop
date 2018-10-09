@@ -1,0 +1,280 @@
+page-game {
+    .availableMaterial {
+        opacity: 1;
+        display: inline-block;
+        transition: .5s ease;
+        backface-visibility: hidden;
+        width: 90px; 
+        height: 90px; 
+        position: relative;
+        top: 50%;
+        &:hover{
+            opacity: 0.3;
+       }
+    }
+.dnd-drag-start {
+    -moz-transform:scale(0.8);
+    -webkit-transform:scale(0.8);
+    transform:scale(0.8);
+    opacity:0.7;
+    border: 2px dashed #000;
+}
+    
+.dnd-drag-enter {
+    opacity:0.7;
+    border: 2px dashed #000;
+}
+    
+.dnd-drag-over {
+    border: 2px dashed #000;
+}
+    
+.dnd-sortable-drag {
+    -moz-transform:scale(0.9);
+    -webkit-transform:scale(0.9);
+    transform:scale(0.9);
+    opacity:0.7;
+    border: 1px dashed #000;
+}
+    
+.dnd-drag-start {
+    -moz-transform:scale(0.8);
+    -webkit-transform:scale(0.8);
+    transform:scale(0.8);
+    opacity:0.7;
+    border: 2px dashed #000;
+}
+
+.dnd-drag-enter {
+    opacity:0.7;
+    border: 2px dashed #000;
+}
+
+.dnd-drag-over {
+    border: 2px dashed #000;
+}
+
+.dnd-sortable-drag {
+  -moz-transform:scale(0.9);
+  -webkit-transform:scale(0.9);
+  transform:scale(0.9);
+  opacity:0.7;
+  border: 1px dashed #000;
+}
+#reactionSquares {
+    width: 90%;
+    margin: auto auto;
+    background-color: color($colors, primary);
+}
+.reactionHeading {
+    text-align: center;
+    font-size: 30px;
+    color :color($colors, secondary);
+
+}
+.funButton, {
+    background-color: #fc0afcfb;
+    display: block;
+    margin: 20px auto;
+    border-radius: 12px;
+    color: white;
+    padding: 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.deleteButton {
+    background-color: rgba(44, 7, 252, 0.984);
+    display: block;
+    margin: 20px auto;
+    border-radius: 12px;
+    color: white;
+    padding: 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.reacComp1 {
+    width: 125;
+    height: 125;
+    margin: 15px;
+    
+    &:hover {
+         background-color:color($colors, secondary)
+    }
+}
+#combineButton, #clearButton, #submitButton, #redoButton{
+    display:block;
+    float:center;
+    border: solid 2px;
+    background: white;;
+    border-color:color($colors, delete);
+    color: color($colors, delete);
+    margin: 20px auto;
+    border-radius: 12px;
+    box-shadow: 0px 5px #59af43;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    &:hover{
+        opacity: 0.3;
+    }
+    &:active{
+        opacity: 0.3;
+        transform: translateY(4px);
+    }
+}
+
+.draggableFields {
+    vertical-align: center; 
+    width: 115px; 
+    height: 115px; 
+    display: inline-block;
+    color: white;
+    background-color: #59af43
+}
+.infoButton {
+    background-color: rgba(49, 160, 73, 0.984);
+    display: block;
+    margin: 20px auto;
+    border-radius: 12px;
+    color: white;
+    padding: 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.simpleDemo ul[dnd-list] {
+    min-height: 42px;
+    padding-left: 0px;
+}
+.simpleDemo ul[dnd-list] .dndDraggingSource {
+    display: none;
+}
+#completionMessage {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: rgb(38, 147, 190);
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+}
+#completionMessage.reveal{
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+#successMessage {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: rgb(38, 190, 58);
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+}
+#successMessage.display{
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+#failureMessage {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: rgb(190, 38, 38);
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+}
+#failureMessage.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;} 
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;} 
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;} 
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;} 
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+.materialCard {
+    opacity: 1;
+    display: block;
+    transition: .5s ease;
+    backface-visibility: hidden;
+    display: inline-block;
+    position: relative;
+    width: 95px; 
+    height: 95px;
+    &:hover{
+        opacity: 0.3;
+   }
+}
+#img {
+    height: 25px; 
+    width: auto; 
+    vertical-align: center;
+    top: 40px;
+    margin-right: 37.5px;
+    margin-left: 37.5px;
+    position: absolute;
+
+}
+#cardText {
+    margin-top: 12px;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+}

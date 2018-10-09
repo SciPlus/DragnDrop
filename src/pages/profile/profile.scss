@@ -18,7 +18,15 @@ page-profile {
         color: white;
         padding: 20px;
         font-size: 16px;
+        box-shadow: 0px 5px color($colors, secondaryc);
         cursor: pointer;
+        &:hover{
+            opacity: 0.3;
+        }
+        &:active{
+            opacity: 0.3;
+            transform: translateY(4px);
+        }
     }
     .lab {
         border: solid 1px; 

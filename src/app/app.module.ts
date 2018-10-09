@@ -1,3 +1,5 @@
+import { MbscModule } from '@mobiscroll/angular';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
@@ -5,14 +7,14 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
-import { TaliaPage} from '../pages/talia/talia';
+import { GamePage} from '../pages/game/game';
 import { SubmitPage} from '../pages/submit/submit';
 import { SigninPage} from '../pages/signin/signin';
 import { RegisterPage} from '../pages/register/register';
 import { ProfilePage} from '../pages/profile/profile';
 import { IndivLabPage } from '../pages/indivlab/indivlab';
 import { CombinationsPage} from '../pages/combinations/combinations';
-
+import { PopoverComponent} from '../components/popover/popover';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -37,15 +39,18 @@ const firebaseAuth = {
     MyApp,
     HomePage,
     ListPage,
-    TaliaPage,
+    GamePage,
     SubmitPage,
     SigninPage,
     RegisterPage,
     ProfilePage,
     IndivLabPage,
-    CombinationsPage
+    CombinationsPage,
+    PopoverComponent
   ],
-  imports: [
+  imports: [ 
+    MbscModule, 
+    FormsModule, 
     BrowserModule,
     IonicModule.forRoot(MyApp),
     DndModule.forRoot(),
@@ -59,13 +64,14 @@ const firebaseAuth = {
     MyApp,
     HomePage,
     ListPage,
-    TaliaPage,
+    GamePage,
     SubmitPage,
     SigninPage,
     RegisterPage,
     ProfilePage,
     IndivLabPage,
-    CombinationsPage
+    CombinationsPage,
+    PopoverComponent
   ],
   providers: [
     StatusBar,

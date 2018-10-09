@@ -4,7 +4,22 @@
 // Font path is used to include ionicons,
 // roboto, and noto sans fonts
 $font-path: "../assets/fonts";
+$text-input-md-highlight-color-invalid: transparent;
+$text-input-md-highlight-color-valid: transparent;
+$text-input-md-show-invalid-highlight: transparent;
+$text-input-md-show-valid-highlight: transparent;
+$text-input-md-background-color : "transparent";
+$text-input-md-show-focus-highlight : "transparent";
+$text-input-md-show-success-highlight:      false;
+$text-input-md-show-error-highlight:        false;
+// Input highlight - normal
+$text-input-md-highlight-color:             "transparent";
 
+// Input highlight - valid
+$text-input-md-hightlight-color-valid:      "transparent";
+
+// Input highlight - invalid
+$text-input-md-hightlight-color-invalid:    "transparent";
 
 // The app direction is used to include
 // rtl styles in your app. For more info, please see:
@@ -36,10 +51,17 @@ $app-direction: ltr;
 $colors: (
   primary:    #49a8e7,
   secondary:  #0c265e,
+  secondaryc: #6f92dd,
+  secondarycc: #0c265e,
   danger:     #ff8248,
+  darkerDanger: #fc6d2c,
+  dangerc:    #ffb18d,
   dark:       #0d4b1e,
   update:     #806cd8,
-  delete:     #82d86c
+  updatec:    #a69cd6,
+  delete:     #82d86c,
+  offWhite: #c0c0c0,
+  white: #ffffff
 );
 
 

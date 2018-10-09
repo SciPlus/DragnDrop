@@ -35,6 +35,9 @@ export class LabService {
     getMaterialIds(lab: Lab) {
         return lab.materialsIDs;
     }
+    getIsFoundIds(lab: Lab) {
+        return lab.isFoundIDs;
+    }
     addLab(lab: Lab) {
         return this.labsCollection.add(lab);
     }

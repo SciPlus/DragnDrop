@@ -2,19 +2,62 @@ page-signin {
     #signinButton {
         display:block;
         float:center;
-        width:50%;
+        width:30%;
         background-color: color($colors, secondary);
-        margin: 20px auto;
+        margin: 60px auto;
         border-radius: 12px;
         color: white;
         padding: 20px;
         font-size: 16px;
-        cursor: pointer;  
+        box-shadow: 0px 5px color($colors, secondaryc);
+        cursor: pointer;
+        &:hover{
+            opacity: 0.3;
+        }
+        &:active{
+            opacity: 0.3;
+            transform: translateY(4px);
+        }
     }
-    #noAccountButton, #forgotPasswordButton {
+
+    #makeAccountButton {
         text-align: center;
         color: color($colors, primary);
         font-size: 14px;
         cursor: pointer;
+    }
+    .secondaryItem {
+        width:30%;
+        background-color: white;
+        color: color($colors, primary);
+        font-size: 14px;
+        margin: 10px auto;
+    }
+    #logoPic {
+        display: block;
+        float: center;
+        margin-top: 30px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 50px;
+    }
+    // VV not using rn 
+    #noAccountButton, #forgotPasswordButton {
+        text-align: center;
+        color: color($colors, primary);
+        font-size: 12px;
+        cursor: pointer;
+    }
+    // ** not using rn
+    .input-label {
+        width: 400px;
+        margin: 2px auto;
+        display: block;
+        float: center;
+    }
+    .input-field {
+        margin: 2px auto;
+        width: 400px;
+        color: black;
     }
 }

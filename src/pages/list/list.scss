@@ -1,17 +1,51 @@
 page-list {
-    #submitButton, #nextButton {
+
+    #submitButton, #nextButton, {
     display:block;
     float:center;
     width:50%;
     border: solid 2px;
-    background: white;
-    border-color: #ff5c11;
-    color: #ff5c11;
+    background-color: white;
+    border-color: color($colors, darkerDanger);;
+    color: color($colors, darkerDanger);;
     margin: 20px auto;
     border-radius: 12px;
     padding: 10px;
     font-size: 16px;
+    box-shadow: 0px 5px color($colors, dangerc);
     cursor: pointer;
+        &:hover{
+            opacity: 0.3;
+        }
+        &:active{
+            opacity: 0.3;
+            transform: translateY(4px);
+        }
+    }
+    .addCard {
+        width: 60%;
+    }
+    #addIconButton {
+        width: 40%;
+        display:block;
+        color: white; 
+        float: center;
+        border: solid 1px;
+        background-color: color($colors, darkerDanger);;
+        box-shadow: 0px 5px color($colors, dangerc);
+        border-color: white;
+        margin: 20px auto;
+        border-radius: 12px;
+        padding: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        &:hover{
+            opacity: 0.3;
+       }
+       &:active{
+            opacity: 0.3;
+            transform: translateY(4px);
+        }
     }
     #deleteButton {
         background: white;
@@ -19,13 +53,13 @@ page-list {
         right: 0px;
         position: absolute;
         &:hover {
-            background-color:color($colors, primary)
+            background-color:color($colors, primary);
         }
     }
     #input-field {
         margin: 5px;
-        background-color: #fc6d2c;
-        border: solid 2px;    
+        color: white;
+        background-color: color($colors, darkerDanger);;
     }
     #secondaryItem {
         background: color($colors, danger);
@@ -38,23 +72,19 @@ page-list {
         backface-visibility: hidden;
         display: inline-block;
         position: relative;
-        width: 115px; 
-        height: 115px;
-        left: 30px;
-        right: 30px;
-        margin-left: 40px;
-        margin-right: 40px;
+        width: 95px; 
+        height: 95px;
         &:hover{
             opacity: 0.3;
        }
     }
     #img {
-        height: 45px; 
+        height: 25px; 
         width: auto; 
         vertical-align: center;
-        top: 60px;
-        margin-right: 35px;
-        margin-left: 35px;
+        top: 40px;
+        margin-right: 37.5px;
+        margin-left: 37.5px;
         position: absolute;
 
     }
@@ -63,4 +93,5 @@ page-list {
         margin-right: 5px;
         margin-left: 5px;
     }
+
 }

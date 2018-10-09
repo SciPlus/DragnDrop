@@ -8,10 +8,15 @@ page-home {
     color: color($colors, primary);
     margin: 20px;
 }
+#logoPic {
+    display: block;
+    height: 100px;
+    margin: 8% auto;
+}
 #signinButton {
     display:block;
     float:center;
-    background-color: color($colors, secondary);
+    background-color: color($colors, danger);
     margin: 20px auto;
     width: 30%;
     border-radius: 12px;
@@ -19,17 +24,35 @@ page-home {
     padding: 20px;
     font-size: 16px;
     cursor: pointer;
+    box-shadow: 0px 5px #fc6d2c;
+    cursor: pointer;
+    &:hover{
+        opacity: 0.3;
+   }
+    &:active{
+        opacity: 0.3;
+        transform: translateY(4px);
+    }
 }
 #registerButton {
     display:block;
     float:center;
     width: 30%;
-    border-color: color($colors, secondary);
+    background-color: color($colors, primary);
     margin: 20px auto;
     border-radius: 12px;
-    color: color($colors, secondary);
+    color: white;
     padding: 20px;
     font-size: 16px;
     cursor: pointer;
+    box-shadow: 0px 5px #6f92dd;
+    cursor: pointer;
+    &:hover{
+        opacity: 0.3;
+   }
+    &:active{
+        opacity: 0.3;
+        transform: translateY(4px);
+    }
 }
 }

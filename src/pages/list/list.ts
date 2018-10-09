@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component , ViewChild} from '@angular/core';
 import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { MaterialService } from '../../services/material.service';
 import { Material } from '../../app/models/material';
@@ -7,12 +7,15 @@ import { CombinationsPage } from '../combinations/combinations';
 import { ActionSheetController } from 'ionic-angular'
 import { LabService } from '../../services/lab.service'
 import { Lab } from '../../app/models/lab';
+import { PopoverController } from 'ionic-angular';
+import { PopoverComponent } from '../../components/popover/popover';
 
 @Component({
   selector: 'page-list',
   templateUrl: 'list.html'
 })
 export class ListPage{
+
   newMaterial: Material = {
     name: "",
     isFinalMaterial: false,
@@ -20,10 +23,11 @@ export class ListPage{
     definition: "",
     img: "",
   }
-  myLabId: String;
   myLab: Lab;
-  constructor(public alertCtrl: AlertController, private labService: LabService, public actionSheetCtrl: ActionSheetController, private comboService: CombinationService, private materialService: MaterialService, public navCtrl: NavController, public navParams: NavParams) {
-    this.myLabId = this.navParams.data.id;
+  materialState: String = "";
+  materialShow: String = "Starting Material";
+
+  constructor(public popoverCtrl: PopoverController, public alertCtrl: AlertController, private labService: LabService, public actionSheetCtrl: ActionSheetController, private comboService: CombinationService, private materialService: MaterialService, public navCtrl: NavController, public navParams: NavParams) {
     this.myLab = this.navParams.data;
     this.myLab.materialsIDs = this.labService.getMaterialIds(this.myLab);
   }
@@ -34,22 +38,41 @@ export class ListPage{
     console.log(this.myLab);
     this.navCtrl.push(CombinationsPage, this.myLab);
   }
-  
-  onSubmit() {
-    if(!(this.newMaterial.isStartingMaterial && this.newMaterial.isFinalMaterial) && this.newMaterial.name != "" && this.newMaterial.definition != "" && this.newMaterial.img != "") {
-      let ref = this.materialService.addMaterial(this.newMaterial);
-      ref.then(c => { 
+  getTypeOfMaterial(newMaterial: Material, materialState: String) {
+    if (materialState == "Starting Material") {
+      newMaterial.isStartingMaterial = true;
+      newMaterial.isFinalMaterial = false;
+
+    } else if (materialState == "Final Material") {
+      newMaterial.isFinalMaterial = true;
+      newMaterial.isStartingMaterial = false;
+
+    } else {
+      newMaterial.isStartingMaterial = false;
+      newMaterial.isFinalMaterial = false;
+    }
+  }
+  onSubmit(newMaterial) {
+    this.getTypeOfMaterial(newMaterial, this.materialState);
+    if(!(newMaterial.isStartingMaterial && newMaterial.isFinalMaterial) && (newMaterial.name != "") && (newMaterial.img != "")) { // definition does not have to be complete
+      let ref1 = this.materialService.addMaterial(newMaterial);
+      if (newMaterial.isStartingMaterial) {
+        ref1.then(d => {
+          this.myLab.isFoundIDs.push(d.id);
+        });
+      }
+      ref1.then(c => {
         this.myLab.materialsIDs.push(c.id);
         this.updateLab(this.myLab);
         this.getMyMaterials();
       });
-      
     }
     else {
       // ~~ERROR~~ need to change if statement, doesn't work if the firnla -- me editing later: (summer 2018) mby its final???? --  one is put in before the first one. As they type into fields, the fields should be updating. (two way data binding)
-      alert('Field input is incorrect. Remember: a material cannot be both a final and starting material');
+      alert("Name, image, and state of material must be entered prior to addition of a new material.");
     }
     this.clearState();
+    this.iconSelectedCheck();
   }
   
   clearState() {
@@ -58,6 +81,7 @@ export class ListPage{
     this.newMaterial.img = "";
     this.newMaterial.isFinalMaterial = false;
     this.newMaterial.isStartingMaterial = false;
+
   }
   presentConfirm(material: Material) {
     let alert = this.alertCtrl.create({
@@ -106,27 +130,78 @@ export class ListPage{
       actionSheet.present();
     }
   }
-  deleteMaterial(material: Material) {  
-    /*
-    // deleting combos with the material as a reactant or product
-    let currentCombos = this.comboService.getCombos(this.myLab.combinationsIDs);
-    currentCombos.forEach(combo => {
-      if ((combo.result.id === material.id) || ((combo.ingredients[0].id === material.id) || (combo.ingredients[1].id === material.id))) {
-        this.comboService.deleteCombo(combo);
-      }
-    });
-    */
-    // deleting material ID from lab
+  deleteMaterial(material: Material) {
+    // delete individual material
     let materialIndex =  this.myLab.materialsIDs.indexOf(material.id);
     this.myLab.materialsIDs.splice(materialIndex, materialIndex+1);
-    this.updateLab(this.myLab);
-    this.materialService.deleteMaterial(material);
-    console.log(this.myLab.materialsIDs);
-  }
+    this.labService.updateLab(this.myLab);
+    // get combinations
+    let combos = this.comboService.getCombos(this.myLab.combinationsIDs);
+    // check which combinations use material
+    combos.forEach(combo => {
+      if ((combo.ingredients[0].id == material.id) || (combo.ingredients[1].id == material.id) || (combo.result.id== material.id)) {
+        // delete individual combination
+        let comboIndex = this.myLab.combinationsIDs.indexOf(combo.id);
+        this.myLab.combinationsIDs.splice(comboIndex, comboIndex+1);
+        this.comboService.deleteCombo(combo);
+        // get materials in combination
+        // - get materials
+        let materials = this.materialService.getMaterials(this.myLab.materialsIDs); // should not include original material
+        console.log("New Materials Hopefully Does Not Include 1: " + materials);
+
+        // - get other materials materials
+        let material1 = combo.ingredients[0];
+        let material2 = combo.ingredients[1];
+        let material3 = combo.result;
+
+        // call function again if not equal to original material
+        if (material1 != material) {
+         this.deleteMaterial(material1);
+        }
+        if (material2 != material) {
+         this.deleteMaterial(material2);
+        }
+        if (material3 != material) {
+         this.deleteMaterial(material3);
+        }
+      }
+    });
+    }
+
+    // delete further combinations
   updateLab(lab: Lab) {
     this.labService.updateLab(lab);
   }
   updateMaterial(material: Material) {
     this.materialService.updateMaterial(material);
+  }
+  iconSelectedCheck() {
+    var x = document.getElementById("addIconButton");
+      if (this.newMaterial.img != "") {
+        x.style.opacity = "0.3";
+      } else {
+        x.style.opacity = "1.0";
+      }
+  }
+  change(newMaterial) {
+    console.log("New Material Beg.");
+    console.log(newMaterial.img);
+    console.log("New Material End");
+  }
+  presentPopover() {
+    const popover = this.popoverCtrl.create(PopoverComponent);
+    popover.present();
+    popover.onDidDismiss(data => {
+      if (data != null) {
+        this.newMaterial.img = data.url;
+        console.log(this.newMaterial.img);
+        console.log(this.newMaterial);
+        this.iconSelectedCheck();
+      }
+    })
+  }
+  nextChecking() {
+    // check if there are three materials total (at least)
+    // make sure there is only one final material
   }
 }

@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, AlertController } from 'ionic-angular';
-import { TaliaPage } from '../talia/talia';
+import { GamePage } from '../game/game';
 import { ListPage } from '../list/list';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Lab } from '../../app/models/lab';
+import { LabService } from '../../services/lab.service';
 
 
 
@@ -15,8 +16,8 @@ export class IndivLabPage {
     email: string;
     myLabId: String;
     myLab: Lab;
-
-  constructor(private fire: AngularFireAuth, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
+    playReplay: String;
+  constructor(private labService: LabService, private fire: AngularFireAuth, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
     this.email = fire.auth.currentUser.email;
     this.myLab = this.navParams.data;
   };
@@ -25,6 +26,6 @@ export class IndivLabPage {
     this.navCtrl.push(ListPage, lab);
   }
   play(lab) {
-    this.navCtrl.push(TaliaPage, lab);
+    this.navCtrl.push(GamePage, lab);
   }
 }

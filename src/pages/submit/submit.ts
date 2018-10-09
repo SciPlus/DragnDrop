@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Tab } from 'ionic-angular/components/tabs/tab';
-import { TaliaPage } from '../talia/talia';
+import { GamePage } from '../game/game';
 import { HomePage } from '../home/home';
 import { AngularFireAuth } from 'angularfire2/auth';
 
@@ -18,7 +18,7 @@ export class SubmitPage {
     totalElements: number = 10;
     constructor(private fire: AngularFireAuth, public navCtrl: NavController) {
         this.determineScore();
-        // how can I access elements form the Talia Page here, such that I can access the score or elementsfound.
+        // how can I access elements form the Game Page here, such that I can access the score or elementsfound.
     };
     determineScore() {
         if (this.elementsFound >= this.totalElements - 2) {

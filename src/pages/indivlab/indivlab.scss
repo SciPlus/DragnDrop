@@ -1,9 +1,11 @@
 page-indivlab {
+
     #heading {
         text-align: center;
         margin: 20px;
         color: red;
     }
+
     #editButton {
         display:block;
         float:center;
@@ -14,7 +16,15 @@ page-indivlab {
         color: white;
         padding: 20px;
         font-size: 16px;
+        box-shadow: 0px 5px color($colors, secondaryc);
         cursor: pointer;
+        &:hover{
+            opacity: 0.3;
+        }
+        &:active{
+            opacity: 0.3;
+            transform: translateY(4px);
+        }
     }
     #heading1 {
         text-align: center;
@@ -30,10 +40,19 @@ page-indivlab {
         color: color($colors, secondary);
         padding: 20px;
         font-size: 16px;
+        box-shadow: 0px 5px color($colors, secondarycc);
         cursor: pointer;
+        &:hover{
+            opacity: 0.3;
+        }
+        &:active{
+            opacity: 0.3;
+            transform: translateY(4px);
+        }
     }
     #labPicture {
        display: block;
+       height: 200px;
        margin-left: auto;
        margin-right: auto;
     }

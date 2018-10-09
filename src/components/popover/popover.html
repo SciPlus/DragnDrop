@@ -1,0 +1,9 @@
+<!-- Generated template for the PopoverComponent component -->
+<ion-list>
+  <ion-item (click)="itemClick(item)"*ngFor="let item of items">
+      <span>
+      <h3>{{item.name}}</h3>
+      <img style="width: auto; height: 35px; margin: auto;" src={{item.url}}>
+      </span>
+    </ion-item>
+</ion-list>

@@ -6,19 +6,18 @@
     <ion-title>Create Account</ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content padding>
-  <ion-list>
-    <ion-item>
-      <ion-label stacked>Username (email)</ion-label>
-      <ion-input type="text" #username></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label stacked>Password</ion-label>
-      <ion-input type="password" #password></ion-input>
-    </ion-item>
-  </ion-list>
-  <div padding>
-    <button block ion-button (click)="registerUser()" id="registerButton">Register</button>
-  </div>
-  <h5 id="yesAccountButton" (click)="goToSignIn()">Already have an account? Sign in Now</h5>
+<ion-content>
+    <img id="logoPic"src="../../assets/imgs/labplus.logo.png">
+      <ion-item style="width: 280px" class="secondaryItem">
+          <ion-label class="input-label" floating>Username (email)</ion-label>
+          <ion-input class="input-field" type="text" #username></ion-input>
+      </ion-item>
+       <ion-item style="width: 280px" class="secondaryItem" >
+            <ion-label class="input-label" floating>Password</ion-label>
+            <ion-input class="input-field" type="password" #password></ion-input>
+      </ion-item>
+    <div class="secondaryItem">
+        <button block ion-button (click)="registerUser()" id="registerButton">Register</button>
+      </div>
+    <h5 id="yesAccountButton" (click)="goToSignIn()">Already have an account? Sign in Now</h5>
 </ion-content>

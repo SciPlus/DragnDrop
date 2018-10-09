@@ -1,38 +1,38 @@
 <ion-header>
     <ion-navbar color="secondary">
-      <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
-      <ion-title>Profile Page</ion-title>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
     </ion-navbar>
-  </ion-header>
-  <ion-content>
+</ion-header>
+<ion-content >
     <ion-grid>
-      <ion-row>
-        <ion-col>
-            <h1 id="heading" style="text-align: center"> Hello {{email}}</h1>
-            <h1 id="heading2" style="text-align: center"> My Experiments</h1>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-          <ion-col>
-              <h3 style="margin: 20px">My Experiments</h3>
-              <ion-list>
-                  <ng-container *ngFor="let lab of this.labService.getLabs()">
-                      <ion-item (click)="labSettings(lab)"class="lab">
-                          <ion-label>{{lab.name}}</ion-label>
-                      </ion-item>
-                  </ng-container>
-              </ion-list>
-          </ion-col>
-          <ion-col>
-              <h3 style="margin: 20px">Create New Experiment</h3>
-              <ion-item>
-                  <ion-label>Title Experiment</ion-label>
-                  <ion-input id="input-field" type="text" [(ngModel)]="newLab.name"></ion-input>
-              </ion-item>
-              <button id="createButton"(click)="onSubmit()">Create</button>
-          </ion-col>
-      </ion-row>
+        <ion-row>
+            <ion-col>
+                <h1 id="heading" style="text-align: center"> Hello {{email}}</h1>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <h3 style="margin: 20px">My Experiments</h3>
+                <ion-list>
+                    <ng-container *ngFor="let lab of this.labService.getLabs()">
+                        <ion-item (click)="labSettings(lab)" class="lab">
+                            <ion-label id="labLabel">{{lab.name}} ( {{helperText}} )</ion-label>
+                        </ion-item>
+                    </ng-container>
+                </ion-list>
+            </ion-col>
+            <ion-col>
+                <h3 style="margin: 20px">Create New Experiment</h3>
+                <div>
+                    <ion-item>
+                        <ion-label>Title Experiment</ion-label>
+                        <ion-input id="input-field" type="text" [(ngModel)]="newLab.name"></ion-input>
+                    </ion-item>
+                    <button id="createButton" (click)="onSubmit()">CREATE</button>
+                </div>
+            </ion-col>
+        </ion-row>
     </ion-grid>
-  </ion-content>
+</ion-content>

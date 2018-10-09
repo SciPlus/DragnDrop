@@ -5,7 +5,7 @@
         </button>
         <ion-grid>
             <ion-row>
-                <ion-title>Step 2: Create Materials</ion-title>
+                <ion-title>Step 2: Create Combinations</ion-title>
                 <button style="width: 15%; margin: auto auto;" id="nextButton" (click)="goToIndivLabPage()">Next</button>
             </ion-row>
         </ion-grid>
@@ -14,103 +14,101 @@
 <ion-content>
     <ion-grid>
         <ion-row>
-            <ion-col col-7>
-                    <ion-card class="directions" style="width: 90%">
-                        <p style="font-size: 15px; margin: 20px 20px; text-align: center;">
-                            <strong>First: </strong>
-                            <i> Search and Drag Materials from the List Below to the combination equation as either a reactant or
-                                product
-                            </i>
-                        </p>
-                        <p style="font-size: 15px; margin: 20px 20px; text-align: center;">
-                            <strong>Then: </strong>=
-                            <i> Click "Create Combination" to add the combination to the lab</i>
-                        </p>
-                        <p style="font-size: 15px; margin: 20px 20px; text-align: center;">
-                            <strong>Now: </strong>
-                            <i> Click "Refresh" and create subsequent combinations until you are satisfied</i>
-                        </p>
-                </ion-card>
-            </ion-col>
-                            <!-- Theoretically this would work if there weren't already ingredients in the database -->
-            <ion-col col-5>
-                <p (click)="preDeleteCombo(combination)" class="comboList"style="font-size: 12px;" *ngFor="let combination of myLabCombos;let i=index">{{i + 1}}. {{combination.ingredients[0].name}} + {{combination.ingredients[1].name}}  =  {{combination.result.name}}</p>
-            </ion-col> 
+                <ion-col col-6>
+                    <h2 style="text-align: center; color: #0c265e"><b>Drag To Make Combination </b></h2>
+                    <div style="text-align: center;">
+                        <div style="display: inline-block" dnd-droppable [allowDrop]="allowDropFunction1()" (onDropSuccess)="addToPreComponents($event);" [dropZones]="['demo1']"
+                        class="panel panel-info">
+                            <ion-card [hidden]="preComponents.length > 0" style="margin: 20px 10px;" class="draggableFields">
+                                <ion-label style="text-align: center;">Reactant</ion-label>
+                            </ion-card>
+                            <ion-card [hidden]="preComponents.length > 1" style="margin: 20px 10px;" class="draggableFields">
+                                <ion-label style="text-align: center;">Reactant</ion-label>
+                            </ion-card>
+                            <ion-card class="materialCard" *ngFor="let preComponent of preComponents" style="margin: 20px 15px">
+                                <div style="text-align: center" class="panel-body">
+                                    {{preComponent.name}}
+                                </div>
+                                <img id="img" src= {{preComponent.img}}>
+                            </ion-card>
+                        </div>
+                        <div style="display: inline-block"dnd-droppable [allowDrop]="allowDropFunction2()" (onDropSuccess)="addToPostComponents($event);" [dropZones]="['demo1']"
+                            class="panel panel-info">
+                            <ion-card [hidden]="postComponents.length > 0" style="margin: 20px 10px" class="draggableFields">
+                                <ion-label style="text-align: center;">Product</ion-label>
+                            </ion-card>
+                            <ion-card class="materialCard" *ngFor="let postComponent of postComponents" style="margin: 20px auto">
+                                <div style="text-align: center" class="panel-body">
+                                    {{postComponent.name}}
+                                </div>
+                                <img id="img" src= {{postComponent.img}}>
+                            </ion-card>
+                        </div>
+                    </div>
+                </ion-col>
+                <!-- Imported From List Page--> 
+                <ion-col col-6 style="margin: 2% auto">
+                        <ion-segment style="background-color: #806cd8" [(ngModel)]="materialShow" color="white"> <!-- #49a8e7 is color($colors, primary) but it won't work in this file -->
+                                <ion-segment-button  value="Starting Material">
+                                    Starting Material
+                                </ion-segment-button>
+                                <ion-segment-button value="Intermediate Material">
+                                    Intermediate Material
+                                </ion-segment-button>
+                                <ion-segment-button value="Final Material">
+                                    Final Material
+                                </ion-segment-button>
+                        </ion-segment>
+                        <div *ngIf="materialShow == 'Starting Material'">
+                            <ng-container *ngFor="let material of getMyMaterials()">
+                                    <ion-card dnd-draggable *ngIf="material.isStartingMaterial"  class="materialCard" style="margin: 10px 10px" [dragData]="material" [dropZones]="['preComps', 'postComps']">
+                                        <div style="text-align: center" class="panel-body">
+                                            <div id="cardText">
+                                                {{material.name}}
+                                            </div>
+                                        </div>
+                                        <img id="img" src= {{material.img}}>
+                                    </ion-card>
+                            </ng-container>
+                        </div>
+                        <div *ngIf="materialShow == 'Intermediate Material'">
+                                <ng-container *ngFor="let material of getMyMaterials()">
+                                        <ion-card dnd-draggable *ngIf="!material.isStartingMaterial && !material.isFinalMaterial"  class="materialCard" style="margin: 10px 10px" [dragData]="material" [dropZones]="['preComps', 'postComps']">
+                                            <div style="text-align: center" class="panel-body">
+                                                <div id="cardText">
+                                                    {{material.name}}
+                                                </div>
+                                            </div>
+                                            <img id="img" src= {{material.img}}>
+                                        </ion-card>
+                                </ng-container>
+                        </div>
+                        <div *ngIf="materialShow == 'Final Material'">
+                            <ng-container *ngFor="let material of getMyMaterials()">
+                                        <ion-card dnd-draggable *ngIf="material.isFinalMaterial"  class="materialCard" style="margin: 10px 10px" [dragData]="material" [dropZones]="['preComps', 'postComps']">
+                                            <div style="text-align: center" class="panel-body">
+                                                <div id="cardText">
+                                                    {{material.name}}
+                                                </div>
+                                            </div>
+                                            <img id="img" src= {{material.img}}>
+                                        </ion-card>
+                                </ng-container>
+                        </div>    
+                </ion-col>
+                <!-- end of html imported from list page -->
         </ion-row>
+        <!-- New Row --> 
         <ion-row>
-            <ion-col col-auto style="width: 30%">
-                <div dnd-droppable [allowDrop]="allowDropFunction1()" (onDropSuccess)="addToPreComponents($event);" [dropZones]="['demo1']"
-                    class="panel panel-info">
-                    <ion-card [hidden]="preComponents.length > 0" style="margin: 20px 15px;" class="draggableFields">
-                        <ion-label style="text-align: center;">Reactant</ion-label>
-                    </ion-card>
-                    <ion-card [hidden]="preComponents.length > 1" style="margin: 20px 15px;" class="draggableFields">
-                        <ion-label style="text-align: center;">Reactant</ion-label>
-                    </ion-card>
-                    <ion-card id="materialCard" *ngFor="let preComponent of preComponents" style="margin: 20px 15px" class="panel panel-default">
-                        <div style="text-align: center" class="panel-body">
-                            {{preComponent.name}}
-                        </div>
-                        <img id="materialImg" src= {{preComponent.img}}>
-                    </ion-card>
-                </div>
-            </ion-col>
-            <ion-col col-auto style="width: 20%">
-                <div dnd-droppable [allowDrop]="allowDropFunction2()" (onDropSuccess)="addToPostComponents($event);" [dropZones]="['demo1']"
-                    class="panel panel-info">
-                    <ion-card [hidden]="postComponents.length > 0" style="margin: 20px auto" class="draggableFields">
-                        <ion-label style="text-align: center;">Product</ion-label>
-                    </ion-card>
-                    <ion-card id="materialCard" *ngFor="let postComponent of postComponents" style="margin: 20px auto" class="panel panel-default">
-                        <div style="text-align: center" class="panel-body">
-                            {{postComponent.name}}
-                        </div>
-                        <img id="materialImg" src= {{postComponent.img}}>
-                    </ion-card>
-                </div>
-            </ion-col>
-            <ion-col col-auto style="width: 50%">
+            <ion-col col-6>
                 <button style="margin: 20px auto; width: 80%; vertical-align: center; margin-left: 10%; margin-right: 10;" id="combineButton" (click)="createCombination(preComponents, postComponents)">Create Combination</button>
                 <button style="margin: 20px auto; width: 80%; vertical-align: center; margin-left: 10%; margin-right: 10;" id="refreshButton" (click)="refresh()">Refresh</button>
             </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col>
-                <ion-searchbar [debounce]="200" [cancelButtonText]="Cancel" [showCancelButton]="true" (ionInput)="inputSearch($event)"></ion-searchbar>
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col style="width: 50%">
-                <h4 style="text-align: center">
-                    <u>Starting Materials</u>
-                </h4>
-
-                <ion-list>
-                    <ng-container *ngFor="let material of this.getMyMaterials()"> <!-- how do I reference my Lab in the html -->
-                        <ion-item class="listMaterials" dnd-draggable *ngIf="material.isStartingMaterial" [dragData]="material" [dropZones]="['preComps', 'postComps']">
-                            <ion-label style="font-size: 10px;">{{material.name}}</ion-label>
-                            <ion-label>
-                                <img style="float: right; width: auto; height: 30px;" src= {{material.img}}>
-                            </ion-label>
-                        </ion-item>
-                    </ng-container>
-                </ion-list>
-            </ion-col>
-            <ion-col style="width: 50%">
-                <h4 style="text-align: center">
-                    <u>Intermediate and Final Materials</u>
-                </h4>
-                <ion-list>
-                    <ng-container *ngFor="let material of this.getMyMaterials()"> <!-- how do I reference my Lab in the html -->
-                        <ion-item class="listMaterials" dnd-draggable *ngIf="!material.isStartingMaterial" [dragData]="material" [dropZones]="['preComps', 'postComps']">
-                            <ion-label style="font-size: 10px;">{{material.name}}</ion-label>
-                            <ion-label>
-                                <img style="float: right; width: auto; height: 30px;" src = {{material.img}}>
-                            </ion-label>
-                        </ion-item>
-                    </ng-container>
-                </ion-list>
-            </ion-col>
+            <ion-col col-6>
+                <div id="combosLongList">
+                    <p (click)="preDeleteCombo(combination)" class="comboList"style= "font-size: 12px;" *ngFor="let combination of getCombos();let i=index"><b>{{i + 1}} )  {{combination.ingredients[0].name}} + {{combination.ingredients[1].name}}  =  {{combination.result.name}}</b></p>   
+                </div>
+            </ion-col> 
         </ion-row>
     </ion-grid>
 </ion-content>

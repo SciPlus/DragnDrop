@@ -6,4 +6,6 @@ export interface Lab {
     originalCreator?: string;
     combinationsIDs: String[];
     materialsIDs: String[];
+    isFinished: boolean;
+    isFoundIDs?: String[];
 }

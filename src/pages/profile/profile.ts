@@ -20,10 +20,11 @@ export class ProfilePage {
       originalCreator: "",
       combinationsIDs: [],
       materialsIDs: [],
+      isFinished: false
     }
     userId: any;
     labUser: string = "";
-  
+    helperText: string;
   constructor(public navParams: NavParams, private comboService: CombinationService, private materialService: MaterialService, private labService: LabService, public actionSheetCtrl: ActionSheetController, private fire: AngularFireAuth, public navCtrl: NavController, public alertCtrl: AlertController) {
     this.email = this.fire.auth.currentUser.email;
     this.userId = this.fire.auth.currentUser.uid;
@@ -44,15 +45,6 @@ export class ProfilePage {
       this.materialService.deleteMaterial(material);
     })
     this.labService.deleteLab(lab);
-
-    /* 
-    let myExistingCombos = combinationIds.map((id) => {
-            console.log(` getCombos1(): ${id}`);
-            return this.existingCombinations.find(combo => combo.id === id);
-        })
-        console.log(` getCombos(): ${myExistingCombos}`);
-        return myExistingCombos;
-    */
   }
   goToIndivLabPage(lab: Lab) {
     this.navCtrl.push(IndivLabPage, lab);
@@ -61,12 +53,16 @@ export class ProfilePage {
     this.newLab.originalCreator = this.userId; // assigning the id to original Creator
     this.newLab.combinationsIDs = [];
     this.newLab.materialsIDs = [];
+    this.newLab.isFinished = false;
+    this.newLab.isFoundIDs = [];
     if((this.newLab.name !== "") && (this.newLab.originalCreator !== "")) {
       this.labService.addLab(this.newLab);
       this.newLab.name = "";
       this.newLab.combinationsIDs = [];
       this.newLab.materialsIDs = [];
       this.newLab.originalCreator = "";
+      this.newLab.isFinished = false;
+      this.newLab.isFoundIDs = [];
     }
     else {
       // ~~ERROR~~ need to change if statement, doesn't work if the firnla one is put in before the first one. As they type into fields, the fields should be updating. (two way data binding)

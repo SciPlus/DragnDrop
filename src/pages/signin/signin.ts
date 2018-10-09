@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { TaliaPage } from '../talia/talia';
+import { GamePage } from '../game/game';
 import { RegisterPage } from '../register/register';
 import { ProfilePage } from '../profile/profile';
 import { listenToElementOutputs } from '@angular/core/src/view/element';
@@ -17,8 +17,10 @@ export class SigninPage {
   @ViewChild('password') password;
   ListOfWords: String = "";
   text: any;
+  numbers: any = [1, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 19, 21, 22, 23, 25, 29, 31, 33, 35, 37, 39, 47, 53, 56, 59, 63, 65, 69, 70, 71,73, 73, 75, 77, 87, 89, 91, 92, 93, 94, 95, 97, 99, 110, 111, 119];
 
   constructor(private alertCtrl: AlertController, private fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
+    console.log(this.numbers.length);
   }
 
   ionViewDidLoad() {
