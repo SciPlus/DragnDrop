@@ -28,7 +28,9 @@
                     </ion-item>
                     <ion-row>
                         <ion-item id="secondaryItem">
-                        <button id="addIconButton" (click)="presentPopover()">Add Image</button>
+                        <button id="addIconButton" (click)="presentPopover()">
+                            <ion-icon name="ios-camera-outline" ></ion-icon>
+                        </button>
                         </ion-item>
                     </ion-row>
                     <ion-segment id="secondaryItem" [(ngModel)]="materialState" color="white">

@@ -26,8 +26,9 @@ page-list {
         width: 60%;
     }
     #addIconButton {
-        width: 40%;
+        width: 20%;
         display:block;
+        font-size: 25px;
         color: white; 
         float: center;
         border: solid 1px;
@@ -37,7 +38,6 @@ page-list {
         margin: 20px auto;
         border-radius: 12px;
         padding: 10px;
-        font-size: 16px;
         cursor: pointer;
         &:hover{
             opacity: 0.3;

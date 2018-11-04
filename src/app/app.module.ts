@@ -1,4 +1,3 @@
-import { MbscModule } from '@mobiscroll/angular';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
@@ -18,10 +17,11 @@ import { PopoverComponent} from '../components/popover/popover';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import {DndModule} from 'ng2-dnd';
+import { DndModule } from 'ng2-dnd';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { CoreModule } from '../app/core/core.module';
 import { MaterialService } from '../services/material.service';
 import { CombinationService} from '../services/combination.service';
 import { LabService } from '../services/lab.service';
@@ -46,10 +46,9 @@ const firebaseAuth = {
     ProfilePage,
     IndivLabPage,
     CombinationsPage,
-    PopoverComponent
+    PopoverComponent,
   ],
   imports: [ 
-    MbscModule, 
     FormsModule, 
     BrowserModule,
     IonicModule.forRoot(MyApp),
@@ -57,6 +56,8 @@ const firebaseAuth = {
     AngularFireModule.initializeApp(firebaseAuth),
     AngularFireAuthModule,
     AngularFirestoreModule,
+    CoreModule
+    
     
   ],
   bootstrap: [IonicApp],
@@ -71,7 +72,7 @@ const firebaseAuth = {
     ProfilePage,
     IndivLabPage,
     CombinationsPage,
-    PopoverComponent
+    PopoverComponent,
   ],
   providers: [
     StatusBar,

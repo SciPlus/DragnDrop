@@ -24,7 +24,7 @@ import { SigninPage } from '../signin/signin';
   selector: 'page-game',
   templateUrl: 'game.html',
 })
-export class GamePage implements OnInit {
+export class GamePage implements OnInit{
   showContent = "";
   isFoundIds: String[] = [];
   existingIsFoundMaterials: Material[] = [];
@@ -61,8 +61,11 @@ export class GamePage implements OnInit {
     this.getExistingMaterials(this.myLab.isFoundIDs);
     this.showContent = "Purpose";
   }
-  ngInit() {
-    this.showDoneButton();
+  showRedoButton() {
+    if (this.myLab.isFinished) {
+      var i = document.getElementById("redoButton");
+      i.style.display = "block";
+    }
   }
   getMyMaterials() {
     return this.materialService.getMaterials(this.myLab.materialsIDs);
@@ -83,9 +86,7 @@ export class GamePage implements OnInit {
   }
   ngOnInit() {
     console.log('talia page is running');
-    // get all the materials that have ids of array. 
-    // for each id in array, get the material that has that id.
-    // getting materials from database (calling getMaterials function)
+    this.showRedoButton();
   };
   // Is Found Service Functions Transferred to TaliaPage
   addFoundMaterial(material: Material) { // this will be changed to incoroporate myLab.isFoundIds
@@ -94,7 +95,7 @@ export class GamePage implements OnInit {
         this.existingIsFoundMaterials.push(material);
     }
   }
-  deleteFoundMaterial(material: Material) { // is there really a purpopse for this?
+  deleteFoundMaterial(material: Material) { // is there really a purpose for this?
     let isFoundIndex =  this.myLab.isFoundIDs.indexOf(material.id);
     this.myLab.isFoundIDs.splice(isFoundIndex, isFoundIndex+1);
     this.labService.updateLab(this.myLab);
@@ -139,7 +140,11 @@ export class GamePage implements OnInit {
       this.myLab.isFinished = true;
       this.showDoneButton();
       this.completionMessage();
+      // change sidebar menu from materials to Materials when complete
+      this.showContent = "Materials"
       this.labService.updateLab(this.myLab);
+    } else if (this.myLab.isFoundIDs.indexOf(myResult.id) != -1) { // otherwise if the result is already found
+      this.foundMessage();
     } else {
       this.combineMessage();
     }
@@ -154,6 +159,11 @@ export class GamePage implements OnInit {
     var z = document.getElementById("completionMessage");
     z.className = "reveal";
     setTimeout(function () { z.className = z.className.replace("reveal", ""); }, 3000);
+  }
+  foundMessage() {
+    var x = document.getElementById("foundMessage");
+    x.className = "display";
+    setTimeout(function () { x.className = x.className.replace("display", ""); }, 3000);
   }
   combineMessage() {
     var s = document.getElementById("successMessage");
@@ -190,6 +200,8 @@ export class GamePage implements OnInit {
   showDoneButton() {
       var x = document.getElementById("submitButton");
       var y = document.getElementById("redoButton");
+      // For RESETTING LAB this.myLab.isFinished = false;
+
       if (this.myLab.isFinished) {
           x.style.display = "block";
           y.style.display = "block";
@@ -200,16 +212,18 @@ export class GamePage implements OnInit {
   }
   redoLab() {
     this.existingIsFoundMaterials = [];
+    this.myLab.isFoundIDs = [];
     this.getMyMaterials().forEach((material) => {
       if (material.isStartingMaterial) {
         this.existingIsFoundMaterials.push(material);
+        this.myLab.isFoundIDs.push(material.id);
       }
     });
   }
   preRedo(material: Material) {
     let alert = this.alertCtrl.create({
-      title: 'Confirm deletion',
-      message: 'Are you sure you want to delete this material?',
+      title: 'Confirm redo',
+      message: 'Are you sure you want to reset this lab?',
       buttons: [
         {
           text: 'Cancel',
@@ -219,9 +233,11 @@ export class GamePage implements OnInit {
           }
         },
         {
-          text: 'Delete',
+          text: 'Redo',
           handler: () => {
+            this.myLab.isFinished = false;
             this.redoLab();
+            this.labService.updateLab(this.myLab);
           }
         }
       ]

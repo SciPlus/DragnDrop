@@ -41,7 +41,7 @@ export class ProfilePage {
     console.log(`Current materials: ${currentMaterials}`);
 
     currentMaterials.forEach(material => {
-      console.log(`Current material: ${material}`);
+      console.log(`Current material: ${material.name}`);
       this.materialService.deleteMaterial(material);
     })
     this.labService.deleteLab(lab);

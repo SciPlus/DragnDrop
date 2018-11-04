@@ -87,6 +87,10 @@ export class CombinationsPage{
   getMyCombos() {
     return this.comboService.getCombos(this.myLab.combinationsIDs);
   }
+  clearState() {
+    this.preComponents = [];
+    this.postComponents = [];
+  }
   createCombination(preComponents, postComponents) {
     this.newCombo.ingredients = [{
       id: preComponents[0].id,
@@ -103,6 +107,7 @@ export class CombinationsPage{
       ref.then(c => { this.myLab.combinationsIDs.push(c.id);
         this.labService.updateLab(this.myLab);
       });
+    this.clearState();
     this.newCombo = {};
     // add new combination to combos w/ ingredietns - precomp and result: post-comp ... push to databse.
   }
