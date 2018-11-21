@@ -14,15 +14,14 @@ import { ProfilePage} from '../pages/profile/profile';
 import { IndivLabPage } from '../pages/indivlab/indivlab';
 import { CombinationsPage} from '../pages/combinations/combinations';
 import { PopoverComponent} from '../components/popover/popover';
-
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { DndModule } from 'ng2-dnd';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-import { CoreModule } from '../app/core/core.module';
 import { MaterialService } from '../services/material.service';
+import { UserService } from '../services/user.service';
 import { CombinationService} from '../services/combination.service';
 import { LabService } from '../services/lab.service';
 
@@ -56,7 +55,6 @@ const firebaseAuth = {
     AngularFireModule.initializeApp(firebaseAuth),
     AngularFireAuthModule,
     AngularFirestoreModule,
-    CoreModule
     
     
   ],
@@ -80,7 +78,8 @@ const firebaseAuth = {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     MaterialService,
     CombinationService,
-    LabService
+    LabService,
+    UserService
   ]
 })
 export class AppModule {}

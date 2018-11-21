@@ -25,12 +25,19 @@ export class LabService {
             this.existingLabs = labs;
         });
     };
-    getLabs() {
-        return this.existingLabs;
+    
+    getLabs(labIds: String[]) {
+        let myExistingLabs = labIds.map((labId) => {
+            return this.existingLabs.find(lab => lab.id == labId);
+        })
+        return myExistingLabs;
     }
     // change these two functions later today because they do not actually fetch anything from the database.
     getComboIds(lab: Lab) {
         return lab.combinationsIDs;
+    }
+    getEntryCode(lab: Lab) {
+        return lab.entryCode;
     }
     getMaterialIds(lab: Lab) {
         return lab.materialsIDs;
@@ -49,4 +56,4 @@ export class LabService {
         this.labDoc = this.afs.doc(`labs/${lab.id}`);
         this.labDoc.update(lab);
     }
-};
+}

@@ -2,6 +2,7 @@
 
 export interface Lab {
     id?: string;
+    entryCode?: string;
     name?: string;
     originalCreator?: string;
     combinationsIDs: String[];

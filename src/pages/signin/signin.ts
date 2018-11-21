@@ -5,6 +5,9 @@ import { GamePage } from '../game/game';
 import { RegisterPage } from '../register/register';
 import { ProfilePage } from '../profile/profile';
 import { listenToElementOutputs } from '@angular/core/src/view/element';
+import { UserService } from '../../services/user.service';
+import { User } from '../../app/models/user';
+
 
 @IonicPage()
 @Component({
@@ -17,7 +20,11 @@ export class SigninPage {
   @ViewChild('password') password;
   ListOfWords: String = "";
   text: any;
-  constructor(private alertCtrl: AlertController, private fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
+
+  users: User[];
+  userId: string;
+  myUser: User;
+  constructor(private userService: UserService, private alertCtrl: AlertController, private fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
@@ -37,8 +44,15 @@ export class SigninPage {
     .then( data => {
       console.log('got data', this.fire.auth.currentUser);
       this.alert(`@${this.fire.auth.currentUser.email}, you are all logged in!`);
-        this.navCtrl.push( ProfilePage );
-      // user is logged in
+      // getting users in database
+
+      this.userId = this.fire.auth.currentUser.uid;
+      this.users = this.userService.getUsers(); // get useres doesnt work
+
+      this.getCurrentUser(this.userId);
+
+      this.navCtrl.push(ProfilePage, this.myUser);
+
     })
     .catch( error => {
       console.log('got an error', error);
@@ -59,5 +73,14 @@ export class SigninPage {
   resetPassword() {
     console.log("to be figured out later");
     alert("to be figured out later");
+  }
+  getCurrentUser(myUserId: String) {
+    // search through users --> find user that has id that matches userId
+    this.users.forEach(user => {
+      if (user.userId == myUserId) {
+        this.myUser = user;
+      }
+
+    })
   }
 }

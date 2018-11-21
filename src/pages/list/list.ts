@@ -4,12 +4,11 @@ import { MaterialService } from '../../services/material.service';
 import { Material } from '../../app/models/material';
 import { CombinationService } from '../../services/combination.service';
 import { CombinationsPage } from '../combinations/combinations';
-import { ActionSheetController } from 'ionic-angular'
-import { LabService } from '../../services/lab.service'
+import { ActionSheetController } from 'ionic-angular';
+import { LabService } from '../../services/lab.service';
 import { Lab } from '../../app/models/lab';
 import { PopoverController } from 'ionic-angular';
 import { PopoverComponent } from '../../components/popover/popover';
-
 @Component({
   selector: 'page-list',
   templateUrl: 'list.html'
@@ -155,7 +154,7 @@ export class ListPage{
         let material3 = combo.result;
 
         // call function again if not equal to original material
-        if (material1 != material) {
+        if (material1 != material) { // should I do .id for both?? (later)
          this.deleteMaterial(material1);
         }
         if (material2 != material) {

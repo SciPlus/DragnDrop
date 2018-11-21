@@ -16,9 +16,9 @@
             <ion-col>
                 <h3 style="margin: 20px">My Experiments</h3>
                 <ion-list>
-                    <ng-container *ngFor="let lab of this.labService.getLabs()">
-                        <ion-item (click)="labSettings(lab)" class="lab">
-                            <ion-label id="labLabel">{{lab.name}} ( {{helperText}} )</ion-label>
+                    <ng-container *ngFor="let myLab of getMyLabs()">
+                        <ion-item *ngIf="userFound" (click)="labSettings(myLab)" class="lab">
+                            <ion-label>{{myLab.name}}</ion-label>
                         </ion-item>
                     </ng-container>
                 </ion-list>

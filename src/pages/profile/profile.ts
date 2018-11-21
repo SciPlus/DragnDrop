@@ -5,6 +5,9 @@ import { IndivLabPage } from '../indivlab/indivlab';
 import { Lab } from '../../app/models/lab';
 import { LabService } from '../../services/lab.service';
 
+import { User } from '../../app/models/user';
+import { UserService } from '../../services/user.service';
+
 import { CombinationService } from '../../services/combination.service';
 import { MaterialService } from '../../services/material.service';
 import { ActionSheetController } from 'ionic-angular';
@@ -16,19 +19,42 @@ import { ActionSheetController } from 'ionic-angular';
 export class ProfilePage {
     email: string;
     newLab: Lab = {
+      entryCode: "",
       name: "",
       originalCreator: "",
       combinationsIDs: [],
       materialsIDs: [],
       isFinished: false
     }
-    userId: any;
+    userId: string;
     labUser: string = "";
     helperText: string;
-  constructor(public navParams: NavParams, private comboService: CombinationService, private materialService: MaterialService, private labService: LabService, public actionSheetCtrl: ActionSheetController, private fire: AngularFireAuth, public navCtrl: NavController, public alertCtrl: AlertController) {
+    users: any;
+    myUser: User;
+    userFound: boolean = false;
+  constructor(private userService: UserService, public navParams: NavParams, private comboService: CombinationService, private materialService: MaterialService, private labService: LabService, public actionSheetCtrl: ActionSheetController, private fire: AngularFireAuth, public navCtrl: NavController, public alertCtrl: AlertController) {
     this.email = this.fire.auth.currentUser.email;
     this.userId = this.fire.auth.currentUser.uid;
+    this.myUser = this.navParams.data;
+    this.userFound = true;
+    console.log("MyUser after getting it from nav.Params.data (userName)" + this.myUser.userName);
+    this.users = this.userService.getUsers(); // getting users in database
+    this.myUser.labIds = this.userService.getUserLabIds(this.myUser);
   };
+  getMyLabs() {
+      console.log("this.myUser.labIds on page: " + this.myUser.labIds);
+      return this.labService.getLabs(this.myUser.labIds);
+  }
+  // called to assign each lab its own entry code
+  generateRandomLabCode(length: number) {
+    let text: string = "";
+    console.log("generate random being  called");
+    let possibleValues = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (let index = 0; index < length; index++) {
+      text = possibleValues.charAt(Math.floor(Math.random() * possibleValues.length)) + text;
+    }
+    return text;
+  }
   deleteLab(lab: Lab) {
     let currentCombos = this.comboService.getCombos(lab.combinationsIDs);
     console.log(`Current combos: ${currentCombos}`);
@@ -37,6 +63,7 @@ export class ProfilePage {
       console.log(`Current combo: ${combo}`);
       this.comboService.deleteCombo(combo);
     });
+
     let currentMaterials = this.materialService.getMaterials(lab.materialsIDs);
     console.log(`Current materials: ${currentMaterials}`);
 
@@ -44,20 +71,31 @@ export class ProfilePage {
       console.log(`Current material: ${material.name}`);
       this.materialService.deleteMaterial(material);
     })
+    
+    // delete individual combination
+    let labIdIndex = this.myUser.labIds.indexOf(lab.id);
+    this.myUser.labIds.splice(labIdIndex, labIdIndex+1);
     this.labService.deleteLab(lab);
   }
   goToIndivLabPage(lab: Lab) {
     this.navCtrl.push(IndivLabPage, lab);
   }
+  // method to be used after lab created (in onSubmit() function)
   onSubmit() {
+    this.newLab.entryCode = this.generateRandomLabCode(8); // generating specific entry code to lab --> display later in html 
     this.newLab.originalCreator = this.userId; // assigning the id to original Creator
     this.newLab.combinationsIDs = [];
     this.newLab.materialsIDs = [];
     this.newLab.isFinished = false;
     this.newLab.isFoundIDs = [];
-    if((this.newLab.name !== "") && (this.newLab.originalCreator !== "")) {
-      this.labService.addLab(this.newLab);
+    if((this.newLab.name != "") && (this.newLab.originalCreator != "") && (this.newLab.entryCode != "")) {
+
+      let ref = this.labService.addLab(this.newLab);
+      ref.then(c => { this.myUser.labIds.push(c.id);
+        this.userService.updateUser(this.myUser);
+      });
       this.newLab.name = "";
+      this.newLab.entryCode = "";
       this.newLab.combinationsIDs = [];
       this.newLab.materialsIDs = [];
       this.newLab.originalCreator = "";

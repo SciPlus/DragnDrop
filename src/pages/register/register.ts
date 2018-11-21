@@ -2,6 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { SigninPage } from '../signin/signin';
+import { User } from '../../app/models/user';
+import { UserService } from '../../services/user.service';
 import { ProfilePage } from '../profile/profile';
 
 @IonicPage()
@@ -10,15 +12,19 @@ import { ProfilePage } from '../profile/profile';
   templateUrl: 'register.html',
 })
 export class RegisterPage {
-
-
+  newUser: User = {
+    id: "",
+    userName: "",
+    labIds: []
+  };
+  users: User[];
+  userId: any;
+  myUser: User;
 	@ViewChild('username') user;
-	@ViewChild('password') password;
+  @ViewChild('password') password;
 
-  constructor(private alertCtrl: AlertController, private fire: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
-  
+  constructor(private userService: UserService, private alertCtrl: AlertController, private fire: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
   }
-
   ionViewDidLoad() {
     console.log('ionViewDidLoad RegisterPage');
   }
@@ -34,9 +40,18 @@ export class RegisterPage {
   registerUser() {
     this.fire.auth.createUserWithEmailAndPassword(this.user.value, this.password.value)
     .then(data => {
+      this.newUser.userName = this.user.value;
+      this.newUser.id = this.userId;
+      this.userService.addUser(this.newUser); // connecting user service to new registered user
       console.log('got the data ', data);
       this.alert('Registered!');
-      this.navCtrl.push(ProfilePage);
+      // after registering, the id should be passed to the newUSer that is created  (the current user id that is)
+
+      this.userId = this.fire.auth.currentUser.uid;
+      this.users = this.userService.getUsers(); // getting users in database 
+      this.getCurrentUser(this.userId);
+
+      this.navCtrl.push(ProfilePage, this.myUser);
     })
     .catch(error => {
       console.log('got an error ', error);
@@ -46,6 +61,15 @@ export class RegisterPage {
   }
   goToSignIn() {
     this.navCtrl.push(SigninPage);
+  }
+  getCurrentUser(myUserId: String) {
+    // search through users --> find user that has id that matches userId
+    this.users.forEach(user => {
+      if (user.userId == myUserId) {
+        this.myUser = user;
+      }
+
+    })
   }
 
 }

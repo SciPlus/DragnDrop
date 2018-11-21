@@ -1,8 +1,8 @@
 {
   "name": "sciplus-play",
-  "app_id": "19ef7704",
-  "type": "ionic-angular",
   "integrations": {
     "cordova": {}
-  }
+  },
+  "type": "ionic-angular",
+  "pro_id": "19ef7704"
 }
