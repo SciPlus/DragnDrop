@@ -19,6 +19,9 @@ import { Combo } from '../../app/models/combo';
 import { Lab } from '../../app/models/lab';
 import { SigninPage } from '../signin/signin';
 
+import { User } from '../../app/models/user';
+import { UserService } from '../../services/user.service';
+
 @IonicPage()
 @Component({
   selector: 'page-game',
@@ -52,14 +55,23 @@ export class GamePage implements OnInit{
   Reaction_Components1: Material[] = []; /// setting to a value;
   rawCombinations: Combo[];
   myLab: Lab;
+  myUser: User;
+  myUserIsFoundIds: String[];
+  
 
-  constructor(public alertCtrl: AlertController, private labService: LabService, private combinationService: CombinationService, private materialService: MaterialService, private fire: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private userService: UserService, public alertCtrl: AlertController, private labService: LabService, private combinationService: CombinationService, private materialService: MaterialService, private fire: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
     this.email = fire.auth.currentUser.email;
-    this.myLab = this.navParams.data;
-    this.materials = this.getMaterials();
+    this.myLab = this.navParams.data.data1; // lab from lab db
+    this.myUser = this.navParams.data.data2; // user from user db
+    this.materials = this.materialService.getMaterials(this.myLab.materialsIDs);
+
+    
+    this.myUserIsFoundIds = this.userService.getUserIsFoundIds(this.myUser.userId, this.myLab.id);
+    this.getExistingMaterials(this.myUserIsFoundIds);
     this.rawCombinations = this.combinationService.getCombos(this.myLab.combinationsIDs);
-    this.getExistingMaterials(this.myLab.isFoundIDs);
     this.showContent = "Purpose";
+    console.log("show content is purpose");
+    console.log("myLab.purpose: " + this.myLab.purpose);
   }
   showRedoButton() {
     if (this.myLab.isFinished) {
@@ -67,7 +79,12 @@ export class GamePage implements OnInit{
       i.style.display = "block";
     }
   }
+  ngOnInit() {
+    console.log('talia page is running');
+    this.showRedoButton();
+  };
   getMyMaterials() {
+    console.log("My lab materials are: " + this.myLab.materialsIDs);
     return this.materialService.getMaterials(this.myLab.materialsIDs);
   }
   getExistingMaterials(IDs: String[] ) {
@@ -81,23 +98,16 @@ export class GamePage implements OnInit{
       }
     })
   }
-  getMaterials() {
-    return this.materialService.getMaterials(this.myLab.materialsIDs);
-  }
-  ngOnInit() {
-    console.log('talia page is running');
-    this.showRedoButton();
-  };
   // Is Found Service Functions Transferred to TaliaPage
   addFoundMaterial(material: Material) { // this will be changed to incoroporate myLab.isFoundIds
-    if (this.myLab.isFoundIDs.indexOf(material.id) === -1) {
-        this.myLab.isFoundIDs.push(material.id);
+    if (this.myUserIsFoundIds.indexOf(material.id) === -1) {
+      this.myUserIsFoundIds.push(material.id);
         this.existingIsFoundMaterials.push(material);
     }
   }
   deleteFoundMaterial(material: Material) { // is there really a purpose for this?
-    let isFoundIndex =  this.myLab.isFoundIDs.indexOf(material.id);
-    this.myLab.isFoundIDs.splice(isFoundIndex, isFoundIndex+1);
+    let isFoundIndex =  this.myUserIsFoundIds.indexOf(material.id);
+    this.myUserIsFoundIds.splice(isFoundIndex, isFoundIndex+1);
     this.labService.updateLab(this.myLab);
   }
   // continue **
@@ -123,7 +133,7 @@ export class GamePage implements OnInit{
     });
     if (correctCombo) {
       this.completeCheck(correctCombo);
-      this.getExistingMaterials(this.myLab.isFoundIDs);
+      this.getExistingMaterials(this.myUserIsFoundIds);
 
     } else {
       this.failToCombineMessage();
@@ -141,9 +151,10 @@ export class GamePage implements OnInit{
       this.showDoneButton();
       this.completionMessage();
       // change sidebar menu from materials to Materials when complete
-      this.showContent = "Materials"
+      this.showContent = "Materials";
+      console.log("show content is material");
       this.labService.updateLab(this.myLab);
-    } else if (this.myLab.isFoundIDs.indexOf(myResult.id) != -1) { // otherwise if the result is already found
+    } else if (this.myUserIsFoundIds.indexOf(myResult.id) != -1) { // otherwise if the result is already found
       this.foundMessage();
     } else {
       this.combineMessage();
@@ -212,11 +223,11 @@ export class GamePage implements OnInit{
   }
   redoLab() {
     this.existingIsFoundMaterials = [];
-    this.myLab.isFoundIDs = [];
+    this.myUserIsFoundIds = [];
     this.getMyMaterials().forEach((material) => {
       if (material.isStartingMaterial) {
         this.existingIsFoundMaterials.push(material);
-        this.myLab.isFoundIDs.push(material.id);
+        this.myUserIsFoundIds.push(material.id);
       }
     });
   }

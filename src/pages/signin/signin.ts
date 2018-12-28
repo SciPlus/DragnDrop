@@ -48,9 +48,8 @@ export class SigninPage {
 
       this.userId = this.fire.auth.currentUser.uid;
       this.users = this.userService.getUsers(); // get useres doesnt work
-
       this.getCurrentUser(this.userId);
-
+      
       this.navCtrl.push(ProfilePage, this.myUser);
 
     })

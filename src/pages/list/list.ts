@@ -9,6 +9,10 @@ import { LabService } from '../../services/lab.service';
 import { Lab } from '../../app/models/lab';
 import { PopoverController } from 'ionic-angular';
 import { PopoverComponent } from '../../components/popover/popover';
+
+import { User } from '../../app/models/user';
+import { UserService } from '../../services/user.service';
+
 @Component({
   selector: 'page-list',
   templateUrl: 'list.html'
@@ -25,17 +29,20 @@ export class ListPage{
   myLab: Lab;
   materialState: String = "";
   materialShow: String = "Starting Material";
+  myUser: User;
+  myUserIsFoundIds: String[];
 
-  constructor(public popoverCtrl: PopoverController, public alertCtrl: AlertController, private labService: LabService, public actionSheetCtrl: ActionSheetController, private comboService: CombinationService, private materialService: MaterialService, public navCtrl: NavController, public navParams: NavParams) {
-    this.myLab = this.navParams.data;
+  constructor(private userService: UserService, public popoverCtrl: PopoverController, public alertCtrl: AlertController, private labService: LabService, public actionSheetCtrl: ActionSheetController, private comboService: CombinationService, private materialService: MaterialService, public navCtrl: NavController, public navParams: NavParams) {
+    this.myLab = this.navParams.data.data1; // lab from lab db
+    this.myUser = this.navParams.data.data2;
+    this.myUserIsFoundIds = this.userService.getUserIsFoundIds(this.myUser.userId, this.myLab.id);
     this.myLab.materialsIDs = this.labService.getMaterialIds(this.myLab);
   }
   getMyMaterials() {
     return this.materialService.getMaterials(this.myLab.materialsIDs);
   }
   goToCombinationsPage() {
-    console.log(this.myLab);
-    this.navCtrl.push(CombinationsPage, this.myLab);
+    this.navCtrl.push(CombinationsPage, {data1: this.myLab, data2: this.myUser}); // lab from lab db
   }
   getTypeOfMaterial(newMaterial: Material, materialState: String) {
     if (materialState == "Starting Material") {
@@ -57,7 +64,7 @@ export class ListPage{
       let ref1 = this.materialService.addMaterial(newMaterial);
       if (newMaterial.isStartingMaterial) {
         ref1.then(d => {
-          this.myLab.isFoundIDs.push(d.id);
+          this.myUserIsFoundIds.push(d.id);
         });
       }
       ref1.then(c => {

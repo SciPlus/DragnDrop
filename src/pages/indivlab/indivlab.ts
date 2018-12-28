@@ -5,6 +5,8 @@ import { ListPage } from '../list/list';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Lab } from '../../app/models/lab';
 
+import { User } from '../../app/models/user';
+import { UserService } from '../../services/user.service';
 
 
 @Component({
@@ -13,19 +15,20 @@ import { Lab } from '../../app/models/lab';
 })
 export class IndivLabPage {
     email: string;
-    
-    myLabId: String;
     myLab: Lab;
     playReplay: String;
+    myUser: User;
   constructor(private fire: AngularFireAuth, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
     this.email = fire.auth.currentUser.email;
-    this.myLab = this.navParams.data;
+    this.myLab = this.navParams.data.data1; // lab from lab db
+    this.myUser = this.navParams.data.data2;
+    console.log("my Lab on this page (name) : " + this.myLab.name);
   };
 
-  edit(lab) {
-    this.navCtrl.push(ListPage, lab);
+  edit() {
+    this.navCtrl.push(ListPage, {data1: this.myLab, data2: this.myUser}); // lab from lab db
   }
-  play(lab) {
-    this.navCtrl.push(GamePage, lab);
+  play() {
+    this.navCtrl.push(GamePage, {data1: this.myLab, data2: this.myUser}); // lab from lab db
   }
 }

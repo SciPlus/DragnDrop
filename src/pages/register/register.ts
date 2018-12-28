@@ -15,7 +15,7 @@ export class RegisterPage {
   newUser: User = {
     id: "",
     userName: "",
-    labIds: []
+    // do I need to add myLabs here or not?? --> probs not
   };
   users: User[];
   userId: any;

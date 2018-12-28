@@ -8,7 +8,7 @@ page-profile {
         color: color($colors, primary);
         margin: 20px;
     }
-    #createButton {
+    #createButton #joinButton {
         display:block;
         float:center;
         background-color: color($colors, secondary);
@@ -28,11 +28,19 @@ page-profile {
             transform: translateY(4px);
         }
     }
+    .labButton {
+        font-size: 36px;
+        background-color: white;
+        box-shadow: 0px 3px 5px color($colors, secondary);        
+        color: rgb(55, 85, 148);
+    }
     .lab {
         border: solid 1px; 
         background: rgb(55, 85, 148); 
         border-color: color($colors, secondary);
-        margin: 10px;
+        float: center;
+        margin: auto auto;
+        width: 50%;
         color: white; 
         padding: 1em;
     }

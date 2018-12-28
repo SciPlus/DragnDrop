@@ -13,14 +13,24 @@
             </ion-col>
         </ion-row>
         <ion-row>
+            <h3 style="margin: 20px">My Experiments</h3>
             <ion-col>
-                <h3 style="margin: 20px">My Experiments</h3>
                 <ion-list>
-                    <ng-container *ngFor="let myLab of getMyLabs()">
-                        <ion-item *ngIf="userFound" (click)="labSettings(myLab)" class="lab">
-                            <ion-label>{{myLab.name}}</ion-label>
-                        </ion-item>
-                    </ng-container>
+                        <ng-container *ngFor="let myLab of this.labService.getAllLabs();">
+                        <ion-col col-4>
+                            <ion-item class="lab" *ngIf="userFound" (click)="labSettings(myLab)">
+                                <ion-label>{{myLab.name}}</ion-label>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col col-4>
+                            <button  (click)="addInvitation(myLab)" class="labButton"> <!-- add click --> 
+                                <ion-icon name="md-person-add"></ion-icon>
+                            </button>
+                            <button (click)="addPurpose(myLab)" class="labButton">
+                                <ion-icon name="ios-quote"></ion-icon>
+                            </button>
+                        </ion-col>
+                        </ng-container>
                 </ion-list>
             </ion-col>
             <ion-col>
@@ -31,6 +41,14 @@
                         <ion-input id="input-field" type="text" [(ngModel)]="newLab.name"></ion-input>
                     </ion-item>
                     <button id="createButton" (click)="onSubmit()">CREATE</button>
+                </div>
+                <h3 style="margin: 20px">Join Experiment</h3>
+                <div>
+                    <ion-item>
+                        <ion-label>Entry Code: ?</ion-label>
+                        <ion-input id="input-field" type="text" [(ngModel)]="entryCodeAttempt"></ion-input>
+                    </ion-item>
+                    <button id="joinButton" (click)="joinLab()">JOIN</button>
                 </div>
             </ion-col>
         </ion-row>

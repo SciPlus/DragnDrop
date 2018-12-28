@@ -11,7 +11,8 @@ import { LabService } from '../../services/lab.service';
 import { ActionSheetController } from 'ionic-angular';
 import 'rxjs/add/operator/toPromise';
 
-
+import { User } from '../../app/models/user';
+import { UserService } from '../../services/user.service';
 @Component({
   selector: 'page-combinations',
   templateUrl: 'combinations.html'
@@ -42,19 +43,22 @@ export class CombinationsPage{
   query: string = "";
   tempMaterials: Material[] = [];
   newCombo: Combo = {};
-  myLabId: String;
   myLab: Lab;
+  myUser: User;
+  myLabId: String;
   constructor(public alertCtrl: AlertController, public actionSheetCtrl: ActionSheetController, private labService: LabService, private comboService: CombinationService, private materialService: MaterialService, public navCtrl: NavController, public navParams: NavParams) {
-    this.myLab = this.navParams.data;
-    this.myLab.combinationsIDs = this.navParams.data.combinationsIDs;
-    this.materialShow = "Starting Material"
+    this.myLab = this.navParams.data.data1; // lab in user db
+    this.myUser = this.navParams.data.data2;
+    console.log("myLab.name" + this.myLab.name);
+    console.log("myLab from user" + this.myLab.name);
+    this.materialShow = "Starting Material";
   }
     // Let's populate this page with some filler content for funzies
   // test this tomorrow --> then move on to play page organization (w/ grid)
   // then start saving labs, sharing labs, and creating a search page
   // then work on the sign out page/grading system.
   getCombos() {
-    return this.comboService.getCombos(this.navParams.data.combinationsIDs);
+    return this.comboService.getCombos(this.myLab.combinationsIDs);
   }
   presentConfirm(combo: Combo) {
     let alert = this.alertCtrl.create({
@@ -153,7 +157,7 @@ export class CombinationsPage{
     this.labService.updateLab(this.myLab);
   }
   goToIndivLabPage() {
-    this.navCtrl.push(IndivLabPage, this.myLab);
+    this.navCtrl.push(IndivLabPage, {data1: this.myLab, data2: this.myUser}); // since there is no lab parameter ... hope this works ( passing lab from lab db )
   }
   preDeleteCombo(combo: Combo) { {
     let actionSheet = this.actionSheetCtrl.create({

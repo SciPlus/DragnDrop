@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import { User } from '../../src/app/models/user';
-
+import { Lab } from '../../src/app/models/lab';
 @Injectable()
 export class UserService {
     existingUsers: User[] = [];
@@ -28,10 +28,28 @@ export class UserService {
     getUsers() {
         return this.existingUsers;
     }
+    getUserNames() {
+        let userNames: String[] = [];
+        this.existingUsers.forEach(exUser => {
+            userNames.push(exUser.userName);
+        });
+        return userNames;
+    }
     // change these two functions later today because they do not actually fetch anything from the database. --> done
+    getUserIsFoundIds(userId: String, myLabId: String) {  
+        let x = this.existingUsers.find(exUser => exUser.userId == userId);
+        let thisLab = x.myLabs.find((lab => lab.labId == myLabId));
+        return thisLab.isFoundIds;
+    }
     getUserLabIds(user: User) {
+        let y = [];
         let x = this.existingUsers.find(exUser => exUser.userId == user.userId);
-        return x.labIds;
+        if(x.myLabs != undefined) {
+            x.myLabs.forEach(lab => {
+                y.push(lab.labId);
+            });
+        }
+        return y;
     }
     getUserName(user: User) {
         let x = this.existingUsers.find(exUser => exUser.userId == user.userId);

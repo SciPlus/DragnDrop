@@ -59,10 +59,10 @@
                                 </div>
                                 <div *ngIf="showContent == 'Purpose'">
                                             <h4>The Purpose Of This Lab: </h4>
-                                            <p>blah blah blah blah blah blah</p> <!-- replace with {{myLab.purpose}} --> 
+                                            <p>{{myLab.purpose.Purpose}}</p> <!-- purpose.Purpose because of the way the data is stored in the database because of the alert used to prompt the user -->
                                             <h4>The Goal Product: </h4>
                                             <ng-container *ngFor="let material of getMyMaterials()">
-                                            <ion-card dnd-draggable *ngIf="material.isFinalMaterial" class="materialCard" style="margin: 10px 10px" [dragData]="material" [dropZones]="['preComps', 'postComps']">
+                                            <ion-card *ngIf="material.isFinalMaterial" class="materialCard" style="margin: 10px 10px">
                                                     <div style="text-align: center" class="panel-body">
                                                         <div id="cardText">
                                                             {{material.name}}

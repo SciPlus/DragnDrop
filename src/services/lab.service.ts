@@ -30,7 +30,11 @@ export class LabService {
         let myExistingLabs = labIds.map((labId) => {
             return this.existingLabs.find(lab => lab.id == labId);
         })
+        console.log("getting Labs");
         return myExistingLabs;
+    }
+    getAllLabs() {
+        return this.existingLabs;
     }
     // change these two functions later today because they do not actually fetch anything from the database.
     getComboIds(lab: Lab) {
@@ -39,11 +43,15 @@ export class LabService {
     getEntryCode(lab: Lab) {
         return lab.entryCode;
     }
+    getEntryCodes() {
+        let entryCodes: String[] = [];
+        this.existingLabs.forEach(exLab => {
+            entryCodes.push(exLab.entryCode);
+        });
+        return entryCodes;
+    }
     getMaterialIds(lab: Lab) {
         return lab.materialsIDs;
-    }
-    getIsFoundIds(lab: Lab) {
-        return lab.isFoundIDs;
     }
     addLab(lab: Lab) {
         return this.labsCollection.add(lab);
