@@ -37,8 +37,13 @@ export class UserService {
     }
     // change these two functions later today because they do not actually fetch anything from the database. --> done
     getUserIsFoundIds(userId: String, myLabId: String) {  
+        console.log("1st component: " + userId);
+        console.log("2nd component: " + myLabId);
+
         let x = this.existingUsers.find(exUser => exUser.userId == userId);
+        console.log("3i component: " + x.userName);
         let thisLab = x.myLabs.find((lab => lab.labId == myLabId));
+        console.log("4x component: " + thisLab.labId);
         return thisLab.isFoundIds;
     }
     getUserLabIds(user: User) {

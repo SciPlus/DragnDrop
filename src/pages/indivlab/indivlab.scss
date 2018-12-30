@@ -1,11 +1,5 @@
 page-indivlab {
-
-    #heading {
-        text-align: center;
-        margin: 20px;
-        color: red;
-    }
-
+    font-family: 'Dosis', sans-serif;
     #editButton {
         display:block;
         float:center;
@@ -27,8 +21,14 @@ page-indivlab {
         }
     }
     #heading1 {
+        color: color($colors, danger);
         text-align: center;
+        text-decoration: underline;
         margin: 30px 30px;
+    }
+    #heading2 {
+        text-align: center;
+        margin: 15px 30px;
     }
     #playButton {
         display:block;

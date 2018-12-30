@@ -1,5 +1,6 @@
 page-game {
-    .availableMaterial {
+    font-family: 'Dosis', sans-serif;
+.availableMaterial {
         opacity: 1;
         display: inline-block;
         transition: .5s ease;
@@ -19,7 +20,12 @@ page-game {
     opacity:0.7;
     border: 2px dashed #000;
 }
-    
+#labEntryCodeHeading {
+    width: 15%; margin: auto auto;
+    color: white;
+    display: block;
+    float: right;
+}  
 .dnd-drag-enter {
     opacity:0.7;
     border: 2px dashed #000;

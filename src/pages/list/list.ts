@@ -64,6 +64,8 @@ export class ListPage{
       let ref1 = this.materialService.addMaterial(newMaterial);
       if (newMaterial.isStartingMaterial) {
         ref1.then(d => {
+          this.myUser.myLabs.find((lab => lab.labId == this.myLab.id)).isFoundIds.push(d.id);
+          this.userService.updateUser(this.myUser);
           this.myUserIsFoundIds.push(d.id);
         });
       }

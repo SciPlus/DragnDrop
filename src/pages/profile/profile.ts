@@ -165,14 +165,11 @@ export class ProfilePage {
     })
     
     // delete individual lab
-    let i = 0;
-    this.myUser.myLabs.forEach((myLab) => {
-      if (myLab.labId == lab.id) {
-        this.myUser.myLabs.splice(i,i+1);
-        this.labService.deleteLab(lab);
-      }
-      i++;
-    })
+    let labToDelete = this.myUser.myLabs.find((myLab => myLab.labId == lab.id)); // find lab id user db
+    let labToDeleteIndex = this.myUser.myLabs.indexOf(labToDelete); // get index of lab in user db ** (database ( db ) meaning collection)
+    this.myUser.myLabs.splice(labToDeleteIndex,labToDeleteIndex+1); // delete lab from user db
+    this.labService.deleteLab(lab); // delete lab from lab db 
+
   }
   goToIndivLabPage(lab: Lab) { // lab from lab db 
     this.navCtrl.push(IndivLabPage,{data1: lab, data2: this.myUser}); 

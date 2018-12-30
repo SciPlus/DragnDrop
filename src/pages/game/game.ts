@@ -1,11 +1,13 @@
 // for a future update, maybe consider adding different mole ratios of substances to produce other substances. 
 // for now, any number of the substances will combine.
-// request for lab. 
-// teacher 
-// teacher in class 103, 103 is over
-// institution makes 
-// password for each period. 
-// id/password --> access lab. Control for the teacher.
+// make classes instead of just experiments ( like folders of experiments --> experiments alone are fine for now)
+
+
+// Next Projects on this page
+//  O show lab entry code in corner
+//  O align material cards ( pick size that centers them best)
+//  O create done button and figure out submission process
+//  O create property on lab ( is complete ) and that is what can happen with the done button --> will show on profile page
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { SubmitPage } from '../submit/submit';
@@ -63,11 +65,10 @@ export class GamePage implements OnInit{
     this.email = fire.auth.currentUser.email;
     this.myLab = this.navParams.data.data1; // lab from lab db
     this.myUser = this.navParams.data.data2; // user from user db
+    this.myUserIsFoundIds = this.navParams.data.data3; // isFoundIds for this lab according to user db
+    console.log("this.myUserIsFoundIds in constructor: " + this.myUserIsFoundIds);
     this.materials = this.materialService.getMaterials(this.myLab.materialsIDs);
-
-    
-    this.myUserIsFoundIds = this.userService.getUserIsFoundIds(this.myUser.userId, this.myLab.id);
-    this.getExistingMaterials(this.myUserIsFoundIds);
+    this.getExistingMaterials();
     this.rawCombinations = this.combinationService.getCombos(this.myLab.combinationsIDs);
     this.showContent = "Purpose";
     console.log("show content is purpose");
@@ -84,19 +85,21 @@ export class GamePage implements OnInit{
     this.showRedoButton();
   };
   getMyMaterials() {
-    console.log("My lab materials are: " + this.myLab.materialsIDs);
     return this.materialService.getMaterials(this.myLab.materialsIDs);
   }
-  getExistingMaterials(IDs: String[] ) {
-    this.materials.forEach(material => {
-      let boolean = IDs.indexOf(material.id) >= 0;
-      console.log(`Here: ${boolean}`);
+  getExistingMaterials() { // instead of (IDs: String) parameter, since it always uses myUserIsFoundIds anyways, I'm just going to use myUserIsFoundIds in the array.
+    console.log("myUserISFoundIds before " + this.myUserIsFoundIds);
+      this.materials.forEach(material => {
+        console.log("this.myUserIsFoundIds " + this.myUserIsFoundIds);
+        console.log("material.id " + material.id);
+        let boolean = (this.myUserIsFoundIds.indexOf(material.id) > -1);
+        console.log(`Here: ${boolean}`);
 
-      if ((IDs.indexOf(material.id) >= 0) && (this.existingIsFoundMaterials.indexOf(material) === -1)) { // (it exists)
-        this.existingIsFoundMaterials.push(material);
-        console.log(` Did We Get The Existing Materials ? ${this.existingIsFoundMaterials}`);
-      }
-    })
+        if ((this.myUserIsFoundIds.indexOf(material.id) > -1) && (this.existingIsFoundMaterials.indexOf(material) === -1)) { // (it exists)
+          this.existingIsFoundMaterials.push(material);
+          console.log(` Did We Get The Existing Materials ? ${this.existingIsFoundMaterials}`);
+        }
+      })
   }
   // Is Found Service Functions Transferred to TaliaPage
   addFoundMaterial(material: Material) { // this will be changed to incoroporate myLab.isFoundIds
@@ -133,7 +136,7 @@ export class GamePage implements OnInit{
     });
     if (correctCombo) {
       this.completeCheck(correctCombo);
-      this.getExistingMaterials(this.myUserIsFoundIds);
+      this.getExistingMaterials();
 
     } else {
       this.failToCombineMessage();
@@ -224,6 +227,7 @@ export class GamePage implements OnInit{
   redoLab() {
     this.existingIsFoundMaterials = [];
     this.myUserIsFoundIds = [];
+    this.userService.updateUser(this.myUser);
     this.getMyMaterials().forEach((material) => {
       if (material.isStartingMaterial) {
         this.existingIsFoundMaterials.push(material);
