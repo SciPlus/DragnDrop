@@ -88,29 +88,26 @@ export class GamePage implements OnInit{
     return this.materialService.getMaterials(this.myLab.materialsIDs);
   }
   getExistingMaterials() { // instead of (IDs: String) parameter, since it always uses myUserIsFoundIds anyways, I'm just going to use myUserIsFoundIds in the array.
-    console.log("myUserISFoundIds before " + this.myUserIsFoundIds);
       this.materials.forEach(material => {
-        console.log("this.myUserIsFoundIds " + this.myUserIsFoundIds);
-        console.log("material.id " + material.id);
         let boolean = (this.myUserIsFoundIds.indexOf(material.id) > -1);
-        console.log(`Here: ${boolean}`);
 
         if ((this.myUserIsFoundIds.indexOf(material.id) > -1) && (this.existingIsFoundMaterials.indexOf(material) === -1)) { // (it exists)
           this.existingIsFoundMaterials.push(material);
-          console.log(` Did We Get The Existing Materials ? ${this.existingIsFoundMaterials}`);
         }
       })
   }
   // Is Found Service Functions Transferred to TaliaPage
   addFoundMaterial(material: Material) { // this will be changed to incoroporate myLab.isFoundIds
     if (this.myUserIsFoundIds.indexOf(material.id) === -1) {
-      this.myUserIsFoundIds.push(material.id);
-        this.existingIsFoundMaterials.push(material);
+      this.userService.getUserIsFoundIds(this.myUser.userId, this.myLab.id).push(material.id);
+      this.myUserIsFoundIds = this.userService.getUserIsFoundIds(this.myUser.userId, this.myLab.id);  // make sure alias has correct data after operation
+      this.existingIsFoundMaterials.push(material);
     }
   }
   deleteFoundMaterial(material: Material) { // is there really a purpose for this?
     let isFoundIndex =  this.myUserIsFoundIds.indexOf(material.id);
-    this.myUserIsFoundIds.splice(isFoundIndex, isFoundIndex+1);
+    this.userService.getUserIsFoundIds(this.myUser.userId, this.myLab.id).splice(isFoundIndex, isFoundIndex + 1);
+    this.myUserIsFoundIds = this.userService.getUserIsFoundIds(this.myUser.userId, this.myLab.id);  // make sure alias has correct data after operation
     this.labService.updateLab(this.myLab);
   }
   // continue **
@@ -148,20 +145,21 @@ export class GamePage implements OnInit{
     let myResult = this.materials.find((newMaterial) => {
       return (newMaterial.id === correctCombo.result.id);
     });
-    this.addFoundMaterial(myResult);
     if (myResult.isFinalMaterial === true) {
       this.myLab.isFinished = true;
       this.showDoneButton();
       this.completionMessage();
       // change sidebar menu from materials to Materials when complete
       this.showContent = "Materials";
-      console.log("show content is material");
       this.labService.updateLab(this.myLab);
-    } else if (this.myUserIsFoundIds.indexOf(myResult.id) != -1) { // otherwise if the result is already found
+    } else if (!(this.myUserIsFoundIds.indexOf(myResult.id) === -1)) { // otherwise if the result is already found
+      console.log("db " + this.userService.getUserIsFoundIds(this.myUser.userId, this.myLab.id));
+      console.log(" just alias " + this.myUserIsFoundIds);
       this.foundMessage();
     } else {
       this.combineMessage();
     }
+    this.addFoundMaterial(myResult);
     this.Reaction_Components1 = [];
   }
   failToCombineMessage() {
